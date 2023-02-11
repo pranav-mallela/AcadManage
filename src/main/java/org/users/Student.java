@@ -30,18 +30,7 @@ public class Student extends User{
         }
 
         // check if the course exists
-        int courseId=0;
-        try{
-            String courseQuery = String.format("select * from course_catalog where course_code='%s';", courseCode);
-            statement = conn.createStatement();
-            rs = statement.executeQuery(courseQuery);
-            if(rs.next())
-            {
-                courseId = rs.getInt("course_id");
-            }
-        } catch(Exception e){
-            System.out.println(e);
-        }
+        int courseId = checkIfCourseExists(courseCode);
         if(courseId == 0)
         {
             System.out.println("Course does not exist!");
@@ -49,19 +38,7 @@ public class Student extends User{
         }
 
         // check if the course is offered
-        int offeringId=0;
-        try{
-            String courseQuery = String.format("select * from offerings where course_id='%s' and year_offered_in=%d and semester_offered_in=%d;", courseId, year, semester);
-            statement = conn.createStatement();
-            rs = statement.executeQuery(courseQuery);
-            if(rs.next())
-            {
-                offeringId = rs.getInt("offering_id");
-            }
-        } catch (Exception e)
-        {
-            System.out.println(e);
-        }
+        int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
         if(offeringId == 0)
         {
             System.out.println("Course not offered in the given year and semester!");

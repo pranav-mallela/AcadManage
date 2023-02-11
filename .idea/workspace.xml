@@ -4,19 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/connection/Main.java" afterDir="false" />
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="student add_course working">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/AcadOffice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/AcadOffice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,8 +68,23 @@
       <workItem from="1676034877558" duration="778000" />
       <workItem from="1676036136817" duration="2185000" />
       <workItem from="1676039747263" duration="1529000" />
-      <workItem from="1676089996927" duration="23321000" />
+      <workItem from="1676089996927" duration="28688000" />
     </task>
+    <task id="LOCAL-00001" summary="student add_course working">
+      <created>1676128629567</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1676128629567</updated>
+    </task>
+    <task id="LOCAL-00002" summary="student add_course working">
+      <created>1676128653463</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1676128653463</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -90,5 +100,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="student add_course working" />
+    <option name="LAST_COMMIT_MESSAGE" value="student add_course working" />
   </component>
 </project>
