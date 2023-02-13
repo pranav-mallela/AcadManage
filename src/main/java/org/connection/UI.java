@@ -27,8 +27,9 @@ public class UI {
     {
         Scanner s = new Scanner(System.in);
         System.out.println("Welcome student!");
-        System.out.print("Press:\n1 to add a course\n2 to drop a course\n3 to view grades\n4 to view your CGPA\n5 to view your most recent SGPA\n");
+        System.out.print("Press:\n1 to add a course\n2 to drop a course\n3 to view enrolled course details\n4 to view your CGPA\n5 to view your most recent SGPA\n");
         int chosenOption = s.nextInt();
+        s.nextLine();
         switch(chosenOption)
         {
             case 1:
@@ -41,6 +42,13 @@ public class UI {
                 String courseCode = s.nextLine();
                 user.addCourse(courseCode, year, semester);
                 break;
+            case 2:
+                System.out.print("Course code of the course to be dropped: ");
+                String dropCourseCode = s.nextLine();
+                user.dropCourse(dropCourseCode);
+                break;
+            case 3:
+                user.viewEnrolledCourseDetails();
         }
 
     }
@@ -49,7 +57,7 @@ public class UI {
     {
         Scanner s = new Scanner(System.in);
         System.out.println("Welcome faculty!");
-        System.out.print("Press:\n1 to float a course\n2 to cancel an offering\n3 to upload grades\n");
+        System.out.print("Press:\n1 to float a course\n2 to cancel an offering\n3 to upload grades for an offering\n");
         int chosenOption = s.nextInt();
         switch(chosenOption)
         {
@@ -63,6 +71,25 @@ public class UI {
                 String courseCode = s.nextLine();
                 user.floatCourse(courseCode, year, semester);
                 break;
+            case 2:
+                System.out.print("Year for which you wish to cancel offering: ");
+                int cancelYear = s.nextInt();
+                System.out.print("Semester for which you wish to cancel offering: ");
+                int cancelSemester = s.nextInt();
+                s.nextLine();
+                System.out.print("Enter the course code: ");
+                String cancelCourseCode = s.nextLine();
+                user.cancelOffering(cancelCourseCode, cancelYear, cancelSemester);
+            case 3:
+                // export csv
+                System.out.print("Year for which you wish to upload grades: ");
+                int uploadYear = s.nextInt();
+                System.out.print("Semester for which you wish to upload grades: ");
+                int uploadSemester = s.nextInt();
+                s.nextLine();
+                System.out.print("Enter the course code: ");
+                String uploadCourseCode = s.nextLine();
+                user.uploadGrades(uploadCourseCode, uploadYear, uploadSemester);
         }
     }
 

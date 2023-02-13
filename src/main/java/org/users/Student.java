@@ -78,14 +78,59 @@ public class Student extends User{
         }
     }
 
-    public void dropCourse(String courseCode, int year, int semester)
+    public void dropCourse(String courseCode)
     {
-        // drop course
+        Statement statement;
+        ResultSet rs = null;
+
+        try{
+           // check if the course is in the corresponding student table, if so, drop it and remove the student from the offering
+           String existsInEnrollmentsQuery = String.format("SELECT * FROM student_%d WHERE course_code='%s' and grade is NULL", studentId, courseCode);
+           statement = conn.createStatement();
+           rs = statement.executeQuery(existsInEnrollmentsQuery);
+           if(rs.next())
+           {
+               int offeringId = rs.getInt("offering_id");
+               String dropCourseQuery = String.format("DELETE FROM student_%d WHERE course_code='%s' and grade IS NULL", studentId, courseCode);
+               String removeStudentQuery = String.format("DELETE FROM offering_%d WHERE student_id=%d", offeringId, studentId);
+               statement = conn.createStatement();
+               statement.executeUpdate(dropCourseQuery);
+               statement.executeUpdate(removeStudentQuery);
+               System.out.println("Course successfully dropped!");
+           }
+           else
+           {
+               System.out.println("Enrollment does not exist! Cannot drop course!");
+           }
+
+        } catch(Exception e)
+        {
+            System.out.println(e);
+        }
     }
 
-    public void viewGrades(int year, int semester)
+    public void viewEnrolledCourseDetails()
     {
-        // view grades
+        Statement statement;
+        ResultSet rs = null;
+
+        try{
+            String viewQuery = String.format("SELECT * FROM student_%d", studentId);
+            statement = conn.createStatement();
+            rs = statement.executeQuery(viewQuery);
+            System.out.println(" offering_id | course_code | status | grade");
+            System.out.println("-------------+-------------+--------+--------");
+            while(rs.next())
+            {
+                System.out.print(rs.getInt("offering_id") + " "
+                        + rs.getString("course_code") + " "
+                        + rs.getString("status") + " "
+                        + rs.getString("grade") + "\n");
+            }
+        } catch(Exception e)
+        {
+            System.out.println(e);
+        }
     }
     public void CGPA(String rollNo)
     {

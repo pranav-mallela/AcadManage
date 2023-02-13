@@ -83,6 +83,27 @@ public class User {
         return offeringId;
     }
 
+    public boolean checkIfUpcomingSem(int year, int semester)
+    {
+        Statement statement;
+        ResultSet rs = null;
+        int acad_year=0, acad_sem=0;
+        try{
+            String semQuery = "select * from upcoming_semester where upcoming=(1::boolean);";
+            statement = conn.createStatement();
+            rs = statement.executeQuery(semQuery);
+            if(rs.next())
+            {
+                acad_year = rs.getInt("academic_year");
+                acad_sem = rs.getInt("semester");
+            }
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        return (acad_year == year && acad_sem == semester);
+    }
+
 
     public void resetPass(String email)
     {
