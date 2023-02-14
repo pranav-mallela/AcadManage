@@ -97,7 +97,7 @@ public class UI {
     {
         Scanner s = new Scanner(System.in);
         System.out.println("Welcome Academic Office!");
-        System.out.print("Press:\n1 to add a course to the catalog\n2 to generate a transcript\n3 to check for graduation\n");
+        System.out.print("Press:\n1 to add a course to the catalog\n2 to generate a semester transcript of a student\n3 to check for graduation\n");
         int chosenOption = s.nextInt();
         switch(chosenOption)
         {
@@ -113,6 +113,14 @@ public class UI {
                 String courseCode = s.nextLine();
                 user.addCourseToCatalog(courseCode, l, t, p);
                 break;
+            case 2:
+                System.out.print("Enter the student ID of the student for whom you wish to generate a transcript: ");
+                int studentId = s.nextInt();
+                System.out.print("Year for which you wish to generate a transcript: ");
+                int year = s.nextInt();
+                System.out.print("Semester for which you wish to generate a transcript: ");
+                int semester = s.nextInt();
+                user.generateTranscript(studentId, year, semester);
         }
     }
 
