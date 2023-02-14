@@ -114,19 +114,17 @@ public class Student extends User{
         Statement statement;
         ResultSet rs = null;
 
-        //TODO: styling course details when displayed on user's screen
-
         try{
             String viewQuery = String.format("SELECT * FROM student_%d", studentId);
             statement = conn.createStatement();
             rs = statement.executeQuery(viewQuery);
-//            System.out.println(" offering_id | course_code | status | grade");
-//            System.out.println("-------------+-------------+--------+--------");
+            System.out.println(" offering_id | course_code | status | grade");
+            System.out.println("-------------+-------------+--------+--------");
             while(rs.next())
             {
-                System.out.print(rs.getInt("offering_id") + " "
-                        + rs.getString("course_code") + " "
-                        + rs.getString("status") + " "
+                System.out.print(" ".repeat("offering_id".length()) + rs.getInt("offering_id") + " | "
+                        + rs.getString("course_code") + " ".repeat("course_code".length()-4) + "| "
+                        + rs.getString("status") + " ".repeat("status".length()-1) + "| "
                         + rs.getString("grade") + "\n");
             }
         } catch(Exception e)
