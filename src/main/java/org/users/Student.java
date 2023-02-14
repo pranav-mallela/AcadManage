@@ -114,12 +114,14 @@ public class Student extends User{
         Statement statement;
         ResultSet rs = null;
 
+        //TODO: styling course details when displayed on user's screen
+
         try{
             String viewQuery = String.format("SELECT * FROM student_%d", studentId);
             statement = conn.createStatement();
             rs = statement.executeQuery(viewQuery);
-            System.out.println(" offering_id | course_code | status | grade");
-            System.out.println("-------------+-------------+--------+--------");
+//            System.out.println(" offering_id | course_code | status | grade");
+//            System.out.println("-------------+-------------+--------+--------");
             while(rs.next())
             {
                 System.out.print(rs.getInt("offering_id") + " "

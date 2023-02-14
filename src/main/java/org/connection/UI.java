@@ -121,6 +121,7 @@ public class UI {
                 System.out.print("Semester for which you wish to generate a transcript: ");
                 int semester = s.nextInt();
                 user.generateTranscript(studentId, year, semester);
+                System.out.println("\nCheck the directory C:/Users/Public/Transcripts/Student_<studentID>/transcript_<year>_<semester>.txt for the requested transcript.");
         }
     }
 
