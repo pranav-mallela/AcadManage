@@ -1,6 +1,7 @@
 package org.users;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.sql.*;
 
 public class AcadOffice extends User{
@@ -44,12 +45,21 @@ public class AcadOffice extends User{
             String getStudentTranscriptQuery = String.format("SELECT course_code, grade FROM student_%d s WHERE offering_id=(%s)", studentId, getOfferingIdQuery);
 
             // export txt file to user's computer
-            //TODO: styling txt file
             statement = conn.createStatement();
             String pathToTranscript = String.format("C:/Users/Public/Transcripts/Student_%d", studentId);
             new File(pathToTranscript).mkdirs();
-            String exportTranscriptQuery = String.format("COPY (%s) TO '%s/transcript_%d_%d.txt'", getStudentTranscriptQuery, pathToTranscript, year, semester);
-            statement.executeUpdate(exportTranscriptQuery);
+            FileWriter fw = new FileWriter(String.format("%s/transcript_%d_%d.txt", pathToTranscript, year, semester));
+            fw.write(String.format("Transcript of Student %d for Academic Year %d and Semester %d\n\n", studentId, year, semester));
+            fw.write("course_code | grade\n");
+            fw.write("------------+-------\n");
+            rs = statement.executeQuery(getStudentTranscriptQuery);
+            while(rs.next())
+            {
+                fw.write(" " + rs.getString("course_code") + " ".repeat("course_code".length()-5) + "| " + rs.getString("grade")  + "\n");
+            }
+            fw.close();
+//            String exportTranscriptQuery = String.format("COPY (%s) TO '%s/transcript_%d_%d.txt'", getStudentTranscriptQuery, pathToTranscript, year, semester);
+//            statement.executeUpdate(exportTranscriptQuery);
         } catch (Exception e)
         {
             System.out.println(e);
