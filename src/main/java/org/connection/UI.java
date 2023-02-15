@@ -30,9 +30,8 @@ public class UI {
         System.out.print("Press:\n1 to add a course\n2 to drop a course\n3 to view enrolled course details\n4 to view your CGPA\n5 to view your most recent SGPA\n");
         int chosenOption = s.nextInt();
         s.nextLine();
-        switch(chosenOption)
-        {
-            case 1:
+        switch (chosenOption) {
+            case 1 -> {
                 System.out.print("Year for which you are enrolling: ");
                 int year = s.nextInt();
                 System.out.print("Semester for which you are enrolling: ");
@@ -41,14 +40,16 @@ public class UI {
                 System.out.print("Enter the course code: ");
                 String courseCode = s.nextLine();
                 user.addCourse(courseCode, year, semester);
-                break;
-            case 2:
+            }
+            case 2 -> {
                 System.out.print("Course code of the course to be dropped: ");
                 String dropCourseCode = s.nextLine();
                 user.dropCourse(dropCourseCode);
-                break;
-            case 3:
-                user.viewEnrolledCourseDetails();
+            }
+            case 3 -> user.viewEnrolledCourseDetails();
+            case 4 -> {
+                System.out.println(String.format("Your CGPA so far is = %f", user.CGPA()));
+            }
         }
 
     }

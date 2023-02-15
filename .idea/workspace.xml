@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="some ui changes in student grades view">
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="some ui changes in acad office transcript view">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/AcadOffice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/AcadOffice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Student.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +68,9 @@
       <workItem from="1676273340199" duration="4028000" />
       <workItem from="1676284334559" duration="10274000" />
       <workItem from="1676339184929" duration="3594000" />
-      <workItem from="1676350935264" duration="2289000" />
+      <workItem from="1676350935264" duration="2466000" />
+      <workItem from="1676388922681" duration="18000" />
+      <workItem from="1676448974970" duration="3141000" />
     </task>
     <task id="LOCAL-00001" summary="student add_course working">
       <created>1676128629567</created>
@@ -118,7 +121,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676351967136</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="some ui changes in acad office transcript view">
+      <created>1676353356187</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1676353356187</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,6 +152,7 @@
     <MESSAGE value="acad office generate transcript working" />
     <MESSAGE value="some ui changes" />
     <MESSAGE value="some ui changes in student grades view" />
-    <option name="LAST_COMMIT_MESSAGE" value="some ui changes in student grades view" />
+    <MESSAGE value="some ui changes in acad office transcript view" />
+    <option name="LAST_COMMIT_MESSAGE" value="some ui changes in acad office transcript view" />
   </component>
 </project>

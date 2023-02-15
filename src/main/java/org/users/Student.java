@@ -1,5 +1,6 @@
 package org.users;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 
 public class Student extends User{
@@ -132,9 +133,52 @@ public class Student extends User{
             System.out.println(e);
         }
     }
-    public void CGPA(String rollNo)
+    public float CGPA()
     {
-        // CGPA
+        Statement statement, statement1;
+        ResultSet rs, rs1 = null;
+        int cgpa = 0;
+        int totalCredits = 0;
+
+        try {
+            String getGradesQuery = String.format("SELECT course_code, grade FROM student_%d WHERE grade IS NOT NULL", studentId);
+            statement = conn.createStatement();
+            rs = statement.executeQuery(getGradesQuery);
+            while(rs.next())
+            {
+                String getCourseCredits = String.format("SELECT c FROM course_catalog WHERE course_code='%s'", rs.getString("course_code"));
+                statement1 = conn.createStatement();
+                rs1 = statement1.executeQuery(getCourseCredits);
+                int credits = 0;
+                if(rs1.next())
+                {
+                    credits = rs1.getInt("c");
+                };
+                totalCredits += credits;
+                String grade = rs.getString("grade");
+                cgpa = switch (grade) {
+                    case "A" -> cgpa + credits * 10;
+                    case "A-" -> cgpa + credits * 9;
+                    case "B" -> cgpa + credits * 8;
+                    case "B-" -> cgpa + credits * 7;
+                    case "C" -> cgpa + credits * 6;
+                    case "C-" -> cgpa + credits * 5;
+                    case "D" -> cgpa + credits * 4;
+                    case "D-" -> cgpa + credits * 3;
+                    case "E" -> cgpa + credits * 2;
+                    case "E-" -> cgpa + credits;
+                    default -> cgpa;
+                };
+            }
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        if(totalCredits == 0)
+        {
+            return 0;
+        }
+        return cgpa/totalCredits;
     }
     public void SGPA(String rollNo, int semester)
     {
