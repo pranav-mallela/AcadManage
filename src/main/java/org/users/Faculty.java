@@ -44,6 +44,10 @@ public class Faculty extends User{
 
     public void addConstraintsToOffering(int year, int semester, String courseCode)
     {
+        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
+        int courseId = idArray[0], offeringId = idArray[1];
+        if(courseId == 0 || offeringId == 0) return;
+
 
     }
 

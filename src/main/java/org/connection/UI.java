@@ -4,6 +4,7 @@ import org.users.AcadOffice;
 import org.users.Student;
 import org.users.Faculty;
 
+import java.sql.Array;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -59,7 +60,7 @@ public class UI {
     {
         Scanner s = new Scanner(System.in);
         System.out.println("Welcome faculty!");
-        System.out.print("Press:\n1 to float a course\n2 to cancel an offering\n3 to upload grades for an offering\n4 to view grades in a particular offering\n");
+        System.out.print("Press:\n1 to float a course\n2 to cancel an offering\n3 to upload grades for an offering\n4 to view grades in a particular offering\n5 to add constraints to an offering\n");
         int chosenOption = s.nextInt();
         switch (chosenOption) {
             case 1 -> {
@@ -74,35 +75,67 @@ public class UI {
             }
             case 2 -> {
                 System.out.print("Year for which you wish to cancel offering: ");
-                int cancelYear = s.nextInt();
+                int year = s.nextInt();
                 System.out.print("Semester for which you wish to cancel offering: ");
-                int cancelSemester = s.nextInt();
-                s.nextLine();
+                int semester = s.nextInt();
                 System.out.print("Enter the course code: ");
-                String cancelCourseCode = s.nextLine();
-                user.cancelOffering(cancelCourseCode, cancelYear, cancelSemester);
+                String courseCode = s.nextLine();
+                user.cancelOffering(courseCode, year, semester);
             }
             case 3 -> {
                 // export csv
                 System.out.print("Year for which you wish to upload grades: ");
-                int uploadYear = s.nextInt();
+                int year = s.nextInt();
                 System.out.print("Semester for which you wish to upload grades: ");
-                int uploadSemester = s.nextInt();
+                int semester = s.nextInt();
                 s.nextLine();
                 System.out.print("Enter the course code: ");
-                String uploadCourseCode = s.nextLine();
-                user.uploadGrades(uploadCourseCode, uploadYear, uploadSemester);
+                String courseCode = s.nextLine();
+                user.uploadGrades(courseCode, year, semester);
             }
             case 4 -> {
                 // ask for year, sem, and course_code
                 System.out.print("Year for which you wish to view grades: ");
-                int viewYear = s.nextInt();
+                int year = s.nextInt();
                 System.out.print("Semester for which you wish to view grades: ");
-                int viewSemester = s.nextInt();
+                int semester = s.nextInt();
                 s.nextLine();
                 System.out.print("Enter the course code: ");
-                String viewCourseCode = s.nextLine();
-                user.viewGrades(viewYear, viewSemester, viewCourseCode);
+                String courseCode = s.nextLine();
+                user.viewGrades(year, semester, courseCode);
+            }
+            case 5 -> {
+                System.out.print("Year for which you wish to add constraints: ");
+                int year = s.nextInt();
+                System.out.print("Semester for which you wish to add constraints: ");
+                int semester = s.nextInt();
+                s.nextLine();
+                System.out.print("Enter the course code: ");
+                String courseCode = s.nextLine();
+                System.out.print("Enter the course codes of pre-requisites for this course (space separated): ");
+                String [] preReqs = s.nextLine().split(" ");
+                List<List<List<String>>> optionPreReqs = new ArrayList<>();
+                if(!preReqs[0].equals(""))
+                {
+                    for (String preReq : preReqs) {
+                        System.out.printf("Enter the courses equivalent to %s that will be also be considered (space separated): ", preReq);
+                        List<List<String>> orPreReqGrades = new ArrayList<>();
+                        List<String> orPreReqs = new ArrayList<>();
+                        String[] optionalPreReq = s.nextLine().split(" ");
+                        if (!optionalPreReq[0].equals("")) {
+                            orPreReqs.addAll(Arrays.asList(optionalPreReq));
+                        }
+                        orPreReqs.add(preReq);
+                        for (String orPreReq : orPreReqs) {
+                            System.out.printf("Enter the minimum grade required in %s (default is D): ", orPreReq);
+                            String grade = s.nextLine();
+                            if (grade.equals("")) grade = "D";
+                            orPreReqGrades.add(List.of(new String[]{orPreReq, grade}));
+                        }
+                        optionPreReqs.add(orPreReqGrades);
+                    }
+                }
+                System.out.println(optionPreReqs);
             }
         }
     }
@@ -133,7 +166,7 @@ public class UI {
                     {
                         System.out.print(String.format("Enter the courses equivalent to %s that will be also be considered (space separated): ", preReqs[i]));
                         List<String> orPreReqs = new ArrayList<>();
-                        String [] optionalPreReq = (s.nextLine().split(" "));
+                        String [] optionalPreReq = s.nextLine().split(" ");
                         if(!optionalPreReq[0].equals(""))
                         {
                             for(int j=0;j<optionalPreReq.length;j++)
