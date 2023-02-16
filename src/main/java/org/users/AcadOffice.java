@@ -3,9 +3,7 @@ package org.users;
 import java.io.File;
 import java.io.FileWriter;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class AcadOffice extends User{
     public AcadOffice(Connection conn) {
@@ -20,7 +18,7 @@ public class AcadOffice extends User{
         int courseId = checkIfCourseExists(courseCode);
         if(courseId != 0)
         {
-            System.out.println("Course already exists!");
+            System.out.println("Error: Course already exists!");
             return;
         }
 
@@ -37,7 +35,7 @@ public class AcadOffice extends User{
                         String deletePreReqQuery = String.format("DELETE FROM pre_req where course_code='%s'", courseCode);
                         statement = conn.createStatement();
                         statement.executeUpdate(deletePreReqQuery);
-                        System.out.println("Prerequisite does not exist!");
+                        System.out.println("Error: Prerequisite does not exist!");
                     } catch (Exception e)
                     {
                         System.out.println(e);
@@ -69,7 +67,7 @@ public class AcadOffice extends User{
                             {
                                 System.out.println(e);
                             }
-                            System.out.println("Prerequisite does not exist!");
+                            System.out.println("Error: Prerequisite does not exist!");
                             return;
                         }
 
@@ -92,7 +90,7 @@ public class AcadOffice extends User{
             String addCourseQuery = String.format("INSERT INTO course_catalog(course_code, l, t, p) VALUES('%s', %d, %d, %d);", courseCode, l, t, p);
             statement = conn.createStatement();
             statement.executeUpdate(addCourseQuery);
-            System.out.println("Course successfully added to catalog!");
+            System.out.println("Success: Course successfully added to catalog!");
         } catch (Exception e)
         {
             System.out.println(e);
@@ -150,7 +148,7 @@ public class AcadOffice extends User{
             int courseId = checkIfCourseExists(courseCode);
             if(courseId == 0)
             {
-                System.out.println("Course does not exist!");
+                System.out.println("Error: Course does not exist!");
                 return;
             }
             String getFacultyIdQuery = String.format("SELECT faculty_id FROM offerings WHERE year_offered_in=%d and semester_offered_in=%d and course_id=%d", year, semester, courseId);

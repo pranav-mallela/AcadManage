@@ -1,10 +1,8 @@
 package org.users;
 
-import javax.swing.plaf.nimbus.State;
 import java.io.File;
 import java.sql.*;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 public class Faculty extends User{
     private int facultyId;
@@ -23,7 +21,7 @@ public class Faculty extends User{
         int courseId = checkIfCourseExists(courseCode);
         if(courseId == 0)
         {
-            System.out.println("Course does not exist!");
+            System.out.println("Error: Course does not exist!");
             return;
         }
 
@@ -31,7 +29,7 @@ public class Faculty extends User{
         int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
         if(offeringId != 0)
         {
-            System.out.println("Offering already exists!");
+            System.out.println("Error: Offering already exists!");
             return;
         }
 
@@ -43,11 +41,11 @@ public class Faculty extends User{
                         "VALUES(%d, %d, %d, %d)", facultyId, courseId, year, semester);
                 statement = conn.createStatement();
                 statement.executeUpdate(offeringQuery);
-                System.out.println("Course successfully floated!");
+                System.out.println("Success: Course successfully floated!");
             }
             else
             {
-                System.out.println("Cannot float due to wrong year or semester!");
+                System.out.println("Error: Cannot float due to wrong year or semester!");
                 return;
             }
         } catch(Exception e) {
@@ -60,13 +58,13 @@ public class Faculty extends User{
         int courseId = checkIfCourseExists(courseCode);
         if(courseId == 0)
         {
-            System.out.println("Course does not exist!");
+            System.out.println("Error: Course does not exist!");
             return;
         }
         int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
         if(offeringId == 0)
         {
-            System.out.println("Offering does not exist!");
+            System.out.println("Error: Offering does not exist!");
             return;
         }
 
@@ -77,17 +75,17 @@ public class Faculty extends User{
             // only allow if offering is in upcoming semester
             if(!checkIfUpcomingSem(year, semester))
             {
-                System.out.println("Cannot cancel offering that is not in upcoming semester!");
+                System.out.println("Error: Cannot cancel offering that is not in upcoming semester!");
                 return;
             }
 
-            // change student status to CNCL
+            // delete offering from student table
             String enrolledStudentsQuery = String.format("SELECT * FROM offering_%d", offeringId);
             statement = conn.createStatement();
             rs = statement.executeQuery(enrolledStudentsQuery);
             while(rs.next())
             {
-                String cancelStatusQuery = String.format("UPDATE student_%d SET status='CNCL' WHERE offering_id=%d",
+                String cancelStatusQuery = String.format("DELETE FROM student_%d WHERE offering_id=%d",
                         rs.getInt("student_id"), offeringId);
                 statement1 = conn.createStatement();
                 statement1.executeUpdate(cancelStatusQuery);
@@ -97,7 +95,7 @@ public class Faculty extends User{
             String cancelOfferingQuery  = String.format("DELETE FROM offerings WHERE course_id=%d and faculty_id=%d and year_offered_in=%d and semester_offered_in=%d", courseId, facultyId, year, semester);
             statement = conn.createStatement();
             statement.executeUpdate(cancelOfferingQuery);
-            System.out.println("Offering cancelled successfully!");
+            System.out.println("Success: Offering cancelled successfully!");
         } catch(Exception e)
         {
             System.out.println(e);
@@ -110,13 +108,13 @@ public class Faculty extends User{
         int courseId = checkIfCourseExists(courseCode);
         if(courseId == 0)
         {
-            System.out.println("Course does not exist!");
+            System.out.println("Error: Course does not exist!");
             return;
         }
         int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
         if(offeringId == 0)
         {
-            System.out.println("Offering does not exist!");
+            System.out.println("Error: Offering does not exist!");
             return;
         }
 
@@ -138,12 +136,38 @@ public class Faculty extends User{
             s.nextLine();
             String createTempTableQuery = String.format("CREATE TABLE offering_tmp_%d(" +
                     "student_id INT," +
-                    "grade VARCHAR(2)," +
+                    "grade VARCHAR(10)," +
                     "PRIMARY KEY(student_id)" +
                     ")", offeringId);
             statement.executeUpdate(createTempTableQuery);
             String importCSVQuery = String.format("COPY offering_tmp_%d FROM '%s/offering_%d.csv' DELIMITER ',' CSV HEADER", offeringId, dir, offeringId);
             statement.executeUpdate(importCSVQuery);
+
+            // Error checking
+            // if all students are in the csv file
+            String checkStudents = String.format("(SELECT student_id FROM offering_%d EXCEPT SELECT student_id FROM offering_tmp_%d)" +
+                    "UNION" +
+                    "(SELECT student_id FROM offering_tmp_%d EXCEPT SELECT student_id FROM offering_%d)", offeringId, offeringId, offeringId, offeringId);
+            rs = statement.executeQuery(checkStudents);
+            if(rs.next())
+            {
+                System.out.println("Error: Student mismatch!");
+                String deleteTempTableQuery = String.format("DROP TABLE offering_tmp_%d", offeringId);
+                statement.executeUpdate(deleteTempTableQuery);
+                return;
+            }
+
+            //check if all students have been given grades
+            String checkGrades = String.format("SELECT grade FROM offering_tmp_%d WHERE grade IS NULL OR (grade <> 'A' and grade <> 'A-' and grade <> 'B' and grade <> 'B-' and grade <> 'C' and grade <> 'C-' and grade <> 'D' and grade <> 'D-'" +
+                    "and grade <> 'E' and grade <> 'E-' and grade <> 'F')", offeringId);
+            rs = statement.executeQuery(checkGrades);
+            if(rs.next())
+            {
+                System.out.println("Error: Grades can only be of a specific format!");
+                String deleteTempTableQuery = String.format("DROP TABLE offering_tmp_%d", offeringId);
+                statement.executeUpdate(deleteTempTableQuery);
+                return;
+            }
 
             //update student grades in the offering table
             String getEnrolledStudents = String.format("SELECT * FROM offering_%d", offeringId);
@@ -161,7 +185,7 @@ public class Faculty extends User{
                 }
                 else
                 {
-                    System.out.println("Invalid student ID entered!");
+                    System.out.println("Error: Invalid student ID!");
                     return;
                 }
             }
@@ -181,7 +205,7 @@ public class Faculty extends User{
                 }
                 else
                 {
-                    System.out.println("Invalid student ID entered!");
+                    System.out.println("Error: Invalid student ID!");
                     return;
                 }
             }
@@ -190,7 +214,7 @@ public class Faculty extends User{
             String deleteTempTableQuery = String.format("DROP TABLE offering_tmp_%d", offeringId);
             statement.executeUpdate(deleteTempTableQuery);
 
-            System.out.println("Grades have been successfully updated!");
+            System.out.println("Success: Grades have been successfully updated!");
 
         } catch (Exception e)
         {
@@ -208,13 +232,13 @@ public class Faculty extends User{
             int courseId = checkIfCourseExists(courseCode);
             if(courseId == 0)
             {
-                System.out.println("Course does not exist!");
+                System.out.println("Error: Course does not exist!");
                 return;
             }
             int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
             if(offeringId == 0)
             {
-                System.out.println("Offering does not exist!");
+                System.out.println("Error: Offering does not exist!");
             }
             String viewGradesQuery = String.format("SELECT * FROM offering_%d", offeringId);
             statement = conn.createStatement();

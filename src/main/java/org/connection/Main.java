@@ -4,7 +4,6 @@ import org.users.Faculty;
 import org.users.Student;
 import org.users.User;
 
-import javax.xml.validation.SchemaFactoryLoader;
 import java.sql.Connection;
 import java.util.ArrayList;
 
@@ -27,20 +26,19 @@ public class Main {
         }
 
         // present menu depending on role
-        switch (role)
-        {
-            case "0":
+        switch (role) {
+            case "0" -> {
                 user = new Student(conn, id);
                 ui.studentMenu((Student) user);
-                break;
-            case "1":
+            }
+            case "1" -> {
                 user = new Faculty(conn, id);
                 ui.facultyMenu((Faculty) user);
-                break;
-            case "2":
+            }
+            case "2" -> {
                 user = new AcadOffice(conn);
                 ui.acadMenu((AcadOffice) user);
-                break;
+            }
         }
     }
 }

@@ -63,8 +63,6 @@ public class UI {
         int chosenOption = s.nextInt();
         switch(chosenOption)
         {
-            //todo: see all grades of students in their offering (offering_id)
-            //todo: error checking in grade uploading
             case 1:
                 System.out.print("Year for which you are offering: ");
                 int year = s.nextInt();
@@ -84,6 +82,7 @@ public class UI {
                 System.out.print("Enter the course code: ");
                 String cancelCourseCode = s.nextLine();
                 user.cancelOffering(cancelCourseCode, cancelYear, cancelSemester);
+                break;
             case 3:
                 // export csv
                 System.out.print("Year for which you wish to upload grades: ");
@@ -94,6 +93,7 @@ public class UI {
                 System.out.print("Enter the course code: ");
                 String uploadCourseCode = s.nextLine();
                 user.uploadGrades(uploadCourseCode, uploadYear, uploadSemester);
+                break;
             case 4:
                 // ask for year, sem, and course_code
                 System.out.print("Year for which you wish to view grades: ");
@@ -104,6 +104,7 @@ public class UI {
                 System.out.print("Enter the course code: ");
                 String viewCourseCode = s.nextLine();
                 user.viewGrades(viewYear, viewSemester, viewCourseCode);
+                break;
         }
     }
 
