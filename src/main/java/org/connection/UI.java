@@ -14,7 +14,7 @@ public class UI {
         ArrayList<String> credentials = new ArrayList<String>();
         Scanner s = new Scanner(System.in);
         System.out.println("Welcome to AcadManage! Please login before continuing.");
-        System.out.print("Press:\n0 if you are a student\n1 if you are a faculty\n2 if you are the Academic Office\n");
+        System.out.print("Press:\n0 if you are a Student\n1 if you are a Faculty\n2 if you are the Academic Office\n");
         String role = s.nextLine();
         System.out.print("Username: ");
         credentials.add(s.nextLine());
@@ -95,12 +95,15 @@ public class UI {
                 String uploadCourseCode = s.nextLine();
                 user.uploadGrades(uploadCourseCode, uploadYear, uploadSemester);
             case 4:
+                // ask for year, sem, and course_code
                 System.out.print("Year for which you wish to view grades: ");
                 int viewYear = s.nextInt();
                 System.out.print("Semester for which you wish to view grades: ");
                 int viewSemester = s.nextInt();
                 s.nextLine();
                 System.out.print("Enter the course code: ");
+                String viewCourseCode = s.nextLine();
+                user.viewGrades(viewYear, viewSemester, viewCourseCode);
         }
     }
 
@@ -111,7 +114,6 @@ public class UI {
         System.out.print("Press:\n1 to add a course to the catalog\n2 to generate a semester transcript of a student\n3 to view grades of a student\n4 to view grades of an offering\n");
         int chosenOption = s.nextInt();
         switch (chosenOption) {
-            //TODO: implement different views; all grades of a student based on studentID, all grades of all students in a course offering (offering_id)
             case 1 -> {
                 System.out.print("Lecture hours per week (l): ");
                 int l = s.nextInt();
@@ -156,8 +158,20 @@ public class UI {
                 System.out.println("\nCheck the directory C:/Users/Public/Transcripts/Student_<studentID>/transcript_<year>_<semester>.txt for the requested transcript.");
             }
             case 3 -> {
-                System.out.print("Enter the student ID to view the corresponding student's grades");
+                System.out.print("Enter the student ID to view the corresponding student's grades: ");
                 int studentId = s.nextInt();
+                user.viewStudentGrades(studentId);
+            }
+
+            case 4 -> {
+                System.out.print("Year for which you wish to view grades: ");
+                int viewYear = s.nextInt();
+                System.out.print("Semester for which you wish to view grades: ");
+                int viewSemester = s.nextInt();
+                s.nextLine();
+                System.out.print("Enter the course code: ");
+                String viewCourseCode = s.nextLine();
+                user.viewOfferingGrades(viewYear, viewSemester, viewCourseCode);
             }
         }
     }

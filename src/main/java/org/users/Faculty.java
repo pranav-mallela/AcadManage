@@ -197,4 +197,39 @@ public class Faculty extends User{
             System.out.println(e);
         }
     }
+
+    public void viewGrades(int year, int semester, String courseCode)
+    {
+        Statement statement;
+        ResultSet rs = null;
+
+        try{
+            // get courseId and offeringId
+            int courseId = checkIfCourseExists(courseCode);
+            if(courseId == 0)
+            {
+                System.out.println("Course does not exist!");
+                return;
+            }
+            int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
+            if(offeringId == 0)
+            {
+                System.out.println("Offering does not exist!");
+            }
+            String viewGradesQuery = String.format("SELECT * FROM offering_%d", offeringId);
+            statement = conn.createStatement();
+            rs = statement.executeQuery(viewGradesQuery);
+            System.out.println(" student_id | grade");
+            System.out.println("------------+--------");
+            while(rs.next())
+            {
+                System.out.print(" ".repeat("student_id".length()) + rs.getInt("student_id") + " | "
+                        + rs.getString("grade") + "\n");
+            }
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
+    }
+
 }

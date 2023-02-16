@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class AcadOffice extends User{
     public AcadOffice(Connection conn) {
@@ -137,5 +138,33 @@ public class AcadOffice extends User{
     {
         Student student = new Student(conn, studentId);
         student.viewEnrolledCourseDetails();
+    }
+
+    public void viewOfferingGrades(int year, int semester, String courseCode)
+    {
+        Statement statement;
+        ResultSet rs = null;
+        int facultyId = 0;
+
+        try{
+            int courseId = checkIfCourseExists(courseCode);
+            if(courseId == 0)
+            {
+                System.out.println("Course does not exist!");
+                return;
+            }
+            String getFacultyIdQuery = String.format("SELECT faculty_id FROM offerings WHERE year_offered_in=%d and semester_offered_in=%d and course_id=%d", year, semester, courseId);
+            statement = conn.createStatement();
+            rs = statement.executeQuery(getFacultyIdQuery);
+            if(rs.next())
+            {
+                facultyId = rs.getInt("faculty_id");
+            }
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        Faculty faculty = new Faculty(conn, facultyId);
+        faculty.viewGrades(year, semester, courseCode);
     }
 }
