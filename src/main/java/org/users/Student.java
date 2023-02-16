@@ -34,7 +34,7 @@ public class Student extends User{
         int courseId = checkIfCourseExists(courseCode);
         if(courseId == 0)
         {
-            System.out.println("Error: Course does not exist!");
+            System.out.println("ERROR: Course does not exist!");
             return;
         }
 
@@ -42,7 +42,7 @@ public class Student extends User{
         int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
         if(offeringId == 0)
         {
-            System.out.println("Error: Course not offered in the given year and semester!");
+            System.out.println("ERROR: Course not offered in the given year and semester!");
             return;
         }
 
@@ -66,11 +66,11 @@ public class Student extends User{
                     statement.executeUpdate(addQuery);
                     String addToOfferingQuery = String.format("INSERT INTO offering_%d VALUES(%s)", offeringId, studentId);
                     statement.executeUpdate(addToOfferingQuery);
-                    System.out.println("Error: Course successfully enrolled!");
+                    System.out.println("ERROR: Course successfully enrolled!");
                 }
                 else
                 {
-                    System.out.println("Error: Cannot enroll due to wrong year or semester!");
+                    System.out.println("ERROR: Cannot enroll due to wrong year or semester!");
                     return;
                 }
             }
@@ -97,11 +97,11 @@ public class Student extends User{
                statement = conn.createStatement();
                statement.executeUpdate(dropCourseQuery);
                statement.executeUpdate(removeStudentQuery);
-               System.out.println("Success: Course successfully dropped!");
+               System.out.println("SUCCESS: Course successfully dropped!");
            }
            else
            {
-               System.out.println("Error: Enrollment does not exist! Cannot drop course!");
+               System.out.println("ERROR: Enrollment does not exist! Cannot drop course!");
            }
 
         } catch(Exception e)

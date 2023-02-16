@@ -61,9 +61,8 @@ public class UI {
         System.out.println("Welcome faculty!");
         System.out.print("Press:\n1 to float a course\n2 to cancel an offering\n3 to upload grades for an offering\n4 to view grades in a particular offering\n");
         int chosenOption = s.nextInt();
-        switch(chosenOption)
-        {
-            case 1:
+        switch (chosenOption) {
+            case 1 -> {
                 System.out.print("Year for which you are offering: ");
                 int year = s.nextInt();
                 System.out.print("Semester for which you are offering: ");
@@ -72,8 +71,8 @@ public class UI {
                 System.out.print("Enter the course code: ");
                 String courseCode = s.nextLine();
                 user.floatCourse(courseCode, year, semester);
-                break;
-            case 2:
+            }
+            case 2 -> {
                 System.out.print("Year for which you wish to cancel offering: ");
                 int cancelYear = s.nextInt();
                 System.out.print("Semester for which you wish to cancel offering: ");
@@ -82,8 +81,8 @@ public class UI {
                 System.out.print("Enter the course code: ");
                 String cancelCourseCode = s.nextLine();
                 user.cancelOffering(cancelCourseCode, cancelYear, cancelSemester);
-                break;
-            case 3:
+            }
+            case 3 -> {
                 // export csv
                 System.out.print("Year for which you wish to upload grades: ");
                 int uploadYear = s.nextInt();
@@ -93,8 +92,8 @@ public class UI {
                 System.out.print("Enter the course code: ");
                 String uploadCourseCode = s.nextLine();
                 user.uploadGrades(uploadCourseCode, uploadYear, uploadSemester);
-                break;
-            case 4:
+            }
+            case 4 -> {
                 // ask for year, sem, and course_code
                 System.out.print("Year for which you wish to view grades: ");
                 int viewYear = s.nextInt();
@@ -104,7 +103,7 @@ public class UI {
                 System.out.print("Enter the course code: ");
                 String viewCourseCode = s.nextLine();
                 user.viewGrades(viewYear, viewSemester, viewCourseCode);
-                break;
+            }
         }
     }
 
