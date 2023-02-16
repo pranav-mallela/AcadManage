@@ -30,21 +30,10 @@ public class Student extends User{
             System.out.println(e);
         }
 
-        // check if the course exists
-        int courseId = checkIfCourseExists(courseCode);
-        if(courseId == 0)
-        {
-            System.out.println("ERROR: Course does not exist!");
-            return;
-        }
-
-        // check if the course is offered
-        int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
-        if(offeringId == 0)
-        {
-            System.out.println("ERROR: Course not offered in the given year and semester!");
-            return;
-        }
+        // check if the course and offering exist
+        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
+        int courseId = idArray[0], offeringId = idArray[1];
+        if(courseId == 0 || offeringId == 0) return;
 
         // TODO: enforce credit limit
         // TODO: check if meeting pre-req

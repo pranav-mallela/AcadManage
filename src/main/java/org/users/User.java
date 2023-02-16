@@ -104,6 +104,21 @@ public class User {
         return (acad_year == year && acad_sem == semester);
     }
 
+    public int [] getCourseAndOfferingId(String courseCode, int year, int semester)
+    {
+        int courseId = checkIfCourseExists(courseCode);
+        if(courseId == 0)
+        {
+            System.out.println("ERROR: Course does not exist!");
+        }
+        int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
+        if(courseId != 0 && offeringId == 0)
+        {
+            System.out.println("ERROR: Offering does not exist!");
+        }
+        return new int[] {courseId, offeringId};
+    }
+
 
     public void resetPass(String email)
     {

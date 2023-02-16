@@ -5,7 +5,7 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class Faculty extends User{
-    private int facultyId;
+    private final int facultyId;
     private String dept;
 
     public Faculty(Connection conn, int facultyId) {
@@ -15,23 +15,12 @@ public class Faculty extends User{
 
     public void floatCourse(String courseCode, int year, int semester)
     {
+        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
+        int courseId = idArray[0], offeringId = idArray[1];
+        if(courseId == 0 || offeringId == 0) return;
+
         Statement statement;
         ResultSet rs;
-        // check if course is in catalog
-        int courseId = checkIfCourseExists(courseCode);
-        if(courseId == 0)
-        {
-            System.out.println("ERROR: Course does not exist!");
-            return;
-        }
-
-        // check if course has already been offered in that year and sem
-        int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
-        if(offeringId != 0)
-        {
-            System.out.println("ERROR: Offering already exists!");
-            return;
-        }
 
         // check if matching with upcoming year and sem and add it to offerings
         try{
@@ -53,20 +42,16 @@ public class Faculty extends User{
         }
     }
 
+    public void addConstraintsToOffering(int year, int semester, String courseCode)
+    {
+
+    }
+
     public void cancelOffering(String courseCode, int year, int semester)
     {
-        int courseId = checkIfCourseExists(courseCode);
-        if(courseId == 0)
-        {
-            System.out.println("ERROR: Course does not exist!");
-            return;
-        }
-        int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
-        if(offeringId == 0)
-        {
-            System.out.println("ERROR: Offering does not exist!");
-            return;
-        }
+        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
+        int courseId = idArray[0], offeringId = idArray[1];
+        if(courseId == 0 || offeringId == 0) return;
 
         Statement statement, statement1;
         ResultSet rs;
@@ -105,18 +90,9 @@ public class Faculty extends User{
 
     public void uploadGrades(String courseCode, int year, int semester)
     {
-        int courseId = checkIfCourseExists(courseCode);
-        if(courseId == 0)
-        {
-            System.out.println("ERROR: Course does not exist!");
-            return;
-        }
-        int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
-        if(offeringId == 0)
-        {
-            System.out.println("ERROR: Offering does not exist!");
-            return;
-        }
+        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
+        int courseId = idArray[0], offeringId = idArray[1];
+        if(courseId == 0 || offeringId == 0) return;
 
         Statement statement,statement1, statement2;
         ResultSet rs = null, rs1 = null;
@@ -229,17 +205,10 @@ public class Faculty extends User{
 
         try{
             // get courseId and offeringId
-            int courseId = checkIfCourseExists(courseCode);
-            if(courseId == 0)
-            {
-                System.out.println("ERROR: Course does not exist!");
-                return;
-            }
-            int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
-            if(offeringId == 0)
-            {
-                System.out.println("ERROR: Offering does not exist!");
-            }
+            int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
+            int courseId = idArray[0], offeringId = idArray[1];
+            if(courseId == 0 || offeringId == 0) return;
+
             String viewGradesQuery = String.format("SELECT * FROM offering_%d", offeringId);
             statement = conn.createStatement();
             rs = statement.executeQuery(viewGradesQuery);

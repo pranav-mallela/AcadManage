@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="implemented error checking while uploading grades">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" afterDir="false" />
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="some ui changes">
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +69,7 @@
       <workItem from="1676350935264" duration="2466000" />
       <workItem from="1676388922681" duration="18000" />
       <workItem from="1676448974970" duration="11239000" />
-      <workItem from="1676520756715" duration="14699000" />
+      <workItem from="1676520756715" duration="15162000" />
     </task>
     <task id="LOCAL-00001" summary="student add_course working">
       <created>1676128629567</created>
@@ -155,7 +155,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676557309458</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="some ui changes">
+      <created>1676557852810</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1676557852810</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -177,13 +184,13 @@
     <MESSAGE value="acad add course to catalog, faculty float course working" />
     <MESSAGE value="faculty upload grades thru CSV working" />
     <MESSAGE value="acad office generate transcript working" />
-    <MESSAGE value="some ui changes" />
     <MESSAGE value="some ui changes in student grades view" />
     <MESSAGE value="some ui changes in acad office transcript view" />
     <MESSAGE value="student cgpa implemented" />
     <MESSAGE value="acad office add pre req working" />
     <MESSAGE value="all views working (acad office and faculty)" />
     <MESSAGE value="implemented error checking while uploading grades" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented error checking while uploading grades" />
+    <MESSAGE value="some ui changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="some ui changes" />
   </component>
 </project>
