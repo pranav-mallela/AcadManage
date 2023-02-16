@@ -3,22 +3,87 @@ package org.users;
 import java.io.File;
 import java.io.FileWriter;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AcadOffice extends User{
     public AcadOffice(Connection conn) {
         super(conn);
     }
 
-    public void addCourseToCatalog(String courseCode, int l, int t, int p)
+    public void addCourseToCatalog(String courseCode, int l, int t, int p, List<List<String>> optionPreReqs)
     {
         Statement statement;
-        ResultSet rs;
+
         // check if course already exists
         int courseId = checkIfCourseExists(courseCode);
         if(courseId != 0)
         {
             System.out.println("Course already exists!");
             return;
+        }
+
+        //add prerequisites before adding to catalog
+        if(optionPreReqs.size() != 0)
+        {
+            for(int i = 0;i < optionPreReqs.size();i++)
+            {
+                String preReqCode = optionPreReqs.get(i).get(optionPreReqs.get(i).size()-1); // code of the compulsory prerequisite
+                int preReqId = checkIfCourseExists(preReqCode);
+                if(preReqId == 0)
+                {
+                    try{
+                        String deletePreReqQuery = String.format("DELETE FROM pre_req where course_code='%s'", courseCode);
+                        statement = conn.createStatement();
+                        statement.executeUpdate(deletePreReqQuery);
+                        System.out.println("Prerequisite does not exist!");
+                    } catch (Exception e)
+                    {
+                        System.out.println(e);
+                    }
+                    return;
+                }
+                // add it to the main prerequisite table
+                try{
+                    String addPreReqQuery = String.format("INSERT INTO pre_req(course_code, pre_req_course_id, pre_req_code) VALUES('%s', %d, '%s')", courseCode, preReqId, preReqCode);
+                    statement = conn.createStatement();
+                    statement.executeUpdate(addPreReqQuery);
+                } catch (Exception e){
+                    System.out.println(e);
+                }
+                if(!optionPreReqs.get(i).get(0).equals(""))
+                {
+                    //add all of its equivalents as well, to the optional prerequisite table
+                    for(int j=0;j < optionPreReqs.get(i).size()-1;j++)
+                    {
+                        // check if equivalent exists in catalog
+                        int optionCourseId = checkIfCourseExists(optionPreReqs.get(i).get(j));
+                        if(optionCourseId == 0)
+                        {
+                            try{
+                                String deleteOptionalPreReqQuery = String.format("DELETE FROM optional_pre_req WHERE pre_req_code='%s'", preReqCode);
+                                statement = conn.createStatement();
+                                statement.executeUpdate(deleteOptionalPreReqQuery);
+                            } catch (Exception e)
+                            {
+                                System.out.println(e);
+                            }
+                            System.out.println("Prerequisite does not exist!");
+                            return;
+                        }
+
+                        // add it to the optional prerequisite table
+                        try{
+                            String addOptionalPreReqQuery = String.format("INSERT INTO optional_pre_req(pre_req_code, option_course_id, option_code) VALUES('%s', %d, '%s')", preReqCode, optionCourseId, optionPreReqs.get(i).get(j));
+                            statement = conn.createStatement();
+                            statement.executeUpdate(addOptionalPreReqQuery);
+                        } catch (Exception e)
+                        {
+                            System.out.println(e);
+                        }
+                    }
+                }
+            }
         }
 
         //add course
@@ -58,17 +123,19 @@ public class AcadOffice extends User{
                 fw.write(" " + rs.getString("course_code") + " ".repeat("course_code".length()-5) + "| " + rs.getString("grade")  + "\n");
             }
             fw.close();
-//            String exportTranscriptQuery = String.format("COPY (%s) TO '%s/transcript_%d_%d.txt'", getStudentTranscriptQuery, pathToTranscript, year, semester);
-//            statement.executeUpdate(exportTranscriptQuery);
+/*
+            String exportTranscriptQuery = String.format("COPY (%s) TO '%s/transcript_%d_%d.txt'", getStudentTranscriptQuery, pathToTranscript, year, semester);
+            statement.executeUpdate(exportTranscriptQuery);
+*/
         } catch (Exception e)
         {
             System.out.println(e);
         }
     }
 
-    public boolean gradCheck(String rollNo)
+    public void viewStudentGrades(int studentId)
     {
-        // wish life were this easy
-        return true;
+        Student student = new Student(conn, studentId);
+        student.viewEnrolledCourseDetails();
     }
 }

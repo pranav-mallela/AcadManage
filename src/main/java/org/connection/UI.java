@@ -4,6 +4,7 @@ import org.users.AcadOffice;
 import org.users.Student;
 import org.users.Faculty;
 
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,7 +14,7 @@ public class UI {
         ArrayList<String> credentials = new ArrayList<String>();
         Scanner s = new Scanner(System.in);
         System.out.println("Welcome to AcadManage! Please login before continuing.");
-        System.out.print("Press:\n0 if you are a student\n1 if you are a faculty\n2 if you are the acad office\n");
+        System.out.print("Press:\n0 if you are a student\n1 if you are a faculty\n2 if you are the Academic Office\n");
         String role = s.nextLine();
         System.out.print("Username: ");
         credentials.add(s.nextLine());
@@ -58,10 +59,12 @@ public class UI {
     {
         Scanner s = new Scanner(System.in);
         System.out.println("Welcome faculty!");
-        System.out.print("Press:\n1 to float a course\n2 to cancel an offering\n3 to upload grades for an offering\n");
+        System.out.print("Press:\n1 to float a course\n2 to cancel an offering\n3 to upload grades for an offering\n4 to view grades in a particular offering\n");
         int chosenOption = s.nextInt();
         switch(chosenOption)
         {
+            //todo: see all grades of students in their offering (offering_id)
+            //todo: error checking in grade uploading
             case 1:
                 System.out.print("Year for which you are offering: ");
                 int year = s.nextInt();
@@ -91,6 +94,13 @@ public class UI {
                 System.out.print("Enter the course code: ");
                 String uploadCourseCode = s.nextLine();
                 user.uploadGrades(uploadCourseCode, uploadYear, uploadSemester);
+            case 4:
+                System.out.print("Year for which you wish to view grades: ");
+                int viewYear = s.nextInt();
+                System.out.print("Semester for which you wish to view grades: ");
+                int viewSemester = s.nextInt();
+                s.nextLine();
+                System.out.print("Enter the course code: ");
         }
     }
 
@@ -98,11 +108,11 @@ public class UI {
     {
         Scanner s = new Scanner(System.in);
         System.out.println("Welcome Academic Office!");
-        System.out.print("Press:\n1 to add a course to the catalog\n2 to generate a semester transcript of a student\n3 to check for graduation\n");
+        System.out.print("Press:\n1 to add a course to the catalog\n2 to generate a semester transcript of a student\n3 to view grades of a student\n4 to view grades of an offering\n");
         int chosenOption = s.nextInt();
-        switch(chosenOption)
-        {
-            case 1:
+        switch (chosenOption) {
+            //TODO: implement different views; all grades of a student based on studentID, all grades of all students in a course offering (offering_id)
+            case 1 -> {
                 System.out.print("Lecture hours per week (l): ");
                 int l = s.nextInt();
                 System.out.print("Tutorial hours per week (t): ");
@@ -112,9 +122,30 @@ public class UI {
                 s.nextLine();
                 System.out.print("Enter the course code: ");
                 String courseCode = s.nextLine();
-                user.addCourseToCatalog(courseCode, l, t, p);
-                break;
-            case 2:
+                System.out.print("Enter the course codes of pre-requisites for this course (space separated): ");
+                String [] preReqs = s.nextLine().split(" ");
+                List<List<String>> optionPreReqs = new ArrayList<>();
+                if(!preReqs[0].equals(""))
+                {
+                    for(int i=0;i<preReqs.length;i++)
+                    {
+                        System.out.print(String.format("Enter the courses equivalent to %s that will be also be considered (space separated): ", preReqs[i]));
+                        List<String> orPreReqs = new ArrayList<>();
+                        String [] optionalPreReq = (s.nextLine().split(" "));
+                        if(!optionalPreReq[0].equals(""))
+                        {
+                            for(int j=0;j<optionalPreReq.length;j++)
+                            {
+                                orPreReqs.add(optionalPreReq[i]);
+                            }
+                        }
+                        orPreReqs.add(preReqs[i]);
+                        optionPreReqs.add(orPreReqs);
+                    }
+                }
+                user.addCourseToCatalog(courseCode, l, t, p, optionPreReqs);
+            }
+            case 2 -> {
                 System.out.print("Enter the student ID of the student for whom you wish to generate a transcript: ");
                 int studentId = s.nextInt();
                 System.out.print("Year for which you wish to generate a transcript: ");
@@ -123,6 +154,11 @@ public class UI {
                 int semester = s.nextInt();
                 user.generateTranscript(studentId, year, semester);
                 System.out.println("\nCheck the directory C:/Users/Public/Transcripts/Student_<studentID>/transcript_<year>_<semester>.txt for the requested transcript.");
+            }
+            case 3 -> {
+                System.out.print("Enter the student ID to view the corresponding student's grades");
+                int studentId = s.nextInt();
+            }
         }
     }
 

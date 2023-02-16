@@ -46,8 +46,8 @@ public class Student extends User{
             return;
         }
 
-        //TODO: enforce credit limit
-        //TODO: check if meeting pre-req
+        // TODO: enforce credit limit
+        // TODO: check if meeting pre-req
 
         // get the current academic year and semester, and see if everything is ok
         try{
