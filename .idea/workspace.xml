@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="faculty constraint UI set up complete">
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="faculty constraint integration and error checking complete">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Student.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +71,8 @@
       <workItem from="1676388922681" duration="18000" />
       <workItem from="1676448974970" duration="11239000" />
       <workItem from="1676520756715" duration="19453000" />
-      <workItem from="1676600108570" duration="2651000" />
+      <workItem from="1676600108570" duration="7367000" />
+      <workItem from="1676647783982" duration="5294000" />
     </task>
     <task id="LOCAL-00001" summary="student add_course working">
       <created>1676128629567</created>
@@ -179,7 +179,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676565254562</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="faculty constraint integration and error checking complete">
+      <created>1676609121223</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1676609121223</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,6 +217,7 @@
     <MESSAGE value="some ui changes" />
     <MESSAGE value="refactored code: added getCourseAndOfferingId function" />
     <MESSAGE value="faculty constraint UI set up complete" />
-    <option name="LAST_COMMIT_MESSAGE" value="faculty constraint UI set up complete" />
+    <MESSAGE value="faculty constraint integration and error checking complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="faculty constraint integration and error checking complete" />
   </component>
 </project>

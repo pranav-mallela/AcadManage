@@ -2,6 +2,7 @@ package org.users;
 
 import javax.swing.plaf.nimbus.State;
 import java.sql.*;
+import java.util.concurrent.ExecutionException;
 
 public class Student extends User{
     private final int studentId;
@@ -48,6 +49,9 @@ public class Student extends User{
                 int acad_year = rs.getInt("academic_year");
                 if(acad_year == year && rs.getInt("semester") == semester && (acad_year - entry_year) < 4)
                 {
+                    // checking pre-reqs and constraints
+                    if(!isPassingConstraints(offeringId) || !isPassingPreReqs(courseCode)) return;
+
                     String addQuery = String.format("INSERT INTO student_%d" +
                             "(offering_id, course_code, status)" +
                             " VALUES(%d, '%s', 'EN');", studentId, offeringId, courseCode);
@@ -55,7 +59,7 @@ public class Student extends User{
                     statement.executeUpdate(addQuery);
                     String addToOfferingQuery = String.format("INSERT INTO offering_%d VALUES(%s)", offeringId, studentId);
                     statement.executeUpdate(addToOfferingQuery);
-                    System.out.println("ERROR: Course successfully enrolled!");
+                    System.out.println("SUCCESS: Course successfully enrolled!");
                 }
                 else
                 {
@@ -66,6 +70,113 @@ public class Student extends User{
         } catch(Exception e) {
             System.out.println(e);
         }
+    }
+
+    public boolean isPassingPreReqs(String courseCode)
+    {
+        Statement statement, statement1;
+        ResultSet rs = null, rs1 = null;
+        boolean passedPreReqs = false;
+
+        try {
+            // if no prereqs exist, mark true
+            rs = conn.createStatement().executeQuery(String.format("SELECT pre_req_course_id FROM pre_req WHERE course_code='%s'", courseCode));
+            if(!rs.next()) return true;
+
+            // get grades of the student in the acad office set pre reqs
+            String getGradesQuery = String.format("SELECT s.course_code, s.grade FROM student_%d s, pre_req p WHERE p.course_code='%s' and p.pre_req_code=s.course_code", studentId, courseCode);
+            statement = conn.createStatement();
+            rs = statement.executeQuery(getGradesQuery);
+            while(rs.next())
+            {
+                // if any grade is less than D, check in the optional pre reqs
+                if(rs.getString("grade").compareTo("D") > 0)
+                {
+                    String checkOptionalPreReqQuery = String.format("select grade from student_%d s, optional_pre_req o where s.course_code=o.option_code and o.pre_req_code='%s'", studentId, rs.getString("course_code"));
+                    statement1 = conn.createStatement();
+                    rs1 = statement1.executeQuery(checkOptionalPreReqQuery);
+                    boolean passedThisPreReq = false;
+                    while(rs1.next())
+                    {
+                        if(rs1.getString("grade").compareTo("D") <= 0)
+                        {
+                            passedThisPreReq = true;
+                        }
+                    }
+                    if(!passedThisPreReq)
+                    {
+                        System.out.println("ERROR: You have not cleared the prerequisites for this course!");
+                        return false;
+                    }
+                }
+                passedPreReqs = true;
+            }
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        if(!passedPreReqs)
+        {
+            System.out.println("ERROR: You have not cleared the prerequisites for this course!");
+        }
+        return passedPreReqs;
+    }
+
+    public boolean isPassingConstraints(int offeringId)
+    {
+        Statement statement, statement1;
+        ResultSet rs = null, rs1 = null, rs2 = null;
+
+        try {
+            //if no constraints exist, mark as true
+            rs = conn.createStatement().executeQuery(String.format("SELECT course_id FROM offering_constraints WHERE offering_id=%d", offeringId));
+            if(!rs.next()) return true;
+
+            // get courses set by the instructor as constraints
+            String getConstraintCoursesQuery = String.format("SELECT course_id, grade from offering_constraints WHERE offering_id=%d", offeringId);
+            statement = conn.createStatement();
+            rs = statement.executeQuery(getConstraintCoursesQuery);
+            while (rs.next())
+            {
+                // get the grades of the student in the corresponding courses
+                int courseId = rs.getInt("course_id");
+                String getGradesQuery = String.format("SELECT grade FROM student_%d WHERE course_code=(SELECT course_code FROM course_catalog WHERE course_id=%d)", studentId, courseId);
+                statement1 = conn.createStatement();
+                rs1 = statement1.executeQuery(getGradesQuery);
+                if (rs1.next())
+                {
+                    // if a constraint is not met, go into the corresponding optional offering constraints
+                    if (rs1.getString("grade").compareTo(rs.getString("grade")) > 0)
+                    {
+                        String checkOptionalConstraintsQuery = String.format("SELECT option_course_id, grade FROM optional_offering_constraints WHERE course_id=%d", courseId);
+                        rs2 = conn.createStatement().executeQuery(checkOptionalConstraintsQuery);
+                        boolean passedThisConstraint = false;
+                        while(rs2.next())
+                        {
+                            if(rs2.getString("grade").compareTo(rs1.getString("grade")) <= 0)
+                            {
+                                passedThisConstraint = true;
+                            }
+                        }
+                        // if all optional offerings fail, return ERROR
+                        if(!passedThisConstraint)
+                        {
+                            System.out.println("ERROR: Constraints not passed!");
+                            return false;
+                        }
+                    }
+                }
+                else
+                {
+                    System.out.println("ERROR: Constraints not passed!");
+                    return false;
+                }
+            }
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        return true;
     }
 
     public void dropCourse(String courseCode)
