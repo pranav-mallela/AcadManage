@@ -135,7 +135,8 @@ public class UI {
                         optionPreReqs.add(orPreReqGrades);
                     }
                 }
-                System.out.println(optionPreReqs);
+//                System.out.println(optionPreReqs);
+                user.addConstraintsToOffering(year, semester, courseCode, optionPreReqs);
             }
         }
     }

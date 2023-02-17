@@ -2,6 +2,7 @@ package org.users;
 
 import java.io.File;
 import java.sql.*;
+import java.util.List;
 import java.util.Scanner;
 
 public class Faculty extends User{
@@ -15,9 +16,18 @@ public class Faculty extends User{
 
     public void floatCourse(String courseCode, int year, int semester)
     {
-        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
-        int courseId = idArray[0], offeringId = idArray[1];
-        if(courseId == 0 || offeringId == 0) return;
+        int courseId = checkIfCourseExists(courseCode);
+        if(courseId == 0)
+        {
+            System.out.println("ERROR: Course does not exist!");
+            return;
+        }
+        int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
+        if(offeringId != 0)
+        {
+            System.out.println("ERROR: Offering already exists!");
+            return;
+        }
 
         Statement statement;
         ResultSet rs;
@@ -42,13 +52,64 @@ public class Faculty extends User{
         }
     }
 
-    public void addConstraintsToOffering(int year, int semester, String courseCode)
+    public void addConstraintsToOffering(int year, int semester, String courseCode, List<List<List<String>>> orPreReqGrades)
     {
         int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
         int courseId = idArray[0], offeringId = idArray[1];
         if(courseId == 0 || offeringId == 0) return;
 
+        Statement statement;
 
+        for (List<List<String>> orPreReqGrade : orPreReqGrades) {
+            int mainPreReqId = checkIfCourseExists(orPreReqGrade.get(orPreReqGrade.size() - 1).get(0));
+            if (mainPreReqId == 0) {
+                try {
+                    String deleteConstraintsQuery = String.format("DELETE FROM offering_constraints WHERE offering_id=%d", offeringId);
+                    statement = conn.createStatement();
+                    statement.executeUpdate(deleteConstraintsQuery);
+                } catch (Exception e)
+                {
+                    System.out.println(e);
+                }
+                System.out.printf("ERROR: Prerequisite does not exist%n");
+                return;
+            }
+            String mainPreReqGrade = orPreReqGrade.get(orPreReqGrade.size() - 1).get(1);
+
+            try {
+                String addMainConstraintsQuery = String.format("INSERT INTO offering_constraints VALUES(%d, %d, '%s')", offeringId, mainPreReqId, mainPreReqGrade);
+                statement = conn.createStatement();
+                statement.executeQuery(addMainConstraintsQuery);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+
+            for (int j = 0; j < orPreReqGrade.size() - 1; j++) {
+                String preReqCode = orPreReqGrade.get(j).get(0);
+                String preReqGrade = orPreReqGrade.get(j).get(1);
+                int preReqId = checkIfCourseExists(preReqCode);
+                if (preReqId == 0) {
+                    try {
+                        String deleteConstraintsQuery = String.format("DELETE FROM optional_offering_constraints WHERE offering_id=%d", offeringId);
+                        statement = conn.createStatement();
+                        statement.executeUpdate(deleteConstraintsQuery);
+                    } catch (Exception e)
+                    {
+                        System.out.println(e);
+                    }
+                    System.out.printf("ERROR: Prerequisite %s does not exist%n", preReqCode);
+                    return;
+                }
+                try {
+                    String addConstraintsQuery = String.format("INSERT INTO optional_offering_constraints VALUES(%d, %d, %d, '%s')", offeringId, mainPreReqId, preReqId, preReqGrade);
+                    statement = conn.createStatement();
+                    statement.executeQuery(addConstraintsQuery);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+        }
+        System.out.println("SUCCESS: Constraints successfully added!");
     }
 
     public void cancelOffering(String courseCode, int year, int semester)

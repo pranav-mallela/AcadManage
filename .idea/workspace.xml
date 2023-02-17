@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="refactored code: added getCourseAndOfferingId function">
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="faculty constraint UI set up complete">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" afterDir="false" />
@@ -71,7 +71,8 @@
       <workItem from="1676350935264" duration="2466000" />
       <workItem from="1676388922681" duration="18000" />
       <workItem from="1676448974970" duration="11239000" />
-      <workItem from="1676520756715" duration="17988000" />
+      <workItem from="1676520756715" duration="19453000" />
+      <workItem from="1676600108570" duration="2651000" />
     </task>
     <task id="LOCAL-00001" summary="student add_course working">
       <created>1676128629567</created>
@@ -171,7 +172,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676562121442</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="faculty constraint UI set up complete">
+      <created>1676565254562</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1676565254562</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -201,6 +209,7 @@
     <MESSAGE value="implemented error checking while uploading grades" />
     <MESSAGE value="some ui changes" />
     <MESSAGE value="refactored code: added getCourseAndOfferingId function" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactored code: added getCourseAndOfferingId function" />
+    <MESSAGE value="faculty constraint UI set up complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="faculty constraint UI set up complete" />
   </component>
 </project>
