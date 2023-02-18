@@ -4,7 +4,6 @@ import org.users.AcadOffice;
 import org.users.Student;
 import org.users.Faculty;
 
-import java.sql.Array;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,7 +14,7 @@ public class UI {
         ArrayList<String> credentials = new ArrayList<String>();
         Scanner s = new Scanner(System.in);
         System.out.println("Welcome to AcadManage! Please login before continuing.");
-        System.out.print("Press:\n0 if you are a Student\n1 if you are a Faculty\n2 if you are the Academic Office\n");
+        System.out.print("Press:\n[0] if you are a Student\n[1] if you are a Faculty\n[2] if you are the Academic Office\n");
         String role = s.nextLine();
         System.out.print("Username: ");
         credentials.add(s.nextLine());
@@ -32,7 +31,7 @@ public class UI {
         int chosenOption = -1;
         while(chosenOption != 0)
         {
-            System.out.print("Press:\n1 to add a course\n2 to drop a course\n3 to view enrolled course details\n4 to view your CGPA\n");
+            System.out.print("Press:\n[1] to add a course\n[2] to drop a course\n[3] to view enrolled course details\n[4] to view your CGPA\n");
             chosenOption = s.nextInt();
             s.nextLine();
             switch (chosenOption) {
@@ -67,7 +66,7 @@ public class UI {
         int chosenOption = -1;
         while(chosenOption != 0)
         {
-            System.out.print("Press:\n1 to float a course\n2 to cancel an offering\n3 to upload grades for an offering\n4 to view grades in a particular offering\n5 to add constraints to an offering\n");
+            System.out.print("Press:\n[1] to float a course\n[2] to cancel an offering\n[3] to upload grades for an offering\n[4] to view grades in a particular offering\n[5] to add constraints to an offering\n");
             chosenOption = s.nextInt();
             switch (chosenOption) {
                 case 1 -> {
@@ -156,7 +155,7 @@ public class UI {
         int chosenOption = -1;
         while(chosenOption != 0)
         {
-            System.out.print("Press:\n1 to add a course to the catalog\n2 to generate a semester transcript of a student\n3 to view grades of a student\n4 to view grades of an offering\n");
+            System.out.print("Press:\n[1] to add a course to the catalog\n[2] to generate a semester transcript of a student\n[3] to view grades of a student\n[4] to view grades of an offering\n");
             chosenOption = s.nextInt();
             switch (chosenOption) {
                 case 1 -> {

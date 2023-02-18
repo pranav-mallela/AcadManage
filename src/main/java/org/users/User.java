@@ -44,7 +44,7 @@ public class User {
         return -1;
     }
 
-    public int checkIfCourseExists(String courseCode, boolean wantToExist)
+    protected int checkIfCourseExists(String courseCode, boolean wantToExist)
     {
         Statement statement;
         ResultSet rs = null;
@@ -71,7 +71,7 @@ public class User {
         return courseId;
     }
 
-    public int checkIfOfferingExists(String courseCode, int courseId, int year, int semester)
+    protected int checkIfOfferingExists(String courseCode, int courseId, int year, int semester)
     {
         Statement statement;
         ResultSet rs = null;
@@ -91,7 +91,7 @@ public class User {
         return offeringId;
     }
 
-    public boolean checkIfUpcomingSem(int year, int semester)
+    protected boolean checkIfUpcomingSem(int year, int semester)
     {
         Statement statement;
         ResultSet rs = null;
@@ -112,7 +112,7 @@ public class User {
         return (acad_year == year && acad_sem == semester);
     }
 
-    public int [] getCourseAndOfferingId(String courseCode, int year, int semester)
+    protected int [] getCourseAndOfferingId(String courseCode, int year, int semester)
     {
         int courseId = checkIfCourseExists(courseCode, true);
         int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
