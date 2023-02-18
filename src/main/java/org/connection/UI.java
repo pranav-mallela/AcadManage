@@ -32,7 +32,7 @@ public class UI {
         int chosenOption = -1;
         while(chosenOption != 0)
         {
-            System.out.print("Press:\n1 to add a course\n2 to drop a course\n3 to view enrolled course details\n4 to view your CGPA\n5 to view your most recent SGPA\n");
+            System.out.print("Press:\n1 to add a course\n2 to drop a course\n3 to view enrolled course details\n4 to view your CGPA\n");
             chosenOption = s.nextInt();
             s.nextLine();
             switch (chosenOption) {

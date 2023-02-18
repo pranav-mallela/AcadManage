@@ -16,12 +16,9 @@ public class Faculty extends User{
 
     public void floatCourse(String courseCode, int year, int semester)
     {
-        int courseId = checkIfCourseExists(courseCode);
-        if(courseId == 0)
-        {
-            System.out.println("ERROR: Course does not exist!");
-            return;
-        }
+        int courseId = checkIfCourseExists(courseCode, true);
+        if(courseId == 0) return;
+
         int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
         if(offeringId != 0)
         {
@@ -61,7 +58,7 @@ public class Faculty extends User{
         Statement statement;
 
         for (List<List<String>> orPreReqGrade : orPreReqGrades) {
-            int mainPreReqId = checkIfCourseExists(orPreReqGrade.get(orPreReqGrade.size() - 1).get(0));
+            int mainPreReqId = checkIfCourseExists(orPreReqGrade.get(orPreReqGrade.size() - 1).get(0), true);
             if (mainPreReqId == 0) {
                 try {
                     String deleteConstraintsQuery = String.format("DELETE FROM offering_constraints WHERE offering_id=%d", offeringId);
@@ -71,7 +68,6 @@ public class Faculty extends User{
                 {
                     System.out.println(e);
                 }
-                System.out.printf("ERROR: Prerequisite does not exist%n");
                 return;
             }
             String mainPreReqGrade = orPreReqGrade.get(orPreReqGrade.size() - 1).get(1);
@@ -87,7 +83,7 @@ public class Faculty extends User{
             for (int j = 0; j < orPreReqGrade.size() - 1; j++) {
                 String preReqCode = orPreReqGrade.get(j).get(0);
                 String preReqGrade = orPreReqGrade.get(j).get(1);
-                int preReqId = checkIfCourseExists(preReqCode);
+                int preReqId = checkIfCourseExists(preReqCode, true);
                 if (preReqId == 0) {
                     try {
                         String deleteConstraintsQuery = String.format("DELETE FROM optional_offering_constraints WHERE offering_id=%d", offeringId);
@@ -97,7 +93,6 @@ public class Faculty extends User{
                     {
                         System.out.println(e);
                     }
-                    System.out.printf("ERROR: Prerequisite %s does not exist%n", preReqCode);
                     return;
                 }
                 try {

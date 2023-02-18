@@ -44,7 +44,7 @@ public class User {
         return -1;
     }
 
-    public int checkIfCourseExists(String courseCode)
+    public int checkIfCourseExists(String courseCode, boolean wantToExist)
     {
         Statement statement;
         ResultSet rs = null;
@@ -59,6 +59,14 @@ public class User {
             }
         } catch(Exception e) {
             System.out.println(e);
+        }
+        if(wantToExist && courseId == 0)
+        {
+            System.out.printf("ERROR: Course %s does not exist!", courseCode);
+        }
+        else if(!wantToExist && courseId != 0)
+        {
+            System.out.printf("ERROR: Course %s already exists!", courseCode);
         }
         return courseId;
     }
@@ -106,11 +114,7 @@ public class User {
 
     public int [] getCourseAndOfferingId(String courseCode, int year, int semester)
     {
-        int courseId = checkIfCourseExists(courseCode);
-        if(courseId == 0)
-        {
-            System.out.println("ERROR: Course does not exist!");
-        }
+        int courseId = checkIfCourseExists(courseCode, true);
         int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
         if(courseId != 0 && offeringId == 0)
         {
