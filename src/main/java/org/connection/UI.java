@@ -155,7 +155,7 @@ public class UI {
         int chosenOption = -1;
         while(chosenOption != 0)
         {
-            System.out.print("Press:\n[1] to add a course to the catalog\n[2] to generate a semester transcript of a student\n[3] to view grades of a student\n[4] to view grades of an offering\n");
+            System.out.print("Press:\n[1] to add a course to the catalog\n[2] to generate a semester transcript of a student\n[3] to view grades of a student\n[4] to view grades of an offering\n[5] to check the graduation status of a student\n");
             chosenOption = s.nextInt();
             switch (chosenOption) {
                 case 1 -> {
@@ -218,6 +218,11 @@ public class UI {
                     System.out.print("Enter the course code: ");
                     String viewCourseCode = s.nextLine();
                     user.viewOfferingGrades(viewYear, viewSemester, viewCourseCode);
+                }
+                case 5 -> {
+                    System.out.print("Enter the student ID to view the corresponding student's graduation status: ");
+                    int studentId = s.nextInt();
+                    user.canGraduate(studentId);
                 }
             }
         }
