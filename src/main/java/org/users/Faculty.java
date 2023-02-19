@@ -107,6 +107,24 @@ public class Faculty extends User{
         System.out.println("SUCCESS: Constraints successfully added!");
     }
 
+    public void addCGConstraints(int year, int semester, String courseCode, float cg)
+    {
+        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
+        int courseId = idArray[0], offeringId = idArray[1];
+        if(courseId == 0 || offeringId == 0) return;
+
+        Statement statement;
+
+        try{
+            String addCGConstraintsQuery = String.format("INSERT INTO offering_cg_constraints VALUES(%d, %f)", offeringId, cg);
+            statement = conn.createStatement();
+            statement.executeUpdate(addCGConstraintsQuery);
+        } catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }
+
     public void cancelOffering(String courseCode, int year, int semester)
     {
         int [] idArray = getCourseAndOfferingId(courseCode, year, semester);

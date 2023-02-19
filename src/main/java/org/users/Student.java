@@ -37,7 +37,6 @@ public class Student extends User{
         if(courseId == 0 || offeringId == 0) return;
 
         // TODO: enforce credit limit
-        // TODO: check if meeting pre-req
 
         // get the current academic year and semester, and see if everything is ok
         try{
@@ -49,8 +48,8 @@ public class Student extends User{
                 int acad_year = rs.getInt("academic_year");
                 if(acad_year == year && rs.getInt("semester") == semester && (acad_year - entry_year) < 4)
                 {
-                    // checking pre-reqs and constraints
-                    if(!isPassingConstraints(offeringId) || !isPassingPreReqs(courseCode)) return;
+                    // checking pre-reqs and constraints, including cgpa
+                    if(!isPassingConstraints(offeringId) || !isPassingPreReqs(courseCode) || !isPassingCGCriteria(offeringId)) return;
 
                     String addQuery = String.format("INSERT INTO student_%d" +
                             "(offering_id, course_code, status)" +
@@ -70,6 +69,36 @@ public class Student extends User{
         } catch(Exception e) {
             System.out.println(e);
         }
+    }
+
+    // get the cgpa of the student and min cgpa of the offering
+    // then return true if the student's cgpa is greater than or equal to the min cgpa
+    public boolean isPassingCGCriteria(int offeringId)
+    {
+        Statement statement;
+        ResultSet rs = null;
+
+        try{
+            String getCGConstraintsQuery = String.format("select * from offering_cg_constraints where offering_id=%d", offeringId);
+            statement = conn.createStatement();
+            rs = statement.executeQuery(getCGConstraintsQuery);
+            if(!rs.next()) return true;
+            else
+            {
+                int min_cgpa = rs.getInt("cg");
+                float studentCG = CGPA();
+                if(studentCG >= min_cgpa) return true;
+                else
+                {
+                    System.out.println("ERROR: CGPA is less than the minimum required!");
+                    return false;
+                }
+            }
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        return false;
     }
 
     public boolean isPassingPreReqs(String courseCode)

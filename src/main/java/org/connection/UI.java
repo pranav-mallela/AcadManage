@@ -66,7 +66,7 @@ public class UI {
         int chosenOption = -1;
         while(chosenOption != 0)
         {
-            System.out.print("Press:\n[1] to float a course\n[2] to cancel an offering\n[3] to upload grades for an offering\n[4] to view grades in a particular offering\n[5] to add constraints to an offering\n");
+            System.out.print("Press:\n[1] to float a course\n[2] to cancel an offering\n[3] to upload grades for an offering\n[4] to view grades in a particular offering\n[5] to add pre-requisite constraints to an offering\n[6] to add CGPA constraints to an offering");
             chosenOption = s.nextInt();
             switch (chosenOption) {
                 case 1 -> {
@@ -143,6 +143,18 @@ public class UI {
                     }
     //                System.out.println(optionPreReqs);
                     user.addConstraintsToOffering(year, semester, courseCode, optionPreReqs);
+                }
+                case 6 -> {
+                    System.out.print("Year for which you wish to add constraints: ");
+                    int year = s.nextInt();
+                    System.out.print("Semester for which you wish to add constraints: ");
+                    int semester = s.nextInt();
+                    s.nextLine();
+                    System.out.print("Enter the course code: ");
+                    String courseCode = s.nextLine();
+                    System.out.print("Enter the minimum CGPA required for this course: ");
+                    float minCGPA = s.nextFloat();
+                    user.addCGConstraints(year, semester, courseCode, minCGPA);
                 }
             }
         }
