@@ -18,22 +18,18 @@ public class User {
         Statement statement;
         ResultSet rs = null;
         try{
-            String query="";
-            if(role.equals("0"))
-            {
-                query = String.format("select * from student_credentials where username='%s' and pass='%s'", username, password);
-            }
-            else if(role.equals("1"))
-            {
-                query = String.format("select * from faculty_credentials where username='%s' and pass='%s'", username, password);
-            }
-            else if(role.equals("2"))
-            {
-                query = String.format("select * from acad_credentials where username='%s' and pass='%s'", username, password);
-            }
+            String query = switch (role) {
+                case "0" ->
+                        String.format("select * from student_credentials where username='%s' and pass='%s'", username, password);
+                case "1" ->
+                        String.format("select * from faculty_credentials where username='%s' and pass='%s'", username, password);
+                case "2" ->
+                        String.format("select * from acad_credentials where username='%s' and pass='%s'", username, password);
+                default -> "";
+            };
             statement = conn.createStatement();
             rs = statement.executeQuery(query);
-            while(rs.next())
+            if(rs.next())
             {
                 return rs.getInt("id");
             }

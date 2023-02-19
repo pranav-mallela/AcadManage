@@ -160,14 +160,16 @@ public class UI {
             switch (chosenOption) {
                 case 1 -> {
                     System.out.print("Lecture hours per week (l): ");
-                    int l = s.nextInt();
+                    float l = s.nextFloat();
                     System.out.print("Tutorial hours per week (t): ");
-                    int t = s.nextInt();
+                    float t = s.nextFloat();
                     System.out.print("Lab hours per week (p): ");
-                    int p = s.nextInt();
+                    float p = s.nextFloat();
                     s.nextLine();
                     System.out.print("Enter the course code: ");
                     String courseCode = s.nextLine();
+                    System.out.print("Enter the course title: ");
+                    String courseTitle = s.nextLine();
                     System.out.print("Enter the course codes of pre-requisites for this course (space separated): ");
                     String [] preReqs = s.nextLine().split(" ");
                     List<List<String>> optionPreReqs = new ArrayList<>();
@@ -189,7 +191,7 @@ public class UI {
                             optionPreReqs.add(orPreReqs);
                         }
                     }
-                    user.addCourseToCatalog(courseCode, l, t, p, optionPreReqs);
+                    user.addCourseToCatalog(courseCode, l, t, p, optionPreReqs, courseTitle);
                 }
                 case 2 -> {
                     System.out.print("Enter the student ID of the student for whom you wish to generate a transcript: ");

@@ -10,7 +10,7 @@ public class AcadOffice extends User{
         super(conn);
     }
 
-    public void addCourseToCatalog(String courseCode, int l, int t, int p, List<List<String>> optionPreReqs)
+    public void addCourseToCatalog(String courseCode, float l, float t, float p, List<List<String>> optionPreReqs, String courseTitle)
     {
         Statement statement;
 
@@ -18,7 +18,7 @@ public class AcadOffice extends User{
         int courseId = checkIfCourseExists(courseCode, false);
         if(courseId != 0) return;
 
-        //add prerequisites before adding to catalog
+        //add prerequisites to pre_req table before adding to catalog
         if(optionPreReqs.size() != 0)
         {
             for (List<String> optionPreReq : optionPreReqs) {
@@ -73,7 +73,7 @@ public class AcadOffice extends User{
 
         //add course
         try{
-            String addCourseQuery = String.format("INSERT INTO course_catalog(course_code, l, t, p) VALUES('%s', %d, %d, %d);", courseCode, l, t, p);
+            String addCourseQuery = String.format("INSERT INTO course_catalog(course_code, l, t, p, course_title) VALUES('%s', %f, %f, %f, '%s');", courseCode, l, t, p, courseTitle);
             statement = conn.createStatement();
             statement.executeUpdate(addCourseQuery);
             System.out.println("SUCCESS: Course successfully added to catalog!");
