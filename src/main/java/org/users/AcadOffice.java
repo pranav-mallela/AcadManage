@@ -245,4 +245,22 @@ public class AcadOffice extends User{
         System.out.println("Student eligible for graduation!");
         return true;
     }
+
+    public void setSemesterEvent(int action)
+    {
+        Statement statement;
+
+        try {
+            String setSemesterEventQuery = "UPDATE semester_events SET is_open=0::BOOLEAN";
+            statement = conn.createStatement();
+            statement.executeUpdate(setSemesterEventQuery);
+            String setSemesterEventQuery2 = String.format("UPDATE semester_events SET is_open=1::BOOLEAN WHERE event_id=%d", action);
+            statement = conn.createStatement();
+            statement.executeUpdate(setSemesterEventQuery2);
+            System.out.print("SUCCESS: Semester event set");
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
+    }
 }
