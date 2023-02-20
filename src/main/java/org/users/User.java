@@ -58,11 +58,11 @@ public class User {
         }
         if(wantToExist && courseId == 0)
         {
-            System.out.printf("ERROR: Course %s does not exist!", courseCode);
+            System.out.printf("ERROR: Course %s does not exist!\n", courseCode);
         }
         else if(!wantToExist && courseId != 0)
         {
-            System.out.printf("ERROR: Course %s already exists!", courseCode);
+            System.out.printf("ERROR: Course %s already exists!\n", courseCode);
         }
         return courseId;
     }
