@@ -15,29 +15,32 @@ public class Main {
 
         // get credentials and assign role
         UI ui = new UI();
-        ArrayList<String> credentials = ui.getCredentials();
-        String role = credentials.get(2);
-        User user = new User(conn);
-        int id = user.login(credentials.get(0), credentials.get(1), role);
-        if(id == -1)
+        while(true)
         {
-            System.out.println("Invalid credentials!");
-            return;
-        }
+            ArrayList<String> credentials = ui.getCredentials();
+            String role = credentials.get(2);
+            User user = new User(conn);
+            int id = user.login(credentials.get(0), credentials.get(1), role);
+            if(id == -1)
+            {
+                System.out.println("Invalid credentials!");
+                return;
+            }
 
-        // present menu depending on role
-        switch (role) {
-            case "0" -> {
-                user = new Student(conn, id);
-                ui.studentMenu((Student) user);
-            }
-            case "1" -> {
-                user = new Faculty(conn, id);
-                ui.facultyMenu((Faculty) user);
-            }
-            case "2" -> {
-                user = new AcadOffice(conn);
-                ui.acadMenu((AcadOffice) user);
+            // present menu depending on role
+            switch (role) {
+                case "0" -> {
+                    user = new Student(conn, id);
+                    ui.studentMenu((Student) user);
+                }
+                case "1" -> {
+                    user = new Faculty(conn, id);
+                    ui.facultyMenu((Faculty) user);
+                }
+                case "2" -> {
+                    user = new AcadOffice(conn);
+                    ui.acadMenu((AcadOffice) user);
+                }
             }
         }
     }

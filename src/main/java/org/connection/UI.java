@@ -31,7 +31,7 @@ public class UI {
         int chosenOption = -1;
         while(chosenOption != 0)
         {
-            System.out.print("Press:\n[1] to add a course\n[2] to drop a course\n[3] to view enrolled course details\n[4] to view your CGPA\n");
+            System.out.print("Press:\n[0] to logout\n[1] to add a course\n[2] to drop a course\n[3] to view enrolled course details\n[4] to view your CGPA\n");
             chosenOption = s.nextInt();
             s.nextLine();
             switch (chosenOption) {
@@ -66,7 +66,7 @@ public class UI {
         int chosenOption = -1;
         while(chosenOption != 0)
         {
-            System.out.print("Press:\n[1] to float a course\n[2] to cancel an offering\n[3] to upload grades for an offering\n[4] to view grades in a particular offering\n[5] to add pre-requisite constraints to an offering\n[6] to add CGPA constraints to an offering");
+            System.out.print("Press:\n[0] to logout\n[1] to float a course\n[2] to cancel an offering\n[3] to upload grades for an offering\n[4] to view grades in a particular offering\n[5] to add pre-requisite constraints to an offering\n[6] to add CGPA constraints to an offering\n");
             chosenOption = s.nextInt();
             switch (chosenOption) {
                 case 1 -> {
@@ -167,7 +167,7 @@ public class UI {
         int chosenOption = -1;
         while(chosenOption != 0)
         {
-            System.out.print("Press:\n[1] to add a course to the catalog\n[2] to generate a semester transcript of a student\n[3] to view grades of a student\n[4] to view grades of an offering\n[5] to check the graduation status of a student\n[6] to set a semester event\n");
+            System.out.print("Press:\n[0] to logout\n[1] to add a course to the catalog\n[2] to generate a semester transcript of a student\n[3] to view grades of a student\n[4] to view grades of an offering\n[5] to check the graduation status of a student\n[6] to set a semester event\n");
             chosenOption = s.nextInt();
             switch (chosenOption) {
                 case 1 -> {

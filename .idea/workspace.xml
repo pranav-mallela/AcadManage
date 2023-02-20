@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="semester events implemented, yet to integrate with user functions">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="added custom exceptions, yet to use in code" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,7 +77,7 @@
       <workItem from="1676785097907" duration="9686000" />
       <workItem from="1676799451959" duration="3971000" />
       <workItem from="1676826863632" duration="1523000" />
-      <workItem from="1676869163264" duration="3813000" />
+      <workItem from="1676869163264" duration="4208000" />
     </task>
     <task id="LOCAL-00001" summary="student add_course working">
       <created>1676128629567</created>
@@ -249,7 +247,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676871919093</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="added custom exceptions, yet to use in code">
+      <created>1676875151553</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1676875151553</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -289,6 +294,7 @@
     <MESSAGE value="graduation check implemented, checking pending" />
     <MESSAGE value="cg constraints implemented, checking pending" />
     <MESSAGE value="semester events implemented, yet to integrate with user functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="semester events implemented, yet to integrate with user functions" />
+    <MESSAGE value="added custom exceptions, yet to use in code" />
+    <option name="LAST_COMMIT_MESSAGE" value="added custom exceptions, yet to use in code" />
   </component>
 </project>
