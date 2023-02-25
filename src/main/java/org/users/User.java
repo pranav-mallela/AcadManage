@@ -119,6 +119,31 @@ public class User {
         return new int[] {courseId, offeringId};
     }
 
+    public boolean getRunningPhase(int expectedPhase)
+    {
+        Statement statement;
+        ResultSet rs = null;
+        int phase = 0;
+
+        try {
+            String getPhaseQuery = "select event_id, event_description from semester_events where is_open=(1::boolean)";
+            statement = conn.createStatement();
+            rs = statement.executeQuery(getPhaseQuery);
+            if(rs.next())
+            {
+                phase = rs.getInt("event_id");
+                System.out.printf("Current phase: %s%n", rs.getString("event_description"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        if(phase!=expectedPhase)
+        {
+            System.out.println("ERROR: Cannot perform action in this phase!");
+            return false;
+        }
+        else return true;
+    }
 
     public void resetPass(String email)
     {

@@ -14,8 +14,11 @@ public class Faculty extends User{
         this.facultyId = facultyId;
     }
 
+    // can only be done 'Before Semester'
     public void floatCourse(String courseCode, int year, int semester)
     {
+        if(!getRunningPhase(1)) return;
+
         int courseId = checkIfCourseExists(courseCode, true);
         if(courseId == 0) return;
 
@@ -49,8 +52,11 @@ public class Faculty extends User{
         }
     }
 
+    // can only be done 'Before Semester'
     public void addConstraintsToOffering(int year, int semester, String courseCode, List<List<List<String>>> orPreReqGrades)
     {
+        if(!getRunningPhase(1)) return;
+
         int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
         int courseId = idArray[0], offeringId = idArray[1];
         if(courseId == 0 || offeringId == 0) return;
@@ -107,8 +113,11 @@ public class Faculty extends User{
         System.out.println("SUCCESS: Constraints successfully added!");
     }
 
+    // can only be done 'Before Semester'
     public void addCGConstraints(int year, int semester, String courseCode, float cg)
     {
+        if(!getRunningPhase(1)) return;
+
         int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
         int courseId = idArray[0], offeringId = idArray[1];
         if(courseId == 0 || offeringId == 0) return;
@@ -125,8 +134,11 @@ public class Faculty extends User{
         }
     }
 
+    // can only be done 'Before Semester'
     public void cancelOffering(String courseCode, int year, int semester)
     {
+        if(!getRunningPhase(1)) return;
+
         int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
         int courseId = idArray[0], offeringId = idArray[1];
         if(courseId == 0 || offeringId == 0) return;
@@ -166,8 +178,11 @@ public class Faculty extends User{
 
     }
 
+    // can only be done 'After Semester'
     public void uploadGrades(String courseCode, int year, int semester)
     {
+        if(!getRunningPhase(3)) return;
+
         int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
         int courseId = idArray[0], offeringId = idArray[1];
         if(courseId == 0 || offeringId == 0) return;

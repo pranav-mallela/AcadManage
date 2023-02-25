@@ -13,8 +13,11 @@ public class Student extends User{
         this.studentId = studentId;
     }
 
+    // can only be done 'Before Semester'
     public int addCourse(String courseCode, int year, int semester)
     {
+        if(!getRunningPhase(1)) return -1;
+
         Statement statement;
         ResultSet rs = null;
 
@@ -74,7 +77,7 @@ public class Student extends User{
 
     // get the cgpa of the student and min cgpa of the offering
     // then return true if the student's cgpa is greater than or equal to the min cgpa
-    public boolean isPassingCGCriteria(int offeringId)
+    private boolean isPassingCGCriteria(int offeringId)
     {
         Statement statement;
         ResultSet rs = null;
@@ -102,7 +105,7 @@ public class Student extends User{
         return false;
     }
 
-    public boolean isPassingPreReqs(String courseCode)
+    private boolean isPassingPreReqs(String courseCode)
     {
         Statement statement, statement1;
         ResultSet rs = null, rs1 = null;
@@ -152,7 +155,7 @@ public class Student extends User{
         return passedPreReqs;
     }
 
-    public boolean isPassingConstraints(int offeringId)
+    private boolean isPassingConstraints(int offeringId)
     {
         Statement statement, statement1;
         ResultSet rs = null, rs1 = null, rs2 = null;
@@ -209,8 +212,11 @@ public class Student extends User{
         return true;
     }
 
+    // can only be done 'Before Semester'
     public void dropCourse(String courseCode)
     {
+        if(!getRunningPhase(1)) return;
+
         Statement statement;
         ResultSet rs = null;
 

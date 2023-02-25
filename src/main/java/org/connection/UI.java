@@ -234,7 +234,7 @@ public class UI {
                 case 5 -> {
                     System.out.print("Enter the student ID to view the corresponding student's graduation status: ");
                     int studentId = s.nextInt();
-                    user.canGraduate(studentId);
+                    boolean canGraduate = user.canGraduate(studentId);
                 }
                 case 6 -> {
                     System.out.print("Press:\n[1] to set event to 'Before Semester'\n[2] to set event to 'Semester Running'\n[3] to set event to 'After Semester'\n");
