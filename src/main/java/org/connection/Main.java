@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         // connection
-        Connect portal = new Connect();
+        Connect portal = new Connect("acadmanage", "acadadmin", "adminpass");
         Connection conn = portal.connect();
 
         // get credentials and assign role

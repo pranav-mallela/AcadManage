@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="changed exception to SQLException">
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="changed Error message to prevent code from crashing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/AcadOffice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/AcadOffice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/Connect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/Connect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -234,7 +232,7 @@
       <workItem from="1676887210425" duration="7697000" />
       <workItem from="1677054356627" duration="1213000" />
       <workItem from="1677290182375" duration="1665000" />
-      <workItem from="1677844675454" duration="3127000" />
+      <workItem from="1677844675454" duration="5324000" />
     </task>
     <task id="LOCAL-00001" summary="student add_course working">
       <created>1676128629567</created>
@@ -460,7 +458,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677845697903</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="changed Error message to prevent code from crashing">
+      <created>1677847881435</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1677847881435</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -478,7 +483,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="some ui changes in student grades view" />
     <MESSAGE value="some ui changes in acad office transcript view" />
     <MESSAGE value="student cgpa implemented" />
     <MESSAGE value="acad office add pre req working" />
@@ -503,7 +507,8 @@
     <MESSAGE value="reverted testing changes in Student" />
     <MESSAGE value="exception package removed" />
     <MESSAGE value="changed exception to SQLException" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed exception to SQLException" />
+    <MESSAGE value="changed Error message to prevent code from crashing" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed Error message to prevent code from crashing" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_courseDoesNotExist.ic" NAME="StudentTest.courseDoesNotExist Coverage Results" MODIFIED="1676894098760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

@@ -5,9 +5,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Connect {
-    private final String url = "jdbc:postgresql://localhost/acadmanage";
-    private final String user = "acadadmin";
-    private final String password = "adminpass";
+    private final String url;
+    private final String user;
+    private final String password;
+
+    public Connect(String db, String user, String pass) {
+        this.url = "jdbc:postgresql://localhost/" + db;
+        this.user = user;
+        this.password = pass;
+    }
 
     public Connection connect()
     {
