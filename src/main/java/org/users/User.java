@@ -58,11 +58,11 @@ public class User {
         }
         if(wantToExist && courseId == 0)
         {
-            System.out.printf("ERROR: Course %s does not exist!\n", courseCode);
+            System.out.printf("UNSUCCESSFUL ACTION: Course %s does not exist!\n", courseCode);
         }
         else if(!wantToExist && courseId != 0)
         {
-            System.out.printf("ERROR: Course %s already exists!\n", courseCode);
+            System.out.printf("UNSUCCESSFUL ACTION: Course %s already exists!\n", courseCode);
         }
         return courseId;
     }
@@ -114,7 +114,7 @@ public class User {
         int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
         if(courseId != 0 && offeringId == 0)
         {
-            System.out.println("ERROR: Offering does not exist!");
+            System.out.println("UNSUCCESSFUL ACTION: Offering does not exist!");
         }
         return new int[] {courseId, offeringId};
     }
@@ -139,7 +139,7 @@ public class User {
         }
         if(phase!=expectedPhase)
         {
-            System.out.println("ERROR: Cannot perform action in this phase!");
+            System.out.println("UNSUCCESSFUL ACTION: Cannot perform action in this phase!");
             return false;
         }
         else return true;

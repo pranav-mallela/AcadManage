@@ -25,7 +25,7 @@ public class Faculty extends User{
         int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
         if(offeringId != 0)
         {
-            System.out.println("ERROR: Offering already exists!");
+            System.out.println("UNSUCCESSFUL ACTION: Offering already exists!");
             return;
         }
 
@@ -44,7 +44,7 @@ public class Faculty extends User{
             }
             else
             {
-                System.out.println("ERROR: Cannot float due to wrong year or semester!");
+                System.out.println("UNSUCCESSFUL ACTION: Cannot float due to wrong year or semester!");
                 return;
             }
         } catch(SQLException e) {
@@ -150,7 +150,7 @@ public class Faculty extends User{
             // only allow if offering is in upcoming semester
             if(!checkIfUpcomingSem(year, semester))
             {
-                System.out.println("ERROR: Cannot cancel offering that is not in upcoming semester!");
+                System.out.println("UNSUCCESSFUL ACTION: Cannot cancel offering that is not in upcoming semester!");
                 return;
             }
 
@@ -220,7 +220,7 @@ public class Faculty extends User{
             rs = statement.executeQuery(checkStudents);
             if(rs.next())
             {
-                System.out.println("ERROR: Student mismatch!");
+                System.out.println("UNSUCCESSFUL ACTION: Student mismatch!");
                 String deleteTempTableQuery = String.format("DROP TABLE offering_tmp_%d", offeringId);
                 statement.executeUpdate(deleteTempTableQuery);
                 return;
@@ -232,7 +232,7 @@ public class Faculty extends User{
             rs = statement.executeQuery(checkGrades);
             if(rs.next())
             {
-                System.out.println("ERROR: Grades can only be of a specific format!");
+                System.out.println("UNSUCCESSFUL ACTION: Grades can only be of a specific format!");
                 String deleteTempTableQuery = String.format("DROP TABLE offering_tmp_%d", offeringId);
                 statement.executeUpdate(deleteTempTableQuery);
                 return;
@@ -254,7 +254,7 @@ public class Faculty extends User{
                 }
                 else
                 {
-                    System.out.println("ERROR: Invalid student ID!");
+                    System.out.println("UNSUCCESSFUL ACTION: Invalid student ID!");
                     return;
                 }
             }
@@ -274,7 +274,7 @@ public class Faculty extends User{
                 }
                 else
                 {
-                    System.out.println("ERROR: Invalid student ID!");
+                    System.out.println("UNSUCCESSFUL ACTION: Invalid student ID!");
                     return;
                 }
             }

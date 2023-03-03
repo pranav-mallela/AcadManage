@@ -166,7 +166,7 @@ public class AcadOffice extends User{
             rs = statement.executeQuery(getBatchIdQuery);
             if(!rs.next())
             {
-                System.out.println("ERROR: Student does not exist!");
+                System.out.println("UNSUCCESSFUL ACTION: Student does not exist!");
                 return false;
             }
             int entryYear = rs.getInt("entry_year");
@@ -184,7 +184,7 @@ public class AcadOffice extends User{
             rs = statement.executeQuery(checkCoreCompletion);
             if(rs.next())
             {
-                System.out.println("ERROR: Student has not completed all the core courses!");
+                System.out.println("UNSUCCESSFUL ACTION: Student has not completed all the core courses!");
                 return false;
             }
 
@@ -213,7 +213,7 @@ public class AcadOffice extends User{
             rs = statement.executeQuery(checkElectiveCompletion);
             if(!rs.next())
             {
-                System.out.println("ERROR: Student has not completed all the elective courses!");
+                System.out.println("UNSUCCESSFUL ACTION: Student has not completed all the elective courses!");
                 return false;
             }
 
@@ -240,7 +240,7 @@ public class AcadOffice extends User{
             rs = statement.executeQuery(checkExtracurricularCompletion);
             if(!rs.next())
             {
-                System.out.println("ERROR: Student has not completed all the extracurricular and capstone courses!");
+                System.out.println("UNSUCCESSFUL ACTION: Student has not completed all the extracurricular and capstone courses!");
                 return false;
             }
         } catch (SQLException e)

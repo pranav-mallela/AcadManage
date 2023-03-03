@@ -63,7 +63,7 @@ public class Student extends User{
                 }
                 else
                 {
-                    System.out.println("ERROR: Cannot enroll due to wrong year or semester!");
+                    System.out.println("UNSUCCESSFUL ACTION: Cannot enroll due to wrong year or semester!");
                     return;
                 }
             }
@@ -91,7 +91,7 @@ public class Student extends User{
                 if(studentCG >= min_cgpa) return true;
                 else
                 {
-                    System.out.println("ERROR: CGPA is less than the minimum required!");
+                    System.out.println("UNSUCCESSFUL ACTION: CGPA is less than the minimum required!");
                     return false;
                 }
             }
@@ -135,7 +135,7 @@ public class Student extends User{
                     }
                     if(!passedThisPreReq)
                     {
-                        System.out.println("ERROR: You have not cleared the prerequisites for this course!");
+                        System.out.println("UNSUCCESSFUL ACTION: You have not cleared the prerequisites for this course!");
                         return false;
                     }
                 }
@@ -147,7 +147,7 @@ public class Student extends User{
         }
         if(!passedPreReqs)
         {
-            System.out.println("ERROR: You have not cleared the prerequisites for this course!");
+            System.out.println("UNSUCCESSFUL ACTION: You have not cleared the prerequisites for this course!");
         }
         return passedPreReqs;
     }
@@ -191,14 +191,14 @@ public class Student extends User{
                         // if all optional offerings fail, return ERROR
                         if(!passedThisConstraint)
                         {
-                            System.out.println("ERROR: Constraints not passed!");
+                            System.out.println("UNSUCCESSFUL ACTION: Constraints not passed!");
                             return false;
                         }
                     }
                 }
                 else
                 {
-                    System.out.println("ERROR: Constraints not passed!");
+                    System.out.println("UNSUCCESSFUL ACTION: Constraints not passed!");
                     return false;
                 }
             }
@@ -234,7 +234,7 @@ public class Student extends User{
            }
            else
            {
-               System.out.println("ERROR: Enrollment does not exist! Cannot drop course!");
+               System.out.println("UNSUCCESSFUL ACTION: Enrollment does not exist! Cannot drop course!");
            }
 
         } catch(SQLException e)
