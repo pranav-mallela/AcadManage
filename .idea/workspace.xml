@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="integrated semester events" />
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="reverted testing changes in Student" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -228,6 +228,7 @@
       <workItem from="1676887210425" duration="7697000" />
       <workItem from="1677054356627" duration="1213000" />
       <workItem from="1677290182375" duration="1665000" />
+      <workItem from="1677844675454" duration="580000" />
     </task>
     <task id="LOCAL-00001" summary="student add_course working">
       <created>1676128629567</created>
@@ -425,7 +426,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677291747388</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="reverted testing changes in Student">
+      <created>1677845161900</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1677845161900</updated>
+    </task>
+    <task id="LOCAL-00030" summary="reverted testing changes in Student">
+      <created>1677845208574</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1677845208574</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -443,7 +458,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="acad add course to catalog, faculty float course working" />
     <MESSAGE value="faculty upload grades thru CSV working" />
     <MESSAGE value="acad office generate transcript working" />
     <MESSAGE value="some ui changes in student grades view" />
@@ -468,7 +482,8 @@
     <MESSAGE value="infinite menu improved" />
     <MESSAGE value="student tests begin" />
     <MESSAGE value="integrated semester events" />
-    <option name="LAST_COMMIT_MESSAGE" value="integrated semester events" />
+    <MESSAGE value="reverted testing changes in Student" />
+    <option name="LAST_COMMIT_MESSAGE" value="reverted testing changes in Student" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_courseDoesNotExist.ic" NAME="StudentTest.courseDoesNotExist Coverage Results" MODIFIED="1676894098760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
