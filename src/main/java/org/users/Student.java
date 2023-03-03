@@ -14,9 +14,9 @@ public class Student extends User{
     }
 
     // can only be done 'Before Semester'
-    public int addCourse(String courseCode, int year, int semester)
+    public void addCourse(String courseCode, int year, int semester)
     {
-        if(!getRunningPhase(1)) return -1;
+        if(!getRunningPhase(1)) return;
 
         Statement statement;
         ResultSet rs = null;
@@ -37,7 +37,7 @@ public class Student extends User{
         // check if the course and offering exist
         int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
         int courseId = idArray[0], offeringId = idArray[1];
-        if(courseId == 0 || offeringId == 0) return -1;
+        if(courseId == 0 || offeringId == 0) return;
 
         // TODO: enforce credit limit
 
@@ -52,7 +52,7 @@ public class Student extends User{
                 if(acad_year == year && rs.getInt("semester") == semester && (acad_year - entry_year) < 4)
                 {
                     // checking pre-reqs and constraints, including cgpa
-                    if(!isPassingConstraints(offeringId) || !isPassingPreReqs(courseCode) || !isPassingCGCriteria(offeringId)) return -1;
+                    if(!isPassingConstraints(offeringId) || !isPassingPreReqs(courseCode) || !isPassingCGCriteria(offeringId)) return;
 
                     String addQuery = String.format("INSERT INTO student_%d" +
                             "(offering_id, course_code, status)" +
@@ -66,13 +66,12 @@ public class Student extends User{
                 else
                 {
                     System.out.println("ERROR: Cannot enroll due to wrong year or semester!");
-                    return -1;
+                    return;
                 }
             }
         } catch(Exception e) {
             System.out.println(e);
         }
-        return 0;
     }
 
     // get the cgpa of the student and min cgpa of the offering
