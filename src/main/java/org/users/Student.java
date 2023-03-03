@@ -1,8 +1,6 @@
 package org.users;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
-import java.util.concurrent.ExecutionException;
 
 public class Student extends User{
     private final int studentId;
