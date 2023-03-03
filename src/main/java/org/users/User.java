@@ -33,7 +33,7 @@ public class User {
             {
                 return rs.getInt("id");
             }
-        }catch(Exception e)
+        }catch(SQLException e)
         {
             System.out.println(e);
         }
@@ -53,7 +53,7 @@ public class User {
             {
                 courseId = rs.getInt("course_id");
             }
-        } catch(Exception e) {
+        } catch(SQLException e) {
             System.out.println(e);
         }
         if(wantToExist && courseId == 0)
@@ -80,7 +80,7 @@ public class User {
             {
                 offeringId = rs.getInt("offering_id");
             }
-        } catch (Exception e)
+        } catch (SQLException e)
         {
             System.out.println(e);
         }
@@ -101,7 +101,7 @@ public class User {
                 acad_year = rs.getInt("academic_year");
                 acad_sem = rs.getInt("semester");
             }
-        } catch (Exception e)
+        } catch (SQLException e)
         {
             System.out.println(e);
         }
@@ -134,7 +134,7 @@ public class User {
                 phase = rs.getInt("event_id");
                 System.out.printf("Current phase: %s%n", rs.getString("event_description"));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e);
         }
         if(phase!=expectedPhase)

@@ -29,7 +29,7 @@ public class AcadOffice extends User{
                         String deletePreReqQuery = String.format("DELETE FROM pre_req where course_code='%s'", courseCode);
                         statement = conn.createStatement();
                         statement.executeUpdate(deletePreReqQuery);
-                    } catch (Exception e) {
+                    } catch (SQLException e) {
                         System.out.println(e);
                     }
                     return;
@@ -39,7 +39,7 @@ public class AcadOffice extends User{
                     String addPreReqQuery = String.format("INSERT INTO pre_req(course_code, pre_req_course_id, pre_req_code) VALUES('%s', %d, '%s')", courseCode, preReqId, preReqCode);
                     statement = conn.createStatement();
                     statement.executeUpdate(addPreReqQuery);
-                } catch (Exception e) {
+                } catch (SQLException e) {
                     System.out.println(e);
                 }
                 if (!optionPreReq.get(0).equals("")) {
@@ -52,7 +52,7 @@ public class AcadOffice extends User{
                                 String deleteOptionalPreReqQuery = String.format("DELETE FROM optional_pre_req WHERE pre_req_code='%s'", preReqCode);
                                 statement = conn.createStatement();
                                 statement.executeUpdate(deleteOptionalPreReqQuery);
-                            } catch (Exception e) {
+                            } catch (SQLException e) {
                                 System.out.println(e);
                             }
                             return;
@@ -63,7 +63,7 @@ public class AcadOffice extends User{
                             String addOptionalPreReqQuery = String.format("INSERT INTO optional_pre_req(pre_req_code, option_course_id, option_code) VALUES('%s', %d, '%s')", preReqCode, optionCourseId, optionPreReq.get(j));
                             statement = conn.createStatement();
                             statement.executeUpdate(addOptionalPreReqQuery);
-                        } catch (Exception e) {
+                        } catch (SQLException e) {
                             System.out.println(e);
                         }
                     }
@@ -77,7 +77,7 @@ public class AcadOffice extends User{
             statement = conn.createStatement();
             statement.executeUpdate(addCourseQuery);
             System.out.println("SUCCESS: Course successfully added to catalog!");
-        } catch (Exception e)
+        } catch (SQLException e)
         {
             System.out.println(e);
         }
@@ -112,7 +112,12 @@ public class AcadOffice extends User{
             String exportTranscriptQuery = String.format("COPY (%s) TO '%s/transcript_%d_%d.txt'", getStudentTranscriptQuery, pathToTranscript, year, semester);
             statement.executeUpdate(exportTranscriptQuery);
 */
-        } catch (Exception e)
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e);
+        }
+        catch (Exception e)
         {
             System.out.println(e);
         }
@@ -141,7 +146,7 @@ public class AcadOffice extends User{
             {
                 facultyId = rs.getInt("faculty_id");
             }
-        } catch (Exception e)
+        } catch (SQLException e)
         {
             System.out.println(e);
         }
@@ -238,7 +243,7 @@ public class AcadOffice extends User{
                 System.out.println("ERROR: Student has not completed all the extracurricular and capstone courses!");
                 return false;
             }
-        } catch (Exception e)
+        } catch (SQLException e)
         {
             System.out.println(e);
         }
@@ -258,7 +263,7 @@ public class AcadOffice extends User{
             statement = conn.createStatement();
             statement.executeUpdate(setSemesterEventQuery2);
             System.out.print("SUCCESS: Semester event set");
-        } catch (Exception e)
+        } catch (SQLException e)
         {
             System.out.println(e);
         }

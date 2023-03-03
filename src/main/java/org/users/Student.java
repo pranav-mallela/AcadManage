@@ -27,7 +27,7 @@ public class Student extends User{
             while(rs.next()) {
                 this.entry_year = rs.getInt("entry_year");
             }
-        } catch (Exception e)
+        } catch (SQLException e)
         {
             System.out.println(e);
         }
@@ -67,7 +67,7 @@ public class Student extends User{
                     return;
                 }
             }
-        } catch(Exception e) {
+        } catch(SQLException e) {
             System.out.println(e);
         }
     }
@@ -95,7 +95,7 @@ public class Student extends User{
                     return false;
                 }
             }
-        } catch (Exception e)
+        } catch (SQLException e)
         {
             System.out.println(e);
         }
@@ -141,7 +141,7 @@ public class Student extends User{
                 }
                 passedPreReqs = true;
             }
-        } catch (Exception e)
+        } catch (SQLException e)
         {
             System.out.println(e);
         }
@@ -202,7 +202,7 @@ public class Student extends User{
                     return false;
                 }
             }
-        } catch (Exception e)
+        } catch (SQLException e)
         {
             System.out.println(e);
         }
@@ -237,7 +237,7 @@ public class Student extends User{
                System.out.println("ERROR: Enrollment does not exist! Cannot drop course!");
            }
 
-        } catch(Exception e)
+        } catch(SQLException e)
         {
             System.out.println(e);
         }
@@ -261,7 +261,7 @@ public class Student extends User{
                         + rs.getString("status") + " ".repeat("status".length()-1) + "| "
                         + rs.getString("grade") + "\n");
             }
-        } catch(Exception e)
+        } catch(SQLException e)
         {
             System.out.println(e);
         }
@@ -303,7 +303,7 @@ public class Student extends User{
                     default -> cgpa;
                 };
             }
-        } catch (Exception e)
+        } catch (SQLException e)
         {
             System.out.println(e);
         }

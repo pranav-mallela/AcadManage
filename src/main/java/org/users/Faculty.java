@@ -47,7 +47,7 @@ public class Faculty extends User{
                 System.out.println("ERROR: Cannot float due to wrong year or semester!");
                 return;
             }
-        } catch(Exception e) {
+        } catch(SQLException e) {
             System.out.println(e);
         }
     }
@@ -70,7 +70,7 @@ public class Faculty extends User{
                     String deleteConstraintsQuery = String.format("DELETE FROM offering_constraints WHERE offering_id=%d", offeringId);
                     statement = conn.createStatement();
                     statement.executeUpdate(deleteConstraintsQuery);
-                } catch (Exception e)
+                } catch (SQLException e)
                 {
                     System.out.println(e);
                 }
@@ -82,7 +82,7 @@ public class Faculty extends User{
                 String addMainConstraintsQuery = String.format("INSERT INTO offering_constraints VALUES(%d, %d, '%s')", offeringId, mainPreReqId, mainPreReqGrade);
                 statement = conn.createStatement();
                 statement.executeQuery(addMainConstraintsQuery);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 System.out.println(e);
             }
 
@@ -95,7 +95,7 @@ public class Faculty extends User{
                         String deleteConstraintsQuery = String.format("DELETE FROM optional_offering_constraints WHERE offering_id=%d", offeringId);
                         statement = conn.createStatement();
                         statement.executeUpdate(deleteConstraintsQuery);
-                    } catch (Exception e)
+                    } catch (SQLException e)
                     {
                         System.out.println(e);
                     }
@@ -105,7 +105,7 @@ public class Faculty extends User{
                     String addConstraintsQuery = String.format("INSERT INTO optional_offering_constraints VALUES(%d, %d, %d, '%s')", offeringId, mainPreReqId, preReqId, preReqGrade);
                     statement = conn.createStatement();
                     statement.executeQuery(addConstraintsQuery);
-                } catch (Exception e) {
+                } catch (SQLException e) {
                     System.out.println(e);
                 }
             }
@@ -128,7 +128,7 @@ public class Faculty extends User{
             String addCGConstraintsQuery = String.format("INSERT INTO offering_cg_constraints VALUES(%d, %f)", offeringId, cg);
             statement = conn.createStatement();
             statement.executeUpdate(addCGConstraintsQuery);
-        } catch(Exception e)
+        } catch(SQLException e)
         {
             System.out.println(e);
         }
@@ -171,7 +171,7 @@ public class Faculty extends User{
             statement = conn.createStatement();
             statement.executeUpdate(cancelOfferingQuery);
             System.out.println("SUCCESS: Offering cancelled successfully!");
-        } catch(Exception e)
+        } catch(SQLException e)
         {
             System.out.println(e);
         }
@@ -285,7 +285,7 @@ public class Faculty extends User{
 
             System.out.println("SUCCESS: Grades have been successfully updated!");
 
-        } catch (Exception e)
+        } catch (SQLException e)
         {
             System.out.println(e);
         }
@@ -312,7 +312,7 @@ public class Faculty extends User{
                 System.out.print(" ".repeat("student_id".length()) + rs.getInt("student_id") + " | "
                         + rs.getString("grade") + "\n");
             }
-        } catch (Exception e)
+        } catch (SQLException e)
         {
             System.out.println(e);
         }
