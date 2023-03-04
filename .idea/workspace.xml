@@ -4,21 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="ready to write tests">
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="student addcourse 6 tests working, try catch removed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/Connect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/Connect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/AcadOffice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/AcadOffice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/users/StudentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/users/StudentTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageOptionsProvider">
+    <option name="myAddOrReplace" value="0" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -130,7 +127,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="StudentTest.notPassingConstraints" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="StudentTest.optionalConstraints" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -143,7 +140,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.users.StudentTest.notPassingConstraints&quot;" />
+            <option value="&quot;org.users.StudentTest.optionalConstraints&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -153,7 +150,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="StudentTest.notPassingPreReqs" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="StudentTest.optionalPreReq" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -166,7 +163,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.users.StudentTest.notPassingPreReqs&quot;" />
+            <option value="&quot;org.users.StudentTest.optionalPreReq&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -176,7 +173,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="StudentTest.offeringDoesNotExist" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="StudentTest.optionalPreReqFail" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -189,7 +186,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.users.StudentTest.offeringDoesNotExist&quot;" />
+            <option value="&quot;org.users.StudentTest.optionalPreReqFail&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -202,10 +199,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.StudentTest" />
+        <item itemvalue="Gradle.StudentTest.optionalConstraints" />
+        <item itemvalue="Gradle.StudentTest.optionalPreReq" />
+        <item itemvalue="Gradle.StudentTest.optionalPreReqFail" />
         <item itemvalue="Gradle.StudentTest.notPassingCG" />
-        <item itemvalue="Gradle.StudentTest.notPassingPreReqs" />
-        <item itemvalue="Gradle.StudentTest.notPassingConstraints" />
-        <item itemvalue="Gradle.StudentTest.offeringDoesNotExist" />
       </list>
     </recent_temporary>
   </component>
@@ -239,7 +236,7 @@
       <workItem from="1677054356627" duration="1213000" />
       <workItem from="1677290182375" duration="1665000" />
       <workItem from="1677844675454" duration="11363000" />
-      <workItem from="1677935192429" duration="5788000" />
+      <workItem from="1677935192429" duration="12948000" />
     </task>
     <task id="LOCAL-00001" summary="student add_course working">
       <created>1676128629567</created>
@@ -479,7 +476,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677851743294</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="student addcourse 6 tests working, try catch removed">
+      <created>1677947943447</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1677947943447</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -497,7 +501,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="student cgpa implemented" />
     <MESSAGE value="acad office add pre req working" />
     <MESSAGE value="all views working (acad office and faculty)" />
     <MESSAGE value="implemented error checking while uploading grades" />
@@ -522,10 +525,14 @@
     <MESSAGE value="changed exception to SQLException" />
     <MESSAGE value="changed Error message to prevent code from crashing" />
     <MESSAGE value="ready to write tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="ready to write tests" />
+    <MESSAGE value="student addcourse 6 tests working, try catch removed" />
+    <option name="LAST_COMMIT_MESSAGE" value="student addcourse 6 tests working, try catch removed" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalPreReqFail.ic" NAME="StudentTest.optionalPreReqFail Coverage Results" MODIFIED="1677950269280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_courseDoesNotExist.ic" NAME="StudentTest.courseDoesNotExist Coverage Results" MODIFIED="1676894098760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/AcadManage$StudentTest.ic" NAME="StudentTest Coverage Results" MODIFIED="1677946734272" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalPreReq.ic" NAME="StudentTest.optionalPreReq Coverage Results" MODIFIED="1677950695855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$StudentTest.ic" NAME="StudentTest Coverage Results" MODIFIED="1677953966192" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalConstraints.ic" NAME="StudentTest.optionalConstraints Coverage Results" MODIFIED="1677952579145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

@@ -145,6 +145,7 @@ public class Student extends User{
         String getConstraintCoursesQuery = String.format("SELECT course_id, grade from offering_constraints WHERE offering_id=%d", offeringId);
         statement = conn.createStatement();
         rs = statement.executeQuery(getConstraintCoursesQuery);
+        // rs contains the courses and grades set by the instructor as constraints
         while (rs.next())
         {
             // get the grades of the student in the corresponding courses
@@ -152,6 +153,7 @@ public class Student extends User{
             String getGradesQuery = String.format("SELECT grade FROM student_%d WHERE course_code=(SELECT course_code FROM course_catalog WHERE course_id=%d)", studentId, courseId);
             statement1 = conn.createStatement();
             rs1 = statement1.executeQuery(getGradesQuery);
+            // rs1 contains the grades of the student in the corresponding constraint courses
             if (rs1.next())
             {
                 // if a constraint is not met, go into the corresponding optional offering constraints
@@ -160,9 +162,12 @@ public class Student extends User{
                     String checkOptionalConstraintsQuery = String.format("SELECT option_course_id, grade FROM optional_offering_constraints WHERE course_id=%d", courseId);
                     rs2 = conn.createStatement().executeQuery(checkOptionalConstraintsQuery);
                     boolean passedThisConstraint = false;
+                    // rs2 contains the optional offerings and grades set by the instructor as constraints
                     while(rs2.next())
                     {
-                        if(rs2.getString("grade").compareTo(rs1.getString("grade")) <= 0)
+                        String getOptionalGradesQuery = String.format("SELECT grade FROM student_%d WHERE course_code=(SELECT course_code FROM course_catalog WHERE course_id=%d)", studentId, rs2.getInt("option_course_id"));
+                        ResultSet rs3 = conn.createStatement().executeQuery(getOptionalGradesQuery);
+                        if(rs3.next() && rs3.getString("grade").compareTo(rs2.getString("grade")) <= 0)
                         {
                             passedThisConstraint = true;
                         }
