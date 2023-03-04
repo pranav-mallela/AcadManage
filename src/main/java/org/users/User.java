@@ -35,7 +35,7 @@ public class User {
             }
         }catch(SQLException e)
         {
-            System.out.println(e);
+            System.out.print(e);
         }
         return -1;
     }
@@ -54,7 +54,7 @@ public class User {
                 courseId = rs.getInt("course_id");
             }
         } catch(SQLException e) {
-            System.out.println(e);
+            System.out.print(e);
         }
         if(wantToExist && courseId == 0)
         {
@@ -82,7 +82,7 @@ public class User {
             }
         } catch (SQLException e)
         {
-            System.out.println(e);
+            System.out.print(e);
         }
         return offeringId;
     }
@@ -103,7 +103,7 @@ public class User {
             }
         } catch (SQLException e)
         {
-            System.out.println(e);
+            System.out.print(e);
         }
         return (acad_year == year && acad_sem == semester);
     }
@@ -114,7 +114,7 @@ public class User {
         int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
         if(courseId != 0 && offeringId == 0)
         {
-            System.out.println("UNSUCCESSFUL ACTION: Offering does not exist!");
+            System.out.print("UNSUCCESSFUL ACTION: Offering does not exist!\n");
         }
         return new int[] {courseId, offeringId};
     }
@@ -132,14 +132,14 @@ public class User {
             if(rs.next())
             {
                 phase = rs.getInt("event_id");
-                System.out.printf("Current phase: %s%n", rs.getString("event_description"));
+//                System.out.printf("Current phase: %s%n", rs.getString("event_description"));
             }
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.print(e);
         }
         if(phase!=expectedPhase)
         {
-            System.out.println("UNSUCCESSFUL ACTION: Cannot perform action in this phase!");
+            System.out.print("UNSUCCESSFUL ACTION: Cannot perform action in this phase!\n");
             return false;
         }
         else return true;

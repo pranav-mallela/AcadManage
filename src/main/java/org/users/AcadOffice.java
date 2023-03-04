@@ -30,7 +30,7 @@ public class AcadOffice extends User{
                         statement = conn.createStatement();
                         statement.executeUpdate(deletePreReqQuery);
                     } catch (SQLException e) {
-                        System.out.println(e);
+                        System.out.print(e);
                     }
                     return;
                 }
@@ -40,7 +40,7 @@ public class AcadOffice extends User{
                     statement = conn.createStatement();
                     statement.executeUpdate(addPreReqQuery);
                 } catch (SQLException e) {
-                    System.out.println(e);
+                    System.out.print(e);
                 }
                 if (!optionPreReq.get(0).equals("")) {
                     //add all of its equivalents as well, to the optional prerequisite table
@@ -53,7 +53,7 @@ public class AcadOffice extends User{
                                 statement = conn.createStatement();
                                 statement.executeUpdate(deleteOptionalPreReqQuery);
                             } catch (SQLException e) {
-                                System.out.println(e);
+                                System.out.print(e);
                             }
                             return;
                         }
@@ -64,7 +64,7 @@ public class AcadOffice extends User{
                             statement = conn.createStatement();
                             statement.executeUpdate(addOptionalPreReqQuery);
                         } catch (SQLException e) {
-                            System.out.println(e);
+                            System.out.print(e);
                         }
                     }
                 }
@@ -76,10 +76,10 @@ public class AcadOffice extends User{
             String addCourseQuery = String.format("INSERT INTO course_catalog(course_code, l, t, p, course_title) VALUES('%s', %f, %f, %f, '%s');", courseCode, l, t, p, courseTitle);
             statement = conn.createStatement();
             statement.executeUpdate(addCourseQuery);
-            System.out.println("SUCCESS: Course successfully added to catalog!");
+            System.out.print("SUCCESS: Course successfully added to catalog!\n");
         } catch (SQLException e)
         {
-            System.out.println(e);
+            System.out.print(e);
         }
     }
 
@@ -115,11 +115,11 @@ public class AcadOffice extends User{
         }
         catch (SQLException e)
         {
-            System.out.println(e);
+            System.out.print(e);
         }
         catch (Exception e)
         {
-            System.out.println(e);
+            System.out.print(e);
         }
     }
 
@@ -148,7 +148,7 @@ public class AcadOffice extends User{
             }
         } catch (SQLException e)
         {
-            System.out.println(e);
+            System.out.print(e);
         }
         Faculty faculty = new Faculty(conn, facultyId);
         faculty.viewGrades(year, semester, courseCode);
@@ -166,7 +166,7 @@ public class AcadOffice extends User{
             rs = statement.executeQuery(getBatchIdQuery);
             if(!rs.next())
             {
-                System.out.println("UNSUCCESSFUL ACTION: Student does not exist!");
+                System.out.print("UNSUCCESSFUL ACTION: Student does not exist!\n");
                 return false;
             }
             int entryYear = rs.getInt("entry_year");
@@ -184,7 +184,7 @@ public class AcadOffice extends User{
             rs = statement.executeQuery(checkCoreCompletion);
             if(rs.next())
             {
-                System.out.println("UNSUCCESSFUL ACTION: Student has not completed all the core courses!");
+                System.out.print("UNSUCCESSFUL ACTION: Student has not completed all the core courses!\n");
                 return false;
             }
 
@@ -213,7 +213,7 @@ public class AcadOffice extends User{
             rs = statement.executeQuery(checkElectiveCompletion);
             if(!rs.next())
             {
-                System.out.println("UNSUCCESSFUL ACTION: Student has not completed all the elective courses!");
+                System.out.print("UNSUCCESSFUL ACTION: Student has not completed all the elective courses!\n");
                 return false;
             }
 
@@ -240,14 +240,14 @@ public class AcadOffice extends User{
             rs = statement.executeQuery(checkExtracurricularCompletion);
             if(!rs.next())
             {
-                System.out.println("UNSUCCESSFUL ACTION: Student has not completed all the extracurricular and capstone courses!");
+                System.out.print("UNSUCCESSFUL ACTION: Student has not completed all the extracurricular and capstone courses!\n");
                 return false;
             }
         } catch (SQLException e)
         {
-            System.out.println(e);
+            System.out.print(e);
         }
-        System.out.println("Student eligible for graduation!");
+        System.out.print("Student eligible for graduation!\n");
         return true;
     }
 
@@ -262,10 +262,10 @@ public class AcadOffice extends User{
             String setSemesterEventQuery2 = String.format("UPDATE semester_events SET is_open=1::BOOLEAN WHERE event_id=%d", action);
             statement = conn.createStatement();
             statement.executeUpdate(setSemesterEventQuery2);
-            System.out.print("SUCCESS: Semester event set");
+            System.out.print("SUCCESS: Semester event set\n");
         } catch (SQLException e)
         {
-            System.out.println(e);
+            System.out.print(e);
         }
     }
 }

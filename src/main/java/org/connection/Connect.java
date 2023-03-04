@@ -20,9 +20,9 @@ public class Connect {
         Connection c = null;
         try {
             c = DriverManager.getConnection(url, user, password);
-            System.out.println("Connected to the PostgreSQL server successfully.");
+            System.out.print("Connected to the PostgreSQL server successfully.\n");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.print(e.getMessage());
         }
         return c;
     }

@@ -25,7 +25,7 @@ public class Faculty extends User{
         int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
         if(offeringId != 0)
         {
-            System.out.println("UNSUCCESSFUL ACTION: Offering already exists!");
+            System.out.print("UNSUCCESSFUL ACTION: Offering already exists!\n");
             return;
         }
 
@@ -40,15 +40,15 @@ public class Faculty extends User{
                         "VALUES(%d, %d, %d, %d)", facultyId, courseId, year, semester);
                 statement = conn.createStatement();
                 statement.executeUpdate(offeringQuery);
-                System.out.println("SUCCESS: Course successfully floated!");
+                System.out.print("SUCCESS: Course successfully floated!\n");
             }
             else
             {
-                System.out.println("UNSUCCESSFUL ACTION: Cannot float due to wrong year or semester!");
+                System.out.print("UNSUCCESSFUL ACTION: Cannot float due to wrong year or semester!\n");
                 return;
             }
         } catch(SQLException e) {
-            System.out.println(e);
+            System.out.print(e);
         }
     }
 
@@ -72,7 +72,7 @@ public class Faculty extends User{
                     statement.executeUpdate(deleteConstraintsQuery);
                 } catch (SQLException e)
                 {
-                    System.out.println(e);
+                    System.out.print(e);
                 }
                 return;
             }
@@ -83,7 +83,7 @@ public class Faculty extends User{
                 statement = conn.createStatement();
                 statement.executeQuery(addMainConstraintsQuery);
             } catch (SQLException e) {
-                System.out.println(e);
+                System.out.print(e);
             }
 
             for (int j = 0; j < orPreReqGrade.size() - 1; j++) {
@@ -97,7 +97,7 @@ public class Faculty extends User{
                         statement.executeUpdate(deleteConstraintsQuery);
                     } catch (SQLException e)
                     {
-                        System.out.println(e);
+                        System.out.print(e);
                     }
                     return;
                 }
@@ -106,11 +106,11 @@ public class Faculty extends User{
                     statement = conn.createStatement();
                     statement.executeQuery(addConstraintsQuery);
                 } catch (SQLException e) {
-                    System.out.println(e);
+                    System.out.print(e);
                 }
             }
         }
-        System.out.println("SUCCESS: Constraints successfully added!");
+        System.out.print("SUCCESS: Constraints successfully added!\n");
     }
 
     // can only be done 'Before Semester'
@@ -130,7 +130,7 @@ public class Faculty extends User{
             statement.executeUpdate(addCGConstraintsQuery);
         } catch(SQLException e)
         {
-            System.out.println(e);
+            System.out.print(e);
         }
     }
 
@@ -150,7 +150,7 @@ public class Faculty extends User{
             // only allow if offering is in upcoming semester
             if(!checkIfUpcomingSem(year, semester))
             {
-                System.out.println("UNSUCCESSFUL ACTION: Cannot cancel offering that is not in upcoming semester!");
+                System.out.print("UNSUCCESSFUL ACTION: Cannot cancel offering that is not in upcoming semester!\n");
                 return;
             }
 
@@ -170,10 +170,10 @@ public class Faculty extends User{
             String cancelOfferingQuery  = String.format("DELETE FROM offerings WHERE course_id=%d and faculty_id=%d and year_offered_in=%d and semester_offered_in=%d", courseId, facultyId, year, semester);
             statement = conn.createStatement();
             statement.executeUpdate(cancelOfferingQuery);
-            System.out.println("SUCCESS: Offering cancelled successfully!");
+            System.out.print("SUCCESS: Offering cancelled successfully!\n");
         } catch(SQLException e)
         {
-            System.out.println(e);
+            System.out.print(e);
         }
 
     }
@@ -198,7 +198,7 @@ public class Faculty extends User{
             String exportCSVQuery = String.format("COPY offering_%d TO '%s/offering_%d.csv' CSV HEADER", offeringId, dir, offeringId);
             statement = conn.createStatement();
             statement.executeUpdate(exportCSVQuery);
-            System.out.println("\nCheck the directory C:/Users/Public/Grades_<courseID>/offering_<offeringID>.csv for the csv file containing enrolled students' information.");
+            System.out.print("\nCheck the directory C:/Users/Public/Grades_<courseID>/offering_<offeringID>.csv for the csv file containing enrolled students' information.\n");
 
             // import csv from path given by faculty
             System.out.print("Press enter once all the grades have been updated and the file has been saved: ");
@@ -220,7 +220,7 @@ public class Faculty extends User{
             rs = statement.executeQuery(checkStudents);
             if(rs.next())
             {
-                System.out.println("UNSUCCESSFUL ACTION: Student mismatch!");
+                System.out.print("UNSUCCESSFUL ACTION: Student mismatch!\n");
                 String deleteTempTableQuery = String.format("DROP TABLE offering_tmp_%d", offeringId);
                 statement.executeUpdate(deleteTempTableQuery);
                 return;
@@ -232,7 +232,7 @@ public class Faculty extends User{
             rs = statement.executeQuery(checkGrades);
             if(rs.next())
             {
-                System.out.println("UNSUCCESSFUL ACTION: Grades can only be of a specific format!");
+                System.out.print("UNSUCCESSFUL ACTION: Grades can only be of a specific format!\n");
                 String deleteTempTableQuery = String.format("DROP TABLE offering_tmp_%d", offeringId);
                 statement.executeUpdate(deleteTempTableQuery);
                 return;
@@ -254,7 +254,7 @@ public class Faculty extends User{
                 }
                 else
                 {
-                    System.out.println("UNSUCCESSFUL ACTION: Invalid student ID!");
+                    System.out.print("UNSUCCESSFUL ACTION: Invalid student ID!\n");
                     return;
                 }
             }
@@ -274,7 +274,7 @@ public class Faculty extends User{
                 }
                 else
                 {
-                    System.out.println("UNSUCCESSFUL ACTION: Invalid student ID!");
+                    System.out.print("UNSUCCESSFUL ACTION: Invalid student ID!\n");
                     return;
                 }
             }
@@ -283,11 +283,11 @@ public class Faculty extends User{
             String deleteTempTableQuery = String.format("DROP TABLE offering_tmp_%d", offeringId);
             statement.executeUpdate(deleteTempTableQuery);
 
-            System.out.println("SUCCESS: Grades have been successfully updated!");
+            System.out.print("SUCCESS: Grades have been successfully updated!\n");
 
         } catch (SQLException e)
         {
-            System.out.println(e);
+            System.out.print(e);
         }
     }
 
@@ -305,8 +305,8 @@ public class Faculty extends User{
             String viewGradesQuery = String.format("SELECT * FROM offering_%d", offeringId);
             statement = conn.createStatement();
             rs = statement.executeQuery(viewGradesQuery);
-            System.out.println(" student_id | grade");
-            System.out.println("------------+--------");
+            System.out.print(" student_id | grade\n");
+            System.out.print("------------+--------\n");
             while(rs.next())
             {
                 System.out.print(" ".repeat("student_id".length()) + rs.getInt("student_id") + " | "
@@ -314,7 +314,7 @@ public class Faculty extends User{
             }
         } catch (SQLException e)
         {
-            System.out.println(e);
+            System.out.print(e);
         }
     }
 

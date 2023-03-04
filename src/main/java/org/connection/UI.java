@@ -13,7 +13,7 @@ public class UI {
     {
         ArrayList<String> credentials = new ArrayList<String>();
         Scanner s = new Scanner(System.in);
-        System.out.println("Welcome to AcadManage! Please login before continuing.");
+        System.out.print("Welcome to AcadManage! Please login before continuing.\n");
         System.out.print("Press:\n[0] if you are a Student\n[1] if you are a Faculty\n[2] if you are the Academic Office\n");
         String role = s.nextLine();
         System.out.print("Username: ");
@@ -24,10 +24,10 @@ public class UI {
         return credentials;
     }
 
-    public void studentMenu(Student user)
+    public void studentMenu(Student user) throws Exception
     {
         Scanner s = new Scanner(System.in);
-        System.out.println("Welcome student!");
+        System.out.print("Welcome student!\n");
         int chosenOption = -1;
         while(chosenOption != 0)
         {
@@ -52,7 +52,7 @@ public class UI {
                 }
                 case 3 -> user.viewEnrolledCourseDetails();
                 case 4 -> {
-                    System.out.println(String.format("Your CGPA so far is = %f", user.CGPA()));
+                    System.out.printf("Your CGPA so far is = %f%n", user.CGPA());
                 }
             }
         }
@@ -62,7 +62,7 @@ public class UI {
     public void facultyMenu(Faculty user)
     {
         Scanner s = new Scanner(System.in);
-        System.out.println("Welcome faculty!");
+        System.out.print("Welcome faculty!");
         int chosenOption = -1;
         while(chosenOption != 0)
         {
@@ -141,7 +141,7 @@ public class UI {
                             optionPreReqs.add(orPreReqGrades);
                         }
                     }
-    //                System.out.println(optionPreReqs);
+    //                System.out.print(optionPreReqs);
                     user.addConstraintsToOffering(year, semester, courseCode, optionPreReqs);
                 }
                 case 6 -> {
@@ -163,7 +163,7 @@ public class UI {
     public void acadMenu(AcadOffice user)
     {
         Scanner s = new Scanner(System.in);
-        System.out.println("Welcome Academic Office!");
+        System.out.print("Welcome Academic Office!");
         int chosenOption = -1;
         while(chosenOption != 0)
         {
@@ -213,7 +213,7 @@ public class UI {
                     System.out.print("Semester for which you wish to generate a transcript: ");
                     int semester = s.nextInt();
                     user.generateTranscript(studentId, year, semester);
-                    System.out.println("\nCheck the directory C:/Users/Public/Transcripts/Student_<studentID>/transcript_<year>_<semester>.txt for the requested transcript.");
+                    System.out.print("\nCheck the directory C:/Users/Public/Transcripts/Student_<studentID>/transcript_<year>_<semester>.txt for the requested transcript.");
                 }
                 case 3 -> {
                     System.out.print("Enter the student ID to view the corresponding student's grades: ");
