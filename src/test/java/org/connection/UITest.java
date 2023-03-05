@@ -194,7 +194,7 @@ class UITest {
     }
 
     @Test
-    void acadMenugradCheck() throws Exception {
+    void acadMenuGradCheck() throws Exception {
         simulateInput("5\n1\n0");
         ui.acadMenu(acadOffice);
     }
