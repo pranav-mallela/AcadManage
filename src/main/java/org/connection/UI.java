@@ -4,7 +4,6 @@ import org.users.AcadOffice;
 import org.users.Student;
 import org.users.Faculty;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.ArrayList;
@@ -86,6 +85,7 @@ public class UI {
                     int year = s.nextInt();
                     System.out.print("Semester for which you wish to cancel offering: ");
                     int semester = s.nextInt();
+                    s.nextLine();
                     System.out.print("Enter the course code: ");
                     String courseCode = s.nextLine();
                     user.cancelOffering(courseCode, year, semester);

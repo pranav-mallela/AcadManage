@@ -15,15 +15,11 @@ public class Connect {
         this.password = pass;
     }
 
-    public Connection connect()
+    public Connection connect() throws SQLException
     {
         Connection c = null;
-        try {
-            c = DriverManager.getConnection(url, user, password);
-            System.out.print("Connected to the PostgreSQL server successfully.\n");
-        } catch (SQLException e) {
-            System.out.print(e.getMessage());
-        }
+        c = DriverManager.getConnection(url, user, password);
+        System.out.print("Connected to the PostgreSQL server successfully.\n");
         return c;
     }
 }
