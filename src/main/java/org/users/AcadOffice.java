@@ -126,7 +126,11 @@ public class AcadOffice extends User{
     public void viewStudentGrades(int studentId)
     {
         Student student = new Student(conn, studentId);
-        student.viewEnrolledCourseDetails();
+        try {
+            student.viewEnrolledCourseDetails();
+        } catch (SQLException e) {
+            System.out.print(e);
+        }
     }
 
     public void viewOfferingGrades(int year, int semester, String courseCode)

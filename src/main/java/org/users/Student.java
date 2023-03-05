@@ -190,111 +190,91 @@ public class Student extends User{
     }
 
     // can only be done 'Before Semester'
-    public void dropCourse(String courseCode)
+    public void dropCourse(String courseCode) throws SQLException
     {
         if(!getRunningPhase(1)) return;
 
         Statement statement;
         ResultSet rs = null;
 
-        try{
-           // check if the course is in the corresponding student table, if so, drop it and remove the student from the offering
-           String existsInEnrollmentsQuery = String.format("SELECT * FROM student_%d WHERE course_code='%s' and grade is NULL", studentId, courseCode);
+       // check if the course is in the corresponding student table, if so, drop it and remove the student from the offering
+       String existsInEnrollmentsQuery = String.format("SELECT * FROM student_%d WHERE course_code='%s' and grade is NULL", studentId, courseCode);
+       statement = conn.createStatement();
+       rs = statement.executeQuery(existsInEnrollmentsQuery);
+       if(rs.next())
+       {
+           int offeringId = rs.getInt("offering_id");
+           String dropCourseQuery = String.format("DELETE FROM student_%d WHERE course_code='%s' and grade IS NULL", studentId, courseCode);
+           String removeStudentQuery = String.format("DELETE FROM offering_%d WHERE student_id=%d", offeringId, studentId);
            statement = conn.createStatement();
-           rs = statement.executeQuery(existsInEnrollmentsQuery);
-           if(rs.next())
-           {
-               int offeringId = rs.getInt("offering_id");
-               String dropCourseQuery = String.format("DELETE FROM student_%d WHERE course_code='%s' and grade IS NULL", studentId, courseCode);
-               String removeStudentQuery = String.format("DELETE FROM offering_%d WHERE student_id=%d", offeringId, studentId);
-               statement = conn.createStatement();
-               statement.executeUpdate(dropCourseQuery);
-               statement.executeUpdate(removeStudentQuery);
-               System.out.print("SUCCESS: Course successfully dropped!\n");
-           }
-           else
-           {
-               System.out.print("UNSUCCESSFUL ACTION: Enrollment does not exist! Cannot drop course!\n");
-           }
-
-        } catch(SQLException e)
-        {
-            System.out.print(e);
-        }
+           statement.executeUpdate(dropCourseQuery);
+           statement.executeUpdate(removeStudentQuery);
+           System.out.print("SUCCESS: Course successfully dropped!\n");
+       }
+       else
+       {
+           System.out.print("UNSUCCESSFUL ACTION: Enrollment does not exist! Cannot drop course!\n");
+       }
     }
 
-    public void viewEnrolledCourseDetails()
+    public void viewEnrolledCourseDetails() throws SQLException
     {
         Statement statement;
         ResultSet rs = null;
 
-        try{
-            String viewQuery = String.format("SELECT * FROM student_%d", studentId);
-            statement = conn.createStatement();
-            rs = statement.executeQuery(viewQuery);
-            System.out.print(" offering_id | course_code | status | grade\n");
-            System.out.print("-------------+-------------+--------+--------\n");
-            while(rs.next())
-            {
-                System.out.print(" ".repeat("offering_id".length()) + rs.getInt("offering_id") + " | "
-                        + rs.getString("course_code") + " ".repeat("course_code".length()-4) + "| "
-                        + rs.getString("status") + " ".repeat("status".length()-1) + "| "
-                        + rs.getString("grade") + "\n");
-            }
-        } catch(SQLException e)
+        String viewQuery = String.format("SELECT * FROM student_%d", studentId);
+        statement = conn.createStatement();
+        rs = statement.executeQuery(viewQuery);
+        System.out.print(" offering_id | course_code | status | grade\n");
+        System.out.print("-------------+-------------+--------+--------\n");
+        while(rs.next())
         {
-            System.out.print(e);
+            System.out.print(" ".repeat("offering_id".length()) + rs.getInt("offering_id") + " | "
+                    + rs.getString("course_code") + " ".repeat("course_code".length()-4) + "| "
+                    + rs.getString("status") + " ".repeat("status".length()-1) + "| "
+                    + rs.getString("grade") + "\n");
         }
     }
-    public float CGPA()
+    public float CGPA() throws SQLException
     {
         Statement statement, statement1;
         ResultSet rs, rs1 = null;
         int cgpa = 0;
         int totalCredits = 0;
 
-        try {
-            String getGradesQuery = String.format("SELECT course_code, grade FROM student_%d WHERE grade IS NOT NULL", studentId);
-            statement = conn.createStatement();
-            rs = statement.executeQuery(getGradesQuery);
-            while(rs.next())
-            {
-                String getCourseCredits = String.format("SELECT c FROM course_catalog WHERE course_code='%s'", rs.getString("course_code"));
-                statement1 = conn.createStatement();
-                rs1 = statement1.executeQuery(getCourseCredits);
-                int credits = 0;
-                if(rs1.next())
-                {
-                    credits = rs1.getInt("c");
-                };
-                totalCredits += credits;
-                String grade = rs.getString("grade");
-                cgpa = switch (grade) {
-                    case "A" -> cgpa + credits * 10;
-                    case "A-" -> cgpa + credits * 9;
-                    case "B" -> cgpa + credits * 8;
-                    case "B-" -> cgpa + credits * 7;
-                    case "C" -> cgpa + credits * 6;
-                    case "C-" -> cgpa + credits * 5;
-                    case "D" -> cgpa + credits * 4;
-                    case "D-" -> cgpa + credits * 3;
-                    case "E" -> cgpa + credits * 2;
-                    case "E-" -> cgpa + credits;
-                    default -> cgpa;
-                };
-            }
-        } catch (SQLException e)
+        String getGradesQuery = String.format("SELECT course_code, grade FROM student_%d WHERE grade IS NOT NULL", studentId);
+        statement = conn.createStatement();
+        rs = statement.executeQuery(getGradesQuery);
+        while(rs.next())
         {
-            System.out.print(e);
+            String getCourseCredits = String.format("SELECT c FROM course_catalog WHERE course_code='%s'", rs.getString("course_code"));
+            statement1 = conn.createStatement();
+            rs1 = statement1.executeQuery(getCourseCredits);
+            int credits = 0;
+            if(rs1.next())
+            {
+                credits = rs1.getInt("c");
+            };
+            totalCredits += credits;
+            String grade = rs.getString("grade");
+            cgpa = switch (grade) {
+                case "A" -> cgpa + credits * 10;
+                case "A-" -> cgpa + credits * 9;
+                case "B" -> cgpa + credits * 8;
+                case "B-" -> cgpa + credits * 7;
+                case "C" -> cgpa + credits * 6;
+                case "C-" -> cgpa + credits * 5;
+                case "D" -> cgpa + credits * 4;
+                case "D-" -> cgpa + credits * 3;
+                case "E" -> cgpa + credits * 2;
+                case "E-" -> cgpa + credits;
+                default -> cgpa;
+            };
         }
         if(totalCredits == 0)
         {
             return 0;
         }
         return cgpa/totalCredits;
-    }
-    public void SGPA(String rollNo, int semester)
-    {
-        // SGPA
     }
 }
