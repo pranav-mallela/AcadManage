@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="student tests 61 percent">
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="student tests 100 percent">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/AcadOffice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/AcadOffice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/users/StudentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/users/StudentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,8 +80,8 @@
       <recent name="org.users" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.StudentTest">
-    <configuration name="StudentTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.FacultyTest.uploadGradesSuccess">
+    <configuration name="FacultyTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -95,7 +94,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.users.StudentTest&quot;" />
+            <option value="&quot;org.users.FacultyTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -105,7 +104,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="StudentTest.CGTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="FacultyTest.cancelOfferingSuccess" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -118,7 +117,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.users.StudentTest.CGTest&quot;" />
+            <option value="&quot;org.users.FacultyTest.cancelOfferingSuccess&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -128,7 +127,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="StudentTest.courseDropWorks" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="FacultyTest.uploadGradesSuccess" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -141,7 +140,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.users.StudentTest.courseDropWorks&quot;" />
+            <option value="&quot;org.users.FacultyTest.uploadGradesSuccess&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -151,7 +150,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="StudentTest.courseNotEnrolled" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="FacultyTest.uploadGradesWrongPhase" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -164,7 +163,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.users.StudentTest.courseNotEnrolled&quot;" />
+            <option value="&quot;org.users.FacultyTest.uploadGradesWrongPhase&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -174,7 +173,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="StudentTest.viewEnrolledDetails" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="Tests in 'AcadManage.test'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -186,8 +185,6 @@
         <option name="taskNames">
           <list>
             <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;org.users.StudentTest.viewEnrolledDetails&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -199,11 +196,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.StudentTest" />
-        <item itemvalue="Gradle.StudentTest.CGTest" />
-        <item itemvalue="Gradle.StudentTest.viewEnrolledDetails" />
-        <item itemvalue="Gradle.StudentTest.courseDropWorks" />
-        <item itemvalue="Gradle.StudentTest.courseNotEnrolled" />
+        <item itemvalue="Gradle.FacultyTest.uploadGradesSuccess" />
+        <item itemvalue="Gradle.FacultyTest.uploadGradesWrongPhase" />
+        <item itemvalue="Gradle.Tests in 'AcadManage.test'" />
+        <item itemvalue="Gradle.FacultyTest.cancelOfferingSuccess" />
+        <item itemvalue="Gradle.FacultyTest" />
       </list>
     </recent_temporary>
   </component>
@@ -238,7 +235,7 @@
       <workItem from="1677290182375" duration="1665000" />
       <workItem from="1677844675454" duration="11363000" />
       <workItem from="1677935192429" duration="13017000" />
-      <workItem from="1677987523997" duration="2361000" />
+      <workItem from="1677987523997" duration="10368000" />
     </task>
     <task id="LOCAL-00001" summary="student add_course working">
       <created>1676128629567</created>
@@ -492,7 +489,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677954076333</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="student tests 100 percent">
+      <created>1677990097202</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1677990097202</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -510,7 +514,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="all views working (acad office and faculty)" />
     <MESSAGE value="implemented error checking while uploading grades" />
     <MESSAGE value="some ui changes" />
     <MESSAGE value="refactored code: added getCourseAndOfferingId function" />
@@ -535,13 +538,19 @@
     <MESSAGE value="ready to write tests" />
     <MESSAGE value="student addcourse 6 tests working, try catch removed" />
     <MESSAGE value="student tests 61 percent" />
-    <option name="LAST_COMMIT_MESSAGE" value="student tests 61 percent" />
+    <MESSAGE value="student tests 100 percent" />
+    <option name="LAST_COMMIT_MESSAGE" value="student tests 100 percent" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalPreReqFail.ic" NAME="StudentTest.optionalPreReqFail Coverage Results" MODIFIED="1677950269280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$FacultyTest_cancelOfferingSuccess.ic" NAME="FacultyTest.cancelOfferingSuccess Coverage Results" MODIFIED="1677996485663" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_courseDoesNotExist.ic" NAME="StudentTest.courseDoesNotExist Coverage Results" MODIFIED="1676894098760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalPreReq.ic" NAME="StudentTest.optionalPreReq Coverage Results" MODIFIED="1677950695855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/AcadManage$StudentTest.ic" NAME="StudentTest Coverage Results" MODIFIED="1677989694423" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$FacultyTest_addConstraintSuccess.ic" NAME="FacultyTest.addConstraintSuccess Coverage Results" MODIFIED="1677994495348" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$FacultyTest.ic" NAME="FacultyTest Coverage Results" MODIFIED="1677996189890" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$StudentTest.ic" NAME="StudentTest Coverage Results" MODIFIED="1677990064588" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalConstraints.ic" NAME="StudentTest.optionalConstraints Coverage Results" MODIFIED="1677952579145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$FacultyTest_optionalConstraint.ic" NAME="FacultyTest.optionalConstraint Coverage Results" MODIFIED="1677995132432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$Tests_in__AcadManage_test_.ic" NAME="Tests in 'AcadManage.test' Coverage Results" MODIFIED="1677996766246" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

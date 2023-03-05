@@ -15,7 +15,7 @@ public class Faculty extends User{
     }
 
     // can only be done 'Before Semester'
-    public void floatCourse(String courseCode, int year, int semester)
+    public void floatCourse(String courseCode, int year, int semester) throws SQLException
     {
         if(!getRunningPhase(1)) return;
 
@@ -33,27 +33,22 @@ public class Faculty extends User{
         ResultSet rs;
 
         // check if matching with upcoming year and sem and add it to offerings
-        try{
-            if(checkIfUpcomingSem(year, semester))
-            {
-                String offeringQuery = String.format("INSERT INTO offerings(faculty_id, course_id, year_offered_in, semester_offered_in)" +
-                        "VALUES(%d, %d, %d, %d)", facultyId, courseId, year, semester);
-                statement = conn.createStatement();
-                statement.executeUpdate(offeringQuery);
-                System.out.print("SUCCESS: Course successfully floated!\n");
-            }
-            else
-            {
-                System.out.print("UNSUCCESSFUL ACTION: Cannot float due to wrong year or semester!\n");
-                return;
-            }
-        } catch(SQLException e) {
-            System.out.print(e);
+        if(checkIfUpcomingSem(year, semester))
+        {
+            String offeringQuery = String.format("INSERT INTO offerings(faculty_id, course_id, year_offered_in, semester_offered_in)" +
+                    "VALUES(%d, %d, %d, %d)", facultyId, courseId, year, semester);
+            statement = conn.createStatement();
+            statement.executeUpdate(offeringQuery);
+            System.out.print("SUCCESS: Course successfully floated!\n");
+        }
+        else
+        {
+            System.out.print("UNSUCCESSFUL ACTION: Cannot float due to wrong year or semester!\n");
         }
     }
 
     // can only be done 'Before Semester'
-    public void addConstraintsToOffering(int year, int semester, String courseCode, List<List<List<String>>> orPreReqGrades)
+    public void addConstraintsToOffering(int year, int semester, String courseCode, List<List<List<String>>> orPreReqGrades) throws  SQLException
     {
         if(!getRunningPhase(1)) return;
 
@@ -66,55 +61,37 @@ public class Faculty extends User{
         for (List<List<String>> orPreReqGrade : orPreReqGrades) {
             int mainPreReqId = checkIfCourseExists(orPreReqGrade.get(orPreReqGrade.size() - 1).get(0), true);
             if (mainPreReqId == 0) {
-                try {
-                    String deleteConstraintsQuery = String.format("DELETE FROM offering_constraints WHERE offering_id=%d", offeringId);
-                    statement = conn.createStatement();
-                    statement.executeUpdate(deleteConstraintsQuery);
-                } catch (SQLException e)
-                {
-                    System.out.print(e);
-                }
+                String deleteConstraintsQuery = String.format("DELETE FROM offering_constraints WHERE offering_id=%d", offeringId);
+                statement = conn.createStatement();
+                statement.executeUpdate(deleteConstraintsQuery);
                 return;
             }
             String mainPreReqGrade = orPreReqGrade.get(orPreReqGrade.size() - 1).get(1);
 
-            try {
-                String addMainConstraintsQuery = String.format("INSERT INTO offering_constraints VALUES(%d, %d, '%s')", offeringId, mainPreReqId, mainPreReqGrade);
-                statement = conn.createStatement();
-                statement.executeQuery(addMainConstraintsQuery);
-            } catch (SQLException e) {
-                System.out.print(e);
-            }
+            String addMainConstraintsQuery = String.format("INSERT INTO offering_constraints VALUES(%d, %d, '%s')", offeringId, mainPreReqId, mainPreReqGrade);
+            statement = conn.createStatement();
+            statement.executeUpdate(addMainConstraintsQuery);
 
             for (int j = 0; j < orPreReqGrade.size() - 1; j++) {
                 String preReqCode = orPreReqGrade.get(j).get(0);
                 String preReqGrade = orPreReqGrade.get(j).get(1);
                 int preReqId = checkIfCourseExists(preReqCode, true);
                 if (preReqId == 0) {
-                    try {
-                        String deleteConstraintsQuery = String.format("DELETE FROM optional_offering_constraints WHERE offering_id=%d", offeringId);
-                        statement = conn.createStatement();
-                        statement.executeUpdate(deleteConstraintsQuery);
-                    } catch (SQLException e)
-                    {
-                        System.out.print(e);
-                    }
+                    String deleteConstraintsQuery = String.format("DELETE FROM optional_offering_constraints WHERE offering_id=%d", offeringId);
+                    statement = conn.createStatement();
+                    statement.executeUpdate(deleteConstraintsQuery);
                     return;
                 }
-                try {
-                    String addConstraintsQuery = String.format("INSERT INTO optional_offering_constraints VALUES(%d, %d, %d, '%s')", offeringId, mainPreReqId, preReqId, preReqGrade);
-                    statement = conn.createStatement();
-                    statement.executeQuery(addConstraintsQuery);
-                } catch (SQLException e) {
-                    System.out.print(e);
-                }
+                String addConstraintsQuery = String.format("INSERT INTO optional_offering_constraints VALUES(%d, %d, %d, '%s')", offeringId, mainPreReqId, preReqId, preReqGrade);
+                statement = conn.createStatement();
+                statement.executeUpdate(addConstraintsQuery);
             }
         }
         System.out.print("SUCCESS: Constraints successfully added!\n");
     }
 
     // can only be done 'Before Semester'
-    public void addCGConstraints(int year, int semester, String courseCode, float cg)
+    public void addCGConstraints(int year, int semester, String courseCode, float cg) throws SQLException
     {
         if(!getRunningPhase(1)) return;
 
@@ -124,18 +101,14 @@ public class Faculty extends User{
 
         Statement statement;
 
-        try{
-            String addCGConstraintsQuery = String.format("INSERT INTO offering_cg_constraints VALUES(%d, %f)", offeringId, cg);
-            statement = conn.createStatement();
-            statement.executeUpdate(addCGConstraintsQuery);
-        } catch(SQLException e)
-        {
-            System.out.print(e);
-        }
+        String addCGConstraintsQuery = String.format("INSERT INTO offering_cg_constraints VALUES(%d, %f)", offeringId, cg);
+        statement = conn.createStatement();
+        statement.executeUpdate(addCGConstraintsQuery);
+        System.out.print("SUCCESS: CG Constraints successfully added!\n");
     }
 
     // can only be done 'Before Semester'
-    public void cancelOffering(String courseCode, int year, int semester)
+    public void cancelOffering(String courseCode, int year, int semester) throws SQLException
     {
         if(!getRunningPhase(1)) return;
 
@@ -146,36 +119,30 @@ public class Faculty extends User{
         Statement statement, statement1;
         ResultSet rs;
 
-        try{
-            // only allow if offering is in upcoming semester
-            if(!checkIfUpcomingSem(year, semester))
-            {
-                System.out.print("UNSUCCESSFUL ACTION: Cannot cancel offering that is not in upcoming semester!\n");
-                return;
-            }
-
-            // delete offering from student table
-            String enrolledStudentsQuery = String.format("SELECT * FROM offering_%d", offeringId);
-            statement = conn.createStatement();
-            rs = statement.executeQuery(enrolledStudentsQuery);
-            while(rs.next())
-            {
-                String cancelStatusQuery = String.format("DELETE FROM student_%d WHERE offering_id=%d",
-                        rs.getInt("student_id"), offeringId);
-                statement1 = conn.createStatement();
-                statement1.executeUpdate(cancelStatusQuery);
-            }
-
-            // delete offering
-            String cancelOfferingQuery  = String.format("DELETE FROM offerings WHERE course_id=%d and faculty_id=%d and year_offered_in=%d and semester_offered_in=%d", courseId, facultyId, year, semester);
-            statement = conn.createStatement();
-            statement.executeUpdate(cancelOfferingQuery);
-            System.out.print("SUCCESS: Offering cancelled successfully!\n");
-        } catch(SQLException e)
+        // only allow if offering is in upcoming semester
+        if(!checkIfUpcomingSem(year, semester))
         {
-            System.out.print(e);
+            System.out.print("UNSUCCESSFUL ACTION: Cannot cancel offering that is not in upcoming semester!\n");
+            return;
         }
 
+        // delete offering from student table
+        String enrolledStudentsQuery = String.format("SELECT * FROM offering_%d", offeringId);
+        statement = conn.createStatement();
+        rs = statement.executeQuery(enrolledStudentsQuery);
+        while(rs.next())
+        {
+            String cancelStatusQuery = String.format("DELETE FROM student_%d WHERE offering_id=%d",
+                    rs.getInt("student_id"), offeringId);
+            statement1 = conn.createStatement();
+            statement1.executeUpdate(cancelStatusQuery);
+        }
+
+        // delete offering
+        String cancelOfferingQuery  = String.format("DELETE FROM offerings WHERE course_id=%d and faculty_id=%d and year_offered_in=%d and semester_offered_in=%d", courseId, facultyId, year, semester);
+        statement = conn.createStatement();
+        statement.executeUpdate(cancelOfferingQuery);
+        System.out.print("SUCCESS: Offering cancelled successfully!\n");
     }
 
     // can only be done 'After Semester'
@@ -202,7 +169,7 @@ public class Faculty extends User{
 
             // import csv from path given by faculty
             System.out.print("Press enter once all the grades have been updated and the file has been saved: ");
-            s.nextLine();
+//            s.nextLine();
             String createTempTableQuery = String.format("CREATE TABLE offering_tmp_%d(" +
                     "student_id INT," +
                     "grade VARCHAR(10)," +
@@ -226,8 +193,8 @@ public class Faculty extends User{
                 return;
             }
 
-            //check if all students have been given grades
-            String checkGrades = String.format("SELECT grade FROM offering_tmp_%d WHERE grade IS NULL OR (grade <> 'A' and grade <> 'A-' and grade <> 'B' and grade <> 'B-' and grade <> 'C' and grade <> 'C-' and grade <> 'D' and grade <> 'D-'" +
+            //check if all students have been given valid grades (null grade is allowed)
+            String checkGrades = String.format("SELECT grade FROM offering_tmp_%d WHERE grade IS NOT NULL AND (grade <> 'A' and grade <> 'A-' and grade <> 'B' and grade <> 'B-' and grade <> 'C' and grade <> 'C-' and grade <> 'D' and grade <> 'D-'" +
                     "and grade <> 'E' and grade <> 'E-' and grade <> 'F')", offeringId);
             rs = statement.executeQuery(checkGrades);
             if(rs.next())
@@ -248,7 +215,10 @@ public class Faculty extends User{
                 rs1 = statement1.executeQuery(getGradeFromTempQuery);
                 if(rs1.next())
                 {
-                    String updateOfferingTableQuery = String.format("UPDATE offering_%d SET grade='%s' WHERE student_id=%d", offeringId, rs1.getString("grade"), rs.getInt("student_id"));
+                    String grade = rs1.getString("grade");
+                    if(grade == null)
+                        grade = "";
+                    String updateOfferingTableQuery = String.format("UPDATE offering_%d SET grade='%s' WHERE student_id=%d", offeringId, grade, rs.getInt("student_id"));
                     statement2 = conn.createStatement();
                     statement2.executeUpdate(updateOfferingTableQuery);
                 }
@@ -268,7 +238,10 @@ public class Faculty extends User{
                 rs1 = statement1.executeQuery(getGradeFromTempQuery);
                 if(rs1.next())
                 {
-                    String updateStudentTableQuery = String.format("UPDATE student_%d SET grade='%s' WHERE offering_id=%d", rs.getInt("student_id"), rs1.getString("grade"), offeringId);
+                    String grade = rs1.getString("grade");
+                    if(grade == null)
+                        grade = "";
+                    String updateStudentTableQuery = String.format("UPDATE student_%d SET grade='%s' WHERE offering_id=%d", rs.getInt("student_id"), grade, offeringId);
                     statement2 = conn.createStatement();
                     statement2.executeUpdate(updateStudentTableQuery);
                 }
