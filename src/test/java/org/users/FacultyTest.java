@@ -40,7 +40,7 @@ class FacultyTest {
     public void resetDB() {
         baos.reset();
         try {
-            String deleteUpdatesQuery = "DELETE FROM student_1; DELETE FROM offering_cg_constraints; DELETE FROM optional_offering_constraints; DELETE FROM offering_constraints; DELETE FROM pre_req; DELETE FROM offerings; DELETE FROM course_catalog;";
+            String deleteUpdatesQuery = "DELETE FROM optional_pre_req; DELETE FROM extra_cap_2020; DELETE FROM pc_2020_cse; DELETE FROM el_2020_cse; DELETE FROM student_1; DELETE FROM offering_cg_constraints; DELETE FROM optional_offering_constraints; DELETE FROM offering_constraints; DELETE FROM pre_req; DELETE FROM offerings; DELETE FROM course_catalog;";
             String resetSeqQuery = "SELECT setval('course_catalog_course_id_seq', 1, false); SELECT setval('offerings_offering_id_seq', 1, false);";
             statement.execute(deleteUpdatesQuery);
             statement.execute(resetSeqQuery);

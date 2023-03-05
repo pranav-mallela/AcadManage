@@ -40,21 +40,17 @@ public class User {
         return -1;
     }
 
-    protected int checkIfCourseExists(String courseCode, boolean wantToExist)
+    protected int checkIfCourseExists(String courseCode, boolean wantToExist) throws SQLException
     {
         Statement statement;
         ResultSet rs = null;
         int courseId=0;
-        try{
-            String courseQuery = String.format("select * from course_catalog where course_code='%s';", courseCode);
-            statement = conn.createStatement();
-            rs = statement.executeQuery(courseQuery);
-            if(rs.next())
-            {
-                courseId = rs.getInt("course_id");
-            }
-        } catch(SQLException e) {
-            System.out.print(e);
+        String courseQuery = String.format("select * from course_catalog where course_code='%s';", courseCode);
+        statement = conn.createStatement();
+        rs = statement.executeQuery(courseQuery);
+        if(rs.next())
+        {
+            courseId = rs.getInt("course_id");
         }
         if(wantToExist && courseId == 0)
         {
@@ -67,48 +63,38 @@ public class User {
         return courseId;
     }
 
-    protected int checkIfOfferingExists(String courseCode, int courseId, int year, int semester)
+    protected int checkIfOfferingExists(String courseCode, int courseId, int year, int semester) throws SQLException
     {
         Statement statement;
         ResultSet rs = null;
         int offeringId=0;
-        try{
-            String courseQuery = String.format("select * from offerings where course_id='%s' and year_offered_in=%d and semester_offered_in=%d;", courseId, year, semester);
-            statement = conn.createStatement();
-            rs = statement.executeQuery(courseQuery);
-            if(rs.next())
-            {
-                offeringId = rs.getInt("offering_id");
-            }
-        } catch (SQLException e)
+        String courseQuery = String.format("select * from offerings where course_id='%s' and year_offered_in=%d and semester_offered_in=%d;", courseId, year, semester);
+        statement = conn.createStatement();
+        rs = statement.executeQuery(courseQuery);
+        if(rs.next())
         {
-            System.out.print(e);
+            offeringId = rs.getInt("offering_id");
         }
         return offeringId;
     }
 
-    protected boolean checkIfUpcomingSem(int year, int semester)
+    protected boolean checkIfUpcomingSem(int year, int semester) throws SQLException
     {
         Statement statement;
         ResultSet rs = null;
         int acad_year=0, acad_sem=0;
-        try{
-            String semQuery = "select * from upcoming_semester where upcoming=(1::boolean);";
-            statement = conn.createStatement();
-            rs = statement.executeQuery(semQuery);
-            if(rs.next())
-            {
-                acad_year = rs.getInt("academic_year");
-                acad_sem = rs.getInt("semester");
-            }
-        } catch (SQLException e)
+        String semQuery = "select * from upcoming_semester where upcoming=(1::boolean);";
+        statement = conn.createStatement();
+        rs = statement.executeQuery(semQuery);
+        if(rs.next())
         {
-            System.out.print(e);
+            acad_year = rs.getInt("academic_year");
+            acad_sem = rs.getInt("semester");
         }
         return (acad_year == year && acad_sem == semester);
     }
 
-    protected int [] getCourseAndOfferingId(String courseCode, int year, int semester)
+    protected int [] getCourseAndOfferingId(String courseCode, int year, int semester) throws SQLException
     {
         int courseId = checkIfCourseExists(courseCode, true);
         int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);
@@ -119,23 +105,18 @@ public class User {
         return new int[] {courseId, offeringId};
     }
 
-    public boolean getRunningPhase(int expectedPhase)
+    public boolean getRunningPhase(int expectedPhase) throws SQLException
     {
         Statement statement;
         ResultSet rs = null;
         int phase = 0;
 
-        try {
-            String getPhaseQuery = "select event_id, event_description from semester_events where is_open=(1::boolean)";
-            statement = conn.createStatement();
-            rs = statement.executeQuery(getPhaseQuery);
-            if(rs.next())
-            {
-                phase = rs.getInt("event_id");
-//                System.out.printf("Current phase: %s%n", rs.getString("event_description"));
-            }
-        } catch (SQLException e) {
-            System.out.print(e);
+        String getPhaseQuery = "select event_id, event_description from semester_events where is_open=(1::boolean)";
+        statement = conn.createStatement();
+        rs = statement.executeQuery(getPhaseQuery);
+        if(rs.next())
+        {
+            phase = rs.getInt("event_id");
         }
         if(phase!=expectedPhase)
         {

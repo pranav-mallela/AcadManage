@@ -4,6 +4,7 @@ import org.users.AcadOffice;
 import org.users.Student;
 import org.users.Faculty;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.ArrayList;
@@ -161,7 +162,7 @@ public class UI {
         }
     }
 
-    public void acadMenu(AcadOffice user) throws SQLException
+    public void acadMenu(AcadOffice user) throws Exception
     {
         Scanner s = new Scanner(System.in);
         System.out.print("Welcome Academic Office!");

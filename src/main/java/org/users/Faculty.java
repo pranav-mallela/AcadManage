@@ -146,7 +146,7 @@ public class Faculty extends User{
     }
 
     // can only be done 'After Semester'
-    public void uploadGrades(String courseCode, int year, int semester)
+    public void uploadGrades(String courseCode, int year, int semester) throws SQLException
     {
         if(!getRunningPhase(3)) return;
 
