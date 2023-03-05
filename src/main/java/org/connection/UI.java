@@ -161,7 +161,7 @@ public class UI {
         }
     }
 
-    public void acadMenu(AcadOffice user)
+    public void acadMenu(AcadOffice user) throws SQLException
     {
         Scanner s = new Scanner(System.in);
         System.out.print("Welcome Academic Office!");

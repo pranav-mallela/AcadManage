@@ -133,7 +133,7 @@ public class AcadOffice extends User{
         }
     }
 
-    public void viewOfferingGrades(int year, int semester, String courseCode)
+    public void viewOfferingGrades(int year, int semester, String courseCode) throws SQLException
     {
         Statement statement;
         ResultSet rs = null;

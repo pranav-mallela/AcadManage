@@ -170,11 +170,7 @@ public class Faculty extends User{
             // import csv from path given by faculty
             System.out.print("Press enter once all the grades have been updated and the file has been saved: ");
 //            s.nextLine();
-            String createTempTableQuery = String.format("CREATE TABLE offering_tmp_%d(" +
-                    "student_id INT," +
-                    "grade VARCHAR(10)," +
-                    "PRIMARY KEY(student_id)" +
-                    ")", offeringId);
+            String createTempTableQuery = String.format("CREATE TABLE offering_tmp_%d(student_id INT,grade VARCHAR(10),PRIMARY KEY(student_id))", offeringId);
             statement.executeUpdate(createTempTableQuery);
             String importCSVQuery = String.format("COPY offering_tmp_%d FROM '%s/offering_%d.csv' DELIMITER ',' CSV HEADER", offeringId, dir, offeringId);
             statement.executeUpdate(importCSVQuery);
@@ -264,30 +260,25 @@ public class Faculty extends User{
         }
     }
 
-    public void viewGrades(int year, int semester, String courseCode)
+    public void viewGrades(int year, int semester, String courseCode) throws SQLException
     {
         Statement statement;
         ResultSet rs = null;
 
-        try{
-            // get courseId and offeringId
-            int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
-            int courseId = idArray[0], offeringId = idArray[1];
-            if(courseId == 0 || offeringId == 0) return;
+        // get courseId and offeringId
+        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);
+        int courseId = idArray[0], offeringId = idArray[1];
+        if(courseId == 0 || offeringId == 0) return;
 
-            String viewGradesQuery = String.format("SELECT * FROM offering_%d", offeringId);
-            statement = conn.createStatement();
-            rs = statement.executeQuery(viewGradesQuery);
-            System.out.print(" student_id | grade\n");
-            System.out.print("------------+--------\n");
-            while(rs.next())
-            {
-                System.out.print(" ".repeat("student_id".length()) + rs.getInt("student_id") + " | "
-                        + rs.getString("grade") + "\n");
-            }
-        } catch (SQLException e)
+        String viewGradesQuery = String.format("SELECT * FROM offering_%d", offeringId);
+        statement = conn.createStatement();
+        rs = statement.executeQuery(viewGradesQuery);
+        System.out.print(" student_id | grade\n");
+        System.out.print("------------+--------\n");
+        while(rs.next())
         {
-            System.out.print(e);
+            System.out.print(" ".repeat("student_id".length()) + rs.getInt("student_id") + " | "
+                    + rs.getString("grade") + "\n");
         }
     }
 

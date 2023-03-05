@@ -293,5 +293,17 @@ class FacultyTest {
         customAssert("\nCheck the directory C:/Users/Public/Grades_<courseID>/offering_<offeringID>.csv for the csv file containing enrolled students' information.\nPress enter once all the grades have been updated and the file has been saved: SUCCESS: Grades have been successfully updated!\n");
     }
 
+    //viewGrades tests
+    @Test
+    public void viewGrades() throws SQLException {
+        String setCorrectPhaseQuery = "UPDATE semester_events SET is_open = CASE WHEN event_id = 3 THEN true ELSE false END";
+        String insertCourseOfferingQuery = "INSERT INTO course_catalog (course_code, course_title, l, t, p) VALUES ('GE103', 'Intro to Engineering', 3, 1, 0);INSERT INTO offerings (faculty_id, course_id, year_offered_in, semester_offered_in) VALUES (1, 1, 2023, 1);";
+        String enrollStudentQuery = "INSERT INTO student_1(offering_id, course_code, status, grade) VALUES (1, 'GE103', 'EN', 'A'); INSERT INTO offering_1 VALUES(1, 'A')";
+        statement.execute(setCorrectPhaseQuery);
+        statement.execute(insertCourseOfferingQuery);
+        statement.execute(enrollStudentQuery);
+        faculty.viewGrades(2023, 1, "GE103");
+    }
+
 
 }

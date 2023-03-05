@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="student tests 100 percent">
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="faculty tests 61 percent">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/users/FacultyTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/users/FacultyTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +80,7 @@
       <recent name="org.users" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.FacultyTest.uploadGradesSuccess">
+  <component name="RunManager" selected="Gradle.Tests in 'AcadManage.test'">
     <configuration name="FacultyTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -196,9 +196,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Tests in 'AcadManage.test'" />
         <item itemvalue="Gradle.FacultyTest.uploadGradesSuccess" />
         <item itemvalue="Gradle.FacultyTest.uploadGradesWrongPhase" />
-        <item itemvalue="Gradle.Tests in 'AcadManage.test'" />
         <item itemvalue="Gradle.FacultyTest.cancelOfferingSuccess" />
         <item itemvalue="Gradle.FacultyTest" />
       </list>
@@ -235,7 +235,7 @@
       <workItem from="1677290182375" duration="1665000" />
       <workItem from="1677844675454" duration="11363000" />
       <workItem from="1677935192429" duration="13017000" />
-      <workItem from="1677987523997" duration="10368000" />
+      <workItem from="1677987523997" duration="11512000" />
     </task>
     <task id="LOCAL-00001" summary="student add_course working">
       <created>1676128629567</created>
@@ -496,7 +496,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677990097202</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="faculty tests 61 percent">
+      <created>1677999499895</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1677999499895</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -514,7 +521,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="implemented error checking while uploading grades" />
     <MESSAGE value="some ui changes" />
     <MESSAGE value="refactored code: added getCourseAndOfferingId function" />
     <MESSAGE value="faculty constraint UI set up complete" />
@@ -539,7 +545,8 @@
     <MESSAGE value="student addcourse 6 tests working, try catch removed" />
     <MESSAGE value="student tests 61 percent" />
     <MESSAGE value="student tests 100 percent" />
-    <option name="LAST_COMMIT_MESSAGE" value="student tests 100 percent" />
+    <MESSAGE value="faculty tests 61 percent" />
+    <option name="LAST_COMMIT_MESSAGE" value="faculty tests 61 percent" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalPreReqFail.ic" NAME="StudentTest.optionalPreReqFail Coverage Results" MODIFIED="1677950269280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
@@ -551,6 +558,6 @@
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest.ic" NAME="StudentTest Coverage Results" MODIFIED="1677990064588" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalConstraints.ic" NAME="StudentTest.optionalConstraints Coverage Results" MODIFIED="1677952579145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$FacultyTest_optionalConstraint.ic" NAME="FacultyTest.optionalConstraint Coverage Results" MODIFIED="1677995132432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/AcadManage$Tests_in__AcadManage_test_.ic" NAME="Tests in 'AcadManage.test' Coverage Results" MODIFIED="1677996766246" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$Tests_in__AcadManage_test_.ic" NAME="Tests in 'AcadManage.test' Coverage Results" MODIFIED="1678005092374" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
