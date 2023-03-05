@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="overall 91 percent" />
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="overall 91 percent">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,8 +34,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -122,6 +125,29 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="UITest.acadMenuGradCheck" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;org.connection.UITest.acadMenuGradCheck&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="UITest.acadMenugradCheck" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -145,7 +171,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="UITest.facultyMenuAddConstraints" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="UITest.getCredentials" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -158,30 +184,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.connection.UITest.facultyMenuAddConstraints&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="UITest.facultyMenuCGConstraints" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;org.connection.UITest.facultyMenuCGConstraints&quot;" />
+            <option value="&quot;org.connection.UITest.getCredentials&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -194,10 +197,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.Tests in 'AcadManage.test'" />
+        <item itemvalue="Gradle.UITest.getCredentials" />
+        <item itemvalue="Gradle.UITest.acadMenuGradCheck" />
         <item itemvalue="Gradle.UITest.acadMenugradCheck" />
         <item itemvalue="Gradle.UITest" />
-        <item itemvalue="Gradle.UITest.facultyMenuCGConstraints" />
-        <item itemvalue="Gradle.UITest.facultyMenuAddConstraints" />
       </list>
     </recent_temporary>
   </component>
@@ -233,7 +236,7 @@
       <workItem from="1677844675454" duration="11363000" />
       <workItem from="1677935192429" duration="13017000" />
       <workItem from="1677987523997" duration="22269000" />
-      <workItem from="1678019209132" duration="5844000" />
+      <workItem from="1678019209132" duration="10383000" />
     </task>
     <task id="LOCAL-00001" summary="student add_course working">
       <created>1676128629567</created>
@@ -522,7 +525,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678028887957</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="overall 91 percent">
+      <created>1678029475395</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1678029475395</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -585,7 +595,7 @@
     <SUITE FILE_PATH="coverage/AcadManage$AcadOfficeTest.ic" NAME="AcadOfficeTest Coverage Results" MODIFIED="1678015844117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$UITest.ic" NAME="UITest Coverage Results" MODIFIED="1678023973586" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalConstraints.ic" NAME="StudentTest.optionalConstraints Coverage Results" MODIFIED="1677952579145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/AcadManage$Tests_in__AcadManage_test_.ic" NAME="Tests in 'AcadManage.test' Coverage Results" MODIFIED="1678028802346" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$Tests_in__AcadManage_test_.ic" NAME="Tests in 'AcadManage.test' Coverage Results" MODIFIED="1678034758398" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalPreReqFail.ic" NAME="StudentTest.optionalPreReqFail Coverage Results" MODIFIED="1677950269280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$FacultyTest_cancelOfferingSuccess.ic" NAME="FacultyTest.cancelOfferingSuccess Coverage Results" MODIFIED="1677996485663" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$AcadOfficeTest_generateSuccessfully.ic" NAME="AcadOfficeTest.generateSuccessfully Coverage Results" MODIFIED="1678007797045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
