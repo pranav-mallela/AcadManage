@@ -100,7 +100,7 @@ public class UI {
                     s.getString();
                     System.out.print("Enter the course code: ");
                     String courseCode = s.getCourse();
-                    user.uploadGrades(courseCode, year, semester);
+                    user.uploadGrades(courseCode, year, semester, s);
                 }
                 case 4 -> {
                     // ask for year, sem, and course_code

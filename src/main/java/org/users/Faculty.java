@@ -1,5 +1,7 @@
 package org.users;
 
+import org.scanners.CustomScanner;
+
 import java.io.File;
 import java.sql.*;
 import java.util.List;
@@ -146,7 +148,7 @@ public class Faculty extends User{
     }
 
     // can only be done 'After Semester'
-    public void uploadGrades(String courseCode, int year, int semester) throws SQLException
+    public void uploadGrades(String courseCode, int year, int semester, CustomScanner s) throws SQLException
     {
         if(!getRunningPhase(3)) return;
 
@@ -156,7 +158,6 @@ public class Faculty extends User{
 
         Statement statement,statement1, statement2;
         ResultSet rs = null, rs1 = null;
-        Scanner s = new Scanner(System.in);
 
         try{
             // export students table to faculty computer
@@ -168,8 +169,8 @@ public class Faculty extends User{
             System.out.print("\nCheck the directory C:/Users/Public/Grades_<courseID>/offering_<offeringID>.csv for the csv file containing enrolled students' information.\n");
 
             // import csv from path given by faculty
-            System.out.print("Press enter once all the grades have been updated and the file has been saved: ");
-//            s.nextLine();
+            System.out.println("Press enter once all the grades have been updated and the file has been saved: ");
+            s.getString();
             String createTempTableQuery = String.format("CREATE TABLE offering_tmp_%d(student_id INT,grade VARCHAR(10),PRIMARY KEY(student_id))", offeringId);
             statement.executeUpdate(createTempTableQuery);
             String importCSVQuery = String.format("COPY offering_tmp_%d FROM '%s/offering_%d.csv' DELIMITER ',' CSV HEADER", offeringId, dir, offeringId);

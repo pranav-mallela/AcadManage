@@ -5,14 +5,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.scanners.CustomScanner;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Scanner;
 
 class FacultyTest {
 
@@ -31,9 +32,13 @@ class FacultyTest {
     }
 
     public void customAssert(String expected) {
-        byte[] byteArray = baos.toByteArray();
-        String output = new String(byteArray);
-        Assertions.assertEquals(expected, output);
+        String output = baos.toString();
+        Assertions.assertEquals(expected, output.replace("\r",""));
+    }
+
+    public void simulateInput(String input) {
+        InputStream in = new ByteArrayInputStream((input+"\n").getBytes());
+        System.setIn(in);
     }
 
     @BeforeEach
@@ -259,7 +264,8 @@ class FacultyTest {
     public void uploadGradesWrongPhase() throws SQLException {
         String setWrongPhaseQuery = "UPDATE semester_events SET is_open = CASE WHEN event_id = 1 THEN true ELSE false END";
         statement.execute(setWrongPhaseQuery);
-        faculty.uploadGrades("GE103", 2023, 1);
+        CustomScanner s = new CustomScanner();
+        faculty.uploadGrades("GE103", 2023, 1, s);
         customAssert("UNSUCCESSFUL ACTION: Cannot perform action in this phase!\n");
     }
 
@@ -267,7 +273,8 @@ class FacultyTest {
     public void uploadGradesCourseDoesNotExist() throws SQLException {
         String setCorrectPhaseQuery = "UPDATE semester_events SET is_open = CASE WHEN event_id = 3 THEN true ELSE false END";
         statement.execute(setCorrectPhaseQuery);
-        faculty.uploadGrades("GE103", 2023, 1);
+        CustomScanner s = new CustomScanner();
+        faculty.uploadGrades("GE103", 2023, 1, s);
         customAssert("UNSUCCESSFUL ACTION: Course GE103 does not exist!\n");
     }
 
@@ -277,7 +284,8 @@ class FacultyTest {
         String insertCourseQuery = "INSERT INTO course_catalog (course_code, course_title, l, t, p) VALUES ('GE103', 'Intro to Engineering', 3, 1, 0);";
         statement.execute(setCorrectPhaseQuery);
         statement.execute(insertCourseQuery);
-        faculty.uploadGrades("GE103", 2023, 1);
+        CustomScanner s = new CustomScanner();
+        faculty.uploadGrades("GE103", 2023, 1, s);
         customAssert("UNSUCCESSFUL ACTION: Offering does not exist!\n");
     }
 
@@ -289,8 +297,10 @@ class FacultyTest {
         statement.execute(setCorrectPhaseQuery);
         statement.execute(insertCourseOfferingQuery);
         statement.execute(enrollStudentQuery);
-        faculty.uploadGrades("GE103", 2023, 1);
-        customAssert("\nCheck the directory C:/Users/Public/Grades_<courseID>/offering_<offeringID>.csv for the csv file containing enrolled students' information.\nPress enter once all the grades have been updated and the file has been saved: SUCCESS: Grades have been successfully updated!\n");
+        simulateInput("");
+        CustomScanner s = new CustomScanner();
+        faculty.uploadGrades("GE103", 2023, 1, s);
+        customAssert("\nCheck the directory C:/Users/Public/Grades_<courseID>/offering_<offeringID>.csv for the csv file containing enrolled students' information.\nPress enter once all the grades have been updated and the file has been saved: \nSUCCESS: Grades have been successfully updated!\n");
     }
 
     //viewGrades tests

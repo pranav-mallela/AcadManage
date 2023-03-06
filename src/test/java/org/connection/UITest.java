@@ -158,7 +158,7 @@ class UITest {
         statement.executeUpdate(setCorrectPhaseQuery);
         statement.executeUpdate(insertCourseOfferingQuery);
         statement.executeUpdate(insertStudentCourseQuery);
-        simulateInput("3\n2023\n1\nGE103\n0");
+        simulateInput("3\n2023\n1\nGE103\n\n0");
         ui.facultyMenu(faculty);
     }
 
