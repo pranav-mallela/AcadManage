@@ -38,6 +38,15 @@ public class CustomScanner {
         return grade;
     }
 
+    public String getPhone() {
+        String phone = sc.nextLine();
+        while(!phone.matches("[0-9]{10}")) {
+            System.out.print("Enter a valid phone number: ");
+            phone = sc.nextLine();
+        }
+        return phone;
+    }
+
     public String getString() {
         return sc.nextLine();
     }

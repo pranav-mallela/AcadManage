@@ -126,13 +126,25 @@ public class User {
         else return true;
     }
 
-    public void resetPass(String email)
+    public void updatePhone(int id, int role, String phone) throws SQLException
     {
-        //reset password
+        Statement statement;
+        String updateStudentPhoneQuery = String.format("update students set phone='%s' where student_id=%d;", phone, id);
+        String updateFacultyPhoneQuery = String.format("update faculty set phone='%s' where faculty_id=%d;", phone, id);
+        statement = conn.createStatement();
+        if(role == 0) statement.executeUpdate(updateStudentPhoneQuery);
+        else if(role == 1) statement.executeUpdate(updateFacultyPhoneQuery);
+        else System.out.print("UNSUCCESSFUL ACTION: Invalid role!\n");
     }
 
-    public void editProfile()
+    public void updateAddress(int id, int role, String address) throws SQLException
     {
-        // edit profile
+        Statement statement;
+        String updateStudentAddressQuery = String.format("update students set address='%s' where student_id=%d;", address, id);
+        String updateFacultyAddressQuery = String.format("update faculty set address='%s' where faculty_id=%d;", address, id);
+        statement = conn.createStatement();
+        if(role == 0) statement.executeUpdate(updateStudentAddressQuery);
+        else if(role == 1) statement.executeUpdate(updateFacultyAddressQuery);
+        else System.out.print("UNSUCCESSFUL ACTION: Invalid role!\n");
     }
 }

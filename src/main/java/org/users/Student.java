@@ -3,7 +3,7 @@ package org.users;
 import java.sql.*;
 
 public class Student extends User{
-    private final int studentId;
+    public final int studentId;
     private int entry_year;
 
     public Student(Connection conn, int studentId) {

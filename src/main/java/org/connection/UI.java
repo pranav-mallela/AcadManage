@@ -33,7 +33,7 @@ public class UI {
         int chosenOption = -1;
         while(chosenOption != 0)
         {
-            System.out.print("Press:\n[0] to logout\n[1] to add a course\n[2] to drop a course\n[3] to view enrolled course details\n[4] to view your CGPA\n");
+            System.out.print("Press:\n[0] to logout\n[1] to add a course\n[2] to drop a course\n[3] to view enrolled course details\n[4] to view your CGPA\n[5] to update your phone\n[6] to update your address\n");
             chosenOption = s.getInt();
             s.getString();
             switch (chosenOption) {
@@ -56,6 +56,16 @@ public class UI {
                 case 4 -> {
                     System.out.printf("Your CGPA so far is = %f%n", user.CGPA());
                 }
+                case 5 -> {
+                    System.out.print("Enter your phone number: ");
+                    String newPhone = s.getPhone();
+                    user.updatePhone(user.studentId, 0, newPhone);
+                }
+                case 6 -> {
+                    System.out.print("Enter your address: ");
+                    String newAddress = s.getString();
+                    user.updateAddress(user.studentId, 0, newAddress);
+                }
             }
         }
 
@@ -68,7 +78,7 @@ public class UI {
         int chosenOption = -1;
         while(chosenOption != 0)
         {
-            System.out.print("Press:\n[0] to logout\n[1] to float a course\n[2] to cancel an offering\n[3] to upload grades for an offering\n[4] to view grades in a particular offering\n[5] to add pre-requisite constraints to an offering\n[6] to add CGPA constraints to an offering\n");
+            System.out.print("Press:\n[0] to logout\n[1] to float a course\n[2] to cancel an offering\n[3] to upload grades for an offering\n[4] to view grades in a particular offering\n[5] to add pre-requisite constraints to an offering\n[6] to add CGPA constraints to an offering\n[7] to update your phone\n[8] to update your address\n");
             chosenOption = s.getInt();
             switch (chosenOption) {
                 case 1 -> {
@@ -144,7 +154,6 @@ public class UI {
                             optionPreReqs.add(orPreReqGrades);
                         }
                     }
-    //                System.out.print(optionPreReqs);
                     user.addConstraintsToOffering(year, semester, courseCode, optionPreReqs);
                 }
                 case 6 -> {
@@ -158,6 +167,16 @@ public class UI {
                     System.out.print("Enter the minimum CGPA required for this course: ");
                     float minCGPA = s.getFloat();
                     user.addCGConstraints(year, semester, courseCode, minCGPA);
+                }
+                case 7 -> {
+                    System.out.print("Enter your phone number: ");
+                    String newPhone = s.getPhone();
+                    user.updatePhone(user.facultyId, 1, newPhone);
+                }
+                case 8 -> {
+                    System.out.print("Enter your address: ");
+                    String newAddress = s.getString();
+                    user.updateAddress(user.facultyId, 1, newAddress);
                 }
             }
         }

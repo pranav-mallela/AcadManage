@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Faculty extends User{
-    private final int facultyId;
+    public final int facultyId;
     private String dept;
 
     public Faculty(Connection conn, int facultyId) {
