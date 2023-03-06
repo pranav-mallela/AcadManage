@@ -25,8 +25,7 @@ class StudentTest {
     }
 
     public void customAssert(String expected) {
-        byte[] byteArray = baos.toByteArray();
-        String output = new String(byteArray);
+        String output = baos.toString();
         Assertions.assertEquals(expected, output);
     }
 

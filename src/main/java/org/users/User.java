@@ -3,39 +3,29 @@ package org.users;
 import java.sql.*;
 
 public class User {
-    private String name;
-    private String username;
-    private String phone;
-    private String password;
     protected Connection conn;
-
     public User(Connection conn)
     {
         this.conn = conn;
     }
-    public int login(String username, String password, String role)
+    public int login(String username, String password, String role) throws SQLException
     {
         Statement statement;
         ResultSet rs = null;
-        try{
-            String query = switch (role) {
-                case "0" ->
-                        String.format("select * from student_credentials where username='%s' and pass='%s'", username, password);
-                case "1" ->
-                        String.format("select * from faculty_credentials where username='%s' and pass='%s'", username, password);
-                case "2" ->
-                        String.format("select * from acad_credentials where username='%s' and pass='%s'", username, password);
-                default -> "";
-            };
-            statement = conn.createStatement();
-            rs = statement.executeQuery(query);
-            if(rs.next())
-            {
-                return rs.getInt("id");
-            }
-        }catch(SQLException e)
+        String query = switch (role) {
+            case "0" ->
+                    String.format("select * from student_credentials where username='%s' and pass='%s'", username, password);
+            case "1" ->
+                    String.format("select * from faculty_credentials where username='%s' and pass='%s'", username, password);
+            case "2" ->
+                    String.format("select * from acad_credentials where username='%s' and pass='%s'", username, password);
+            default -> "";
+        };
+        statement = conn.createStatement();
+        rs = statement.executeQuery(query);
+        if(rs.next())
         {
-            System.out.print(e);
+            return rs.getInt("id");
         }
         return -1;
     }
@@ -134,7 +124,11 @@ public class User {
         statement = conn.createStatement();
         if(role == 0) statement.executeUpdate(updateStudentPhoneQuery);
         else if(role == 1) statement.executeUpdate(updateFacultyPhoneQuery);
-        else System.out.print("UNSUCCESSFUL ACTION: Invalid role!\n");
+        else {
+            System.out.print("UNSUCCESSFUL ACTION: Invalid role!\n");
+            return;
+        }
+        System.out.print("SUCCESS: Phone updated!\n");
     }
 
     public void updateAddress(int id, int role, String address) throws SQLException
@@ -145,6 +139,10 @@ public class User {
         statement = conn.createStatement();
         if(role == 0) statement.executeUpdate(updateStudentAddressQuery);
         else if(role == 1) statement.executeUpdate(updateFacultyAddressQuery);
-        else System.out.print("UNSUCCESSFUL ACTION: Invalid role!\n");
+        else {
+            System.out.print("UNSUCCESSFUL ACTION: Invalid role!\n");
+            return;
+        }
+        System.out.print("SUCCESS: Address updated!\n");
     }
 }

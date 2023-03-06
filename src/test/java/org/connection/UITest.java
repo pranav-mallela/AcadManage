@@ -3,6 +3,7 @@ package org.connection;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.scanners.CustomScanner;
 import org.users.AcadOffice;
 import org.users.Faculty;
 import org.users.Student;
@@ -68,7 +69,8 @@ class UITest {
     @Test
     void getCredentials() {
         simulateInput("0\npstudent1\n1234");
-        ArrayList<String> credentials = ui.getCredentials();
+        CustomScanner s = new CustomScanner();
+        ArrayList<String> credentials = ui.getCredentials(s);
         assertEquals("pstudent1", credentials.get(0));
         assertEquals("1234", credentials.get(1));
         assertEquals("0", credentials.get(2));
@@ -125,6 +127,24 @@ class UITest {
     @Test
     void studentMenuCGPA() throws Exception {
         simulateInput("4\n0");
+        ui.studentMenu(student);
+    }
+
+    @Test
+    void studentUpdatePhone() throws Exception {
+        simulateInput("5\n1234567890\n0");
+        ui.studentMenu(student);
+    }
+
+    @Test
+    void studentUpdatePhoneWrongPhone() throws Exception {
+        simulateInput("5\nwrongPhone\n1234567890\n0");
+        ui.studentMenu(student);
+    }
+
+    @Test
+    void studentUpdateAddress() throws Exception {
+        simulateInput("6\n1234, ABC Street, XYZ City, 123456\n0");
         ui.studentMenu(student);
     }
 
@@ -189,6 +209,24 @@ class UITest {
     @Test
     void facultyMenuCGConstraintsInvalidFloat() throws Exception {
         simulateInput("6\n2023\n1\nGE103\ninvalidFloat\n8.00\n0");
+        ui.facultyMenu(faculty);
+    }
+
+    @Test
+    void facultyMenuUpdatePhone() throws Exception {
+        simulateInput("7\n1234567890\n0");
+        ui.facultyMenu(faculty);
+    }
+
+    @Test
+    void facultyMenuUpdatePhoneWrongPhone() throws Exception {
+        simulateInput("7\nwrongPhone\n1234567890\n0");
+        ui.facultyMenu(faculty);
+    }
+
+    @Test
+    void facultyMenuUpdateAddress() throws Exception {
+        simulateInput("8\n1234, ABC Street, XYZ City, 123456\n0");
         ui.facultyMenu(faculty);
     }
 

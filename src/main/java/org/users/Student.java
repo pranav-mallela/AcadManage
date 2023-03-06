@@ -32,7 +32,8 @@ public class Student extends User{
         int courseId = idArray[0], offeringId = idArray[1];
         if(courseId == 0 || offeringId == 0) return;
 
-        // TODO: enforce credit limit
+        // Enforce Credit Limit
+        if(!isPassingCreditLimit(year, semester, courseCode)) return;
 
         // get the current academic year and semester, and see if everything is ok
         String semQuery = "select * from upcoming_semester where upcoming=(1::boolean);";
@@ -60,6 +61,71 @@ public class Student extends User{
                 System.out.print("UNSUCCESSFUL ACTION: Cannot enroll due to wrong year or semester!\n");
                 return;
             }
+        }
+    }
+
+    // check the credit limit of the student
+    private boolean isPassingCreditLimit(int year, int semester, String courseCode) throws SQLException
+    {
+        Statement statement;
+        ResultSet rs = null;
+        statement = conn.createStatement();
+
+        int year1, year2, sem1, sem2;
+        if(semester == 2)
+        {
+            year1 = year;
+            year2 = year-1;
+            sem1 = 1;
+            sem2 = 2;
+        }
+        else
+        {
+            year1 = year-1;
+            year2 = year-1;
+            sem1 = 2;
+            sem2 = 1;
+        }
+
+        // get credit limits for the student in year1, sem1 and year2, sem2
+        float creditLimit1, creditLimit2;
+
+        String getCreditLimit1Query = String.format("select credit_limit from credit_limits where academic_year=%d and semester=%d;", year1, sem1);
+        rs = statement.executeQuery(getCreditLimit1Query);
+        if (rs.next()) creditLimit1 = rs.getFloat("credit_limit");
+        else creditLimit1 = 0;
+
+        String getCreditLimit2Query = String.format("select credit_limit from credit_limits where academic_year=%d and semester=%d;", year2, sem2);
+        rs = statement.executeQuery(getCreditLimit2Query);
+        if (rs.next()) creditLimit2 = rs.getFloat("credit_limit");
+        else creditLimit2 = 0;
+
+        //calculate the credit limit
+        float creditLimit;
+        if (creditLimit1 == 0 && creditLimit2 == 0) creditLimit = 24;
+        else if(creditLimit1 == 0) creditLimit = creditLimit2*1.25F;
+        else if(creditLimit2 == 0) creditLimit = creditLimit1*1.25F;
+        else creditLimit = (creditLimit1 + creditLimit2)*1.25F/2;
+
+        // get the credits of the student in year, semester
+        float credits;
+        String getCreditsQuery = String.format("select SUM(cat.c) as sum from student_%d s, offerings o, course_catalog cat where o.year_offered_in=%d and o.semester_offered_in=%d and cat.course_code=s.course_code group by o.year_offered_in, o.semester_offered_in;", studentId, year, semester);
+        rs = statement.executeQuery(getCreditsQuery);
+        if (rs.next()) credits = rs.getFloat("sum");
+        else credits = 0.0F;
+
+        // get the credits of the course
+        float courseCredits = 0;
+        String getCourseCreditsQuery = String.format("select c from course_catalog where course_code='%s';", courseCode);
+        rs = statement.executeQuery(getCourseCreditsQuery);
+        if (rs.next()) courseCredits = rs.getFloat("c");
+
+        // check if the credits + courseCredits is less than the credit limit
+        if(credits + courseCredits <= creditLimit) return true;
+        else
+        {
+            System.out.print("UNSUCCESSFUL ACTION: Credit limit exceeded!\n");
+            return false;
         }
     }
 

@@ -11,10 +11,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UI {
-    public ArrayList<String> getCredentials()
+    public ArrayList<String> getCredentials(CustomScanner s)
     {
         ArrayList<String> credentials = new ArrayList<String>();
-        CustomScanner s = new CustomScanner();
         System.out.print("Welcome to AcadManage! Please login before continuing.\n");
         System.out.print("Press:\n[0] if you are a Student\n[1] if you are a Faculty\n[2] if you are the Academic Office\n");
         String role = s.getString();
@@ -74,7 +73,7 @@ public class UI {
     public void facultyMenu(Faculty user) throws SQLException
     {
         CustomScanner s = new CustomScanner();
-        System.out.print("Welcome faculty!");
+        System.out.println("Welcome faculty!");
         int chosenOption = -1;
         while(chosenOption != 0)
         {

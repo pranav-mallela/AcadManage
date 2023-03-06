@@ -226,14 +226,71 @@ public class AcadOffice extends User{
 
     public void setSemesterEvent(int action) throws SQLException
     {
-        Statement statement;
+        Statement statement, statement1;
+        ResultSet rs = null, rs1 = null;
+        statement = conn.createStatement();
 
         String setSemesterEventQuery = "UPDATE semester_events SET is_open=0::BOOLEAN";
-        statement = conn.createStatement();
         statement.executeUpdate(setSemesterEventQuery);
         String setSemesterEventQuery2 = String.format("UPDATE semester_events SET is_open=1::BOOLEAN WHERE event_id=%d", action);
-        statement = conn.createStatement();
         statement.executeUpdate(setSemesterEventQuery2);
+
+        // if action == 2, then add credit limits of all students
+        if(action == 2)
+        {
+            int year=2020, semester=1;
+            String getUpcomingSemesterQuery = "SELECT academic_year, semester FROM upcoming_semester WHERE upcoming=1::BOOLEAN";
+            rs = statement.executeQuery(getUpcomingSemesterQuery);
+            if(rs.next())
+            {
+                year = rs.getInt("academic_year");
+                semester = rs.getInt("semester");
+            }
+
+            String getAllStudentsQuery = "SELECT student_id FROM students";
+            rs = statement.executeQuery(getAllStudentsQuery);
+            while(rs.next())
+            {
+                statement1 = conn.createStatement();
+                int studentId = rs.getInt("student_id");
+                String getSumOfCreditsQuery = String.format("""
+                        select SUM(cat.c)
+                        from course_catalog cat, student_%d s, offerings o
+                        where o.year_offered_in=%d and o.semester_offered_in=%d and cat.course_code=s.course_code
+                        group by o.year_offered_in, o.semester_offered_in;""", studentId, year, semester);
+                rs1 = statement1.executeQuery(getSumOfCreditsQuery);
+                if(rs1.next())
+                {
+                    float sumOfCredits = rs1.getFloat("sum");
+                    String setCreditLimitQuery = String.format("INSERT INTO credit_limits VALUES(%d, %d, %d, %f)", studentId, year, semester, sumOfCredits);
+                    statement.executeUpdate(setCreditLimitQuery);
+                }
+            }
+        }
+
+        // if action == 3, then change upcoming semester
+        else if(action == 3)
+        {
+            int year = 2020, semester = 1;
+            String getUpcomingSemesterQuery = "SELECT academic_year, semester FROM upcoming_semester WHERE upcoming=1::BOOLEAN";
+            rs = statement.executeQuery(getUpcomingSemesterQuery);
+            if(rs.next())
+            {
+                year = rs.getInt("academic_year");
+                semester = rs.getInt("semester");
+                if(semester == 1) semester = 2;
+                else
+                {
+                    semester = 1;
+                    year++;
+                }
+            }
+
+            String updateUpcomingSemesterQuery = "UPDATE upcoming_semester SET upcoming=0::BOOLEAN";
+            String insertUpcomingSemesterQuery = String.format("INSERT INTO upcoming_semester VALUES(%d, %d, 1::BOOLEAN)", year, semester);
+            statement.executeUpdate(updateUpcomingSemesterQuery);
+            statement.executeUpdate(insertUpcomingSemesterQuery);
+        }
         System.out.print("SUCCESS: Semester event set\n");
     }
 }
