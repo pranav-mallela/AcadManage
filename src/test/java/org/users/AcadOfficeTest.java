@@ -28,8 +28,7 @@ class AcadOfficeTest {
     }
 
     public void customAssert(String expected) {
-        byte[] byteArray = baos.toByteArray();
-        String output = new String(byteArray);
+        String output = baos.toString();
         Assertions.assertEquals(expected, output);
     }
 
@@ -37,7 +36,7 @@ class AcadOfficeTest {
     public void resetDB() {
         baos.reset();
         try {
-            String deleteUpdatesQuery = "DELETE FROM extra_cap_2020; DELETE FROM pc_2020_cse; DELETE FROM el_2020_cse; DELETE FROM student_1; DELETE FROM optional_pre_req; DELETE FROM pre_req; DELETE FROM offerings; DELETE FROM course_catalog;";
+            String deleteUpdatesQuery = "DELETE FROM upcoming_semester; INSERT INTO upcoming_semester(academic_year, semester, upcoming) VALUES(2023, 1, (1::boolean)); DELETE FROM extra_cap_2020; DELETE FROM pc_2020_cse; DELETE FROM el_2020_cse; DELETE FROM student_1; DELETE FROM optional_pre_req; DELETE FROM pre_req; DELETE FROM offerings; DELETE FROM course_catalog;";
             String resetSeqQuery = "SELECT setval('course_catalog_course_id_seq', 1, false); SELECT setval('offerings_offering_id_seq', 1, false);";
             statement.execute(deleteUpdatesQuery);
             statement.execute(resetSeqQuery);
@@ -101,7 +100,24 @@ class AcadOfficeTest {
         acadOffice.generateTranscript(1, 2023, 1);
         acadOffice.viewStudentGrades(1);
         acadOffice.viewOfferingGrades(2023, 1, "GE103");
+    }
+
+    @Test
+    public void setSemesterEvent1() throws SQLException {
         acadOffice.setSemesterEvent(1);
+        customAssert("SUCCESS: Semester event set\n");
+    }
+
+    @Test
+    public void setSemesterEvent2() throws SQLException {
+        acadOffice.setSemesterEvent(2);
+        customAssert("SUCCESS: Semester event set\n");
+    }
+
+    @Test
+    public void setSemesterEvent3() throws SQLException {
+        acadOffice.setSemesterEvent(3);
+        customAssert("SUCCESS: Semester event set\n");
     }
 
     //graduation tests
