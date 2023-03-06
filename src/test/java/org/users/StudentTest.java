@@ -72,6 +72,30 @@ class StudentTest {
     }
 
     @Test
+    public void notPassingCreditLimit() throws SQLException {
+        String setCorrectPhaseQuery = "UPDATE semester_events SET is_open = CASE WHEN event_id = 1 THEN true ELSE false END";
+        String insertCreditLimitCourseOfferingQuery = "INSERT INTO course_catalog(course_code, course_title, l, t, p) VALUES ('BF101', 'Introduction to Programming', 24, 1, 0); INSERT INTO offerings(faculty_id, course_id, year_offered_in, semester_offered_in) VALUES(1, 1, 2023, 1);";
+        String enrollStudentInCourseQuery = "INSERT INTO student_1(offering_id, course_code, status) VALUES (1, 'BF101', 'EN');";
+        String insertCourseOfferingQuery = "INSERT INTO course_catalog(course_code, course_title, l, t, p) VALUES ('GE103', 'Introduction to Programming', 3, 1, 0); INSERT INTO offerings(faculty_id, course_id, year_offered_in, semester_offered_in) VALUES(1, 2, 2023, 1);";
+        statement.execute(setCorrectPhaseQuery);
+        statement.execute(insertCreditLimitCourseOfferingQuery);
+        statement.execute(enrollStudentInCourseQuery);
+        statement.execute(insertCourseOfferingQuery);
+        student.addCourse("GE103", 2023, 1);
+        customAssert("UNSUCCESSFUL ACTION: Credit limit exceeded!\n");
+
+        //try for other sem
+        baos.reset();
+        String updateSemesterQuery = "UPDATE upcoming_semester SET semester=2;";
+        String updateOfferingSemesterQuery1 = "UPDATE offerings SET semester_offered_in=2 WHERE course_id=1;";
+        String updateOfferingSemesterQuery2 = "UPDATE offerings SET semester_offered_in=2 WHERE course_id=2;";
+        statement.execute(updateSemesterQuery);
+        statement.execute(updateOfferingSemesterQuery1);
+        statement.execute(updateOfferingSemesterQuery2);
+        student.addCourse("GE103", 2023, 2);
+        customAssert("UNSUCCESSFUL ACTION: Credit limit exceeded!\n");
+    }
+    @Test
     public void notPassingConstraints() throws SQLException {
         String setCorrectPhaseQuery = "UPDATE semester_events SET is_open = CASE WHEN event_id = 1 THEN true ELSE false END";
         String insertCourseOfferingQuery = "INSERT INTO course_catalog(course_code, course_title, l, t, p) VALUES ('GE103', 'Introduction to Programming', 3, 1, 0); INSERT INTO offerings(faculty_id, course_id, year_offered_in, semester_offered_in) VALUES(1, 1, 2023, 1);";

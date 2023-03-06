@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="student, faculty update profile feature added">
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="credit limit feature added, overall 85 percent">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/connection/UI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/AcadOffice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/AcadOffice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/connection/UITest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/connection/UITest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/users/StudentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/users/StudentTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -90,7 +84,7 @@
       <recent name="org.users" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Gradle.StudentTest.notPassingCreditLimit">
     <configuration name="MainTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -160,6 +154,29 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="StudentTest.notPassingCreditLimit" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;org.users.StudentTest.notPassingCreditLimit&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="Tests in 'AcadManage.test'" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -204,36 +221,13 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="UserTest.loginWrongUsername" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;org.users.UserTest.loginWrongUsername&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.StudentTest.notPassingCreditLimit" />
         <item itemvalue="Gradle.MainTest" />
         <item itemvalue="Gradle.MainTest.invalidCredentials" />
         <item itemvalue="Gradle.MainTest.validCredentials" />
         <item itemvalue="Gradle.UserTest.loginWrongPassword" />
-        <item itemvalue="Gradle.UserTest.loginWrongUsername" />
       </list>
     </recent_temporary>
   </component>
@@ -271,7 +265,8 @@
       <workItem from="1677987523997" duration="22269000" />
       <workItem from="1678019209132" duration="10742000" />
       <workItem from="1678075641248" duration="6691000" />
-      <workItem from="1678094894971" duration="13243000" />
+      <workItem from="1678094894971" duration="13816000" />
+      <workItem from="1678115124112" duration="1756000" />
     </task>
     <task id="LOCAL-00001" summary="student add_course working">
       <created>1676128629567</created>
@@ -595,7 +590,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678097169775</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="credit limit feature added, overall 85 percent">
+      <created>1678112376963</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1678112376963</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -613,7 +615,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="some ui changes, changed access modifiers in User" />
     <MESSAGE value="some ui changes, changed l, t, p types" />
     <MESSAGE value="graduation check implemented, checking pending" />
     <MESSAGE value="cg constraints implemented, checking pending" />
@@ -638,7 +639,8 @@
     <MESSAGE value="overall 92 percent" />
     <MESSAGE value="overall 92 percent, faculty upload grades fixed" />
     <MESSAGE value="student, faculty update profile feature added" />
-    <option name="LAST_COMMIT_MESSAGE" value="student, faculty update profile feature added" />
+    <MESSAGE value="credit limit feature added, overall 85 percent" />
+    <option name="LAST_COMMIT_MESSAGE" value="credit limit feature added, overall 85 percent" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -659,7 +661,7 @@
     <SUITE FILE_PATH="coverage/AcadManage$AcadOfficeTest.ic" NAME="AcadOfficeTest Coverage Results" MODIFIED="1678015844117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$UITest.ic" NAME="UITest Coverage Results" MODIFIED="1678098349142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalConstraints.ic" NAME="StudentTest.optionalConstraints Coverage Results" MODIFIED="1677952579145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/AcadManage$Tests_in__AcadManage_test_.ic" NAME="Tests in 'AcadManage.test' Coverage Results" MODIFIED="1678100877945" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$Tests_in__AcadManage_test_.ic" NAME="Tests in 'AcadManage.test' Coverage Results" MODIFIED="1678112333956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalPreReqFail.ic" NAME="StudentTest.optionalPreReqFail Coverage Results" MODIFIED="1677950269280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$FacultyTest_cancelOfferingSuccess.ic" NAME="FacultyTest.cancelOfferingSuccess Coverage Results" MODIFIED="1677996485663" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$AcadOfficeTest_generateSuccessfully.ic" NAME="AcadOfficeTest.generateSuccessfully Coverage Results" MODIFIED="1678007797045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
