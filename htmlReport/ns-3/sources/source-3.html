@@ -1,0 +1,383 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Student</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.users</a>
+</div>
+
+<h1>Coverage Summary for Class: Student (org.users)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Student</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (149/149)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.users;
+&nbsp;
+&nbsp;import java.sql.*;
+&nbsp;
+&nbsp;public class Student extends User{
+&nbsp;    private final int studentId;
+&nbsp;    private int entry_year;
+&nbsp;
+&nbsp;    public Student(Connection conn, int studentId) {
+<b class="fc">&nbsp;        super(conn);</b>
+<b class="fc">&nbsp;        this.studentId = studentId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // can only be done &#39;Before Semester&#39;
+&nbsp;    public void addCourse(String courseCode, int year, int semester) throws SQLException
+&nbsp;    {
+<b class="fc">&nbsp;        if(!getRunningPhase(1)) return;</b>
+&nbsp;
+&nbsp;        Statement statement;
+<b class="fc">&nbsp;        ResultSet rs = null;</b>
+&nbsp;
+&nbsp;        // get the student&#39;s entry year
+<b class="fc">&nbsp;        String yearQuery = String.format(&quot;select * from students where student_id=%d;&quot;, this.studentId);</b>
+<b class="fc">&nbsp;        statement = conn.createStatement();</b>
+<b class="fc">&nbsp;        rs = statement.executeQuery(yearQuery);</b>
+<b class="fc">&nbsp;        while(rs.next()) {</b>
+<b class="fc">&nbsp;            this.entry_year = rs.getInt(&quot;entry_year&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // check if the course and offering exist
+<b class="fc">&nbsp;        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);</b>
+<b class="fc">&nbsp;        int courseId = idArray[0], offeringId = idArray[1];</b>
+<b class="fc">&nbsp;        if(courseId == 0 || offeringId == 0) return;</b>
+&nbsp;
+&nbsp;        // TODO: enforce credit limit
+&nbsp;
+&nbsp;        // get the current academic year and semester, and see if everything is ok
+<b class="fc">&nbsp;        String semQuery = &quot;select * from upcoming_semester where upcoming=(1::boolean);&quot;;</b>
+<b class="fc">&nbsp;        statement = conn.createStatement();</b>
+<b class="fc">&nbsp;        rs = statement.executeQuery(semQuery);</b>
+<b class="fc">&nbsp;        while(rs.next())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int acad_year = rs.getInt(&quot;academic_year&quot;);</b>
+<b class="fc">&nbsp;            if(acad_year == year &amp;&amp; rs.getInt(&quot;semester&quot;) == semester &amp;&amp; (acad_year - entry_year) &lt; 4)</b>
+&nbsp;            {
+&nbsp;                // checking pre-reqs and constraints, including cgpa
+<b class="fc">&nbsp;                if(!isPassingConstraints(offeringId) || !isPassingPreReqs(courseCode) || !isPassingCGCriteria(offeringId)) return;</b>
+&nbsp;
+<b class="fc">&nbsp;                String addQuery = String.format(&quot;INSERT INTO student_%d&quot; +</b>
+&nbsp;                        &quot;(offering_id, course_code, status)&quot; +
+<b class="fc">&nbsp;                        &quot; VALUES(%d, &#39;%s&#39;, &#39;EN&#39;);&quot;, studentId, offeringId, courseCode);</b>
+<b class="fc">&nbsp;                statement = conn.createStatement();</b>
+<b class="fc">&nbsp;                statement.executeUpdate(addQuery);</b>
+<b class="fc">&nbsp;                String addToOfferingQuery = String.format(&quot;INSERT INTO offering_%d VALUES(%s)&quot;, offeringId, studentId);</b>
+<b class="fc">&nbsp;                statement.executeUpdate(addToOfferingQuery);</b>
+<b class="fc">&nbsp;                System.out.print(&quot;SUCCESS: Course successfully enrolled!\n&quot;);</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                System.out.print(&quot;UNSUCCESSFUL ACTION: Cannot enroll due to wrong year or semester!\n&quot;);</b>
+&nbsp;                return;
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // get the cgpa of the student and min cgpa of the offering
+&nbsp;    // then return true if the student&#39;s cgpa is greater than or equal to the min cgpa
+&nbsp;    private boolean isPassingCGCriteria(int offeringId) throws SQLException
+&nbsp;    {
+&nbsp;        Statement statement;
+<b class="fc">&nbsp;        ResultSet rs = null;</b>
+&nbsp;
+<b class="fc">&nbsp;        String getCGConstraintsQuery = String.format(&quot;select * from offering_cg_constraints where offering_id=%d&quot;, offeringId);</b>
+<b class="fc">&nbsp;        statement = conn.createStatement();</b>
+<b class="fc">&nbsp;        rs = statement.executeQuery(getCGConstraintsQuery);</b>
+<b class="fc">&nbsp;        if(!rs.next()) return true;</b>
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            int min_cgpa = rs.getInt(&quot;cg&quot;);</b>
+<b class="fc">&nbsp;            float studentCG = CGPA();</b>
+<b class="fc">&nbsp;            if(studentCG &gt;= min_cgpa) return true;</b>
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                System.out.print(&quot;UNSUCCESSFUL ACTION: CGPA is less than the minimum required!\n&quot;);</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean isPassingPreReqs(String courseCode) throws SQLException
+&nbsp;    {
+&nbsp;        Statement statement, statement1;
+<b class="fc">&nbsp;        ResultSet rs = null, rs1 = null;</b>
+<b class="fc">&nbsp;        boolean passedPreReqs = false;</b>
+&nbsp;
+&nbsp;        // if no prereqs exist, mark true
+<b class="fc">&nbsp;        rs = conn.createStatement().executeQuery(String.format(&quot;SELECT pre_req_course_id FROM pre_req WHERE course_code=&#39;%s&#39;&quot;, courseCode));</b>
+<b class="fc">&nbsp;        if(!rs.next()) return true;</b>
+&nbsp;
+&nbsp;        // get grades of the student in the acad office set pre reqs
+<b class="fc">&nbsp;        String getGradesQuery = String.format(&quot;SELECT s.course_code, s.grade FROM student_%d s, pre_req p WHERE p.course_code=&#39;%s&#39; and p.pre_req_code=s.course_code&quot;, studentId, courseCode);</b>
+<b class="fc">&nbsp;        statement = conn.createStatement();</b>
+<b class="fc">&nbsp;        rs = statement.executeQuery(getGradesQuery);</b>
+<b class="fc">&nbsp;        while(rs.next())</b>
+&nbsp;        {
+&nbsp;            // if any grade is less than D, check in the optional pre reqs
+<b class="fc">&nbsp;            if(rs.getString(&quot;grade&quot;).compareTo(&quot;D&quot;) &gt; 0)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                String checkOptionalPreReqQuery = String.format(&quot;select grade from student_%d s, optional_pre_req o where s.course_code=o.option_code and o.pre_req_code=&#39;%s&#39;&quot;, studentId, rs.getString(&quot;course_code&quot;));</b>
+<b class="fc">&nbsp;                statement1 = conn.createStatement();</b>
+<b class="fc">&nbsp;                rs1 = statement1.executeQuery(checkOptionalPreReqQuery);</b>
+<b class="fc">&nbsp;                boolean passedThisPreReq = false;</b>
+<b class="fc">&nbsp;                while(rs1.next())</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    if(rs1.getString(&quot;grade&quot;).compareTo(&quot;D&quot;) &lt;= 0)</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        passedThisPreReq = true;</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="fc">&nbsp;                if(!passedThisPreReq)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    System.out.print(&quot;UNSUCCESSFUL ACTION: You have not cleared the prerequisites for this course!\n&quot;);</b>
+<b class="fc">&nbsp;                    return false;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            passedPreReqs = true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if(!passedPreReqs)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.print(&quot;UNSUCCESSFUL ACTION: You have not cleared the prerequisites for this course!\n&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return passedPreReqs;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean isPassingConstraints(int offeringId) throws SQLException
+&nbsp;    {
+&nbsp;        Statement statement, statement1;
+<b class="fc">&nbsp;        ResultSet rs = null, rs1 = null, rs2 = null;</b>
+&nbsp;
+&nbsp;        //if no constraints exist, mark as true
+<b class="fc">&nbsp;        rs = conn.createStatement().executeQuery(String.format(&quot;SELECT course_id FROM offering_constraints WHERE offering_id=%d&quot;, offeringId));</b>
+<b class="fc">&nbsp;        if(!rs.next()) return true;</b>
+&nbsp;
+&nbsp;        // get courses set by the instructor as constraints
+<b class="fc">&nbsp;        String getConstraintCoursesQuery = String.format(&quot;SELECT course_id, grade from offering_constraints WHERE offering_id=%d&quot;, offeringId);</b>
+<b class="fc">&nbsp;        statement = conn.createStatement();</b>
+<b class="fc">&nbsp;        rs = statement.executeQuery(getConstraintCoursesQuery);</b>
+&nbsp;        // rs contains the courses and grades set by the instructor as constraints
+<b class="fc">&nbsp;        while (rs.next())</b>
+&nbsp;        {
+&nbsp;            // get the grades of the student in the corresponding courses
+<b class="fc">&nbsp;            int courseId = rs.getInt(&quot;course_id&quot;);</b>
+<b class="fc">&nbsp;            String getGradesQuery = String.format(&quot;SELECT grade FROM student_%d WHERE course_code=(SELECT course_code FROM course_catalog WHERE course_id=%d)&quot;, studentId, courseId);</b>
+<b class="fc">&nbsp;            statement1 = conn.createStatement();</b>
+<b class="fc">&nbsp;            rs1 = statement1.executeQuery(getGradesQuery);</b>
+&nbsp;            // rs1 contains the grades of the student in the corresponding constraint courses
+<b class="fc">&nbsp;            if (rs1.next())</b>
+&nbsp;            {
+&nbsp;                // if a constraint is not met, go into the corresponding optional offering constraints
+<b class="fc">&nbsp;                if (rs1.getString(&quot;grade&quot;).compareTo(rs.getString(&quot;grade&quot;)) &gt; 0)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    String checkOptionalConstraintsQuery = String.format(&quot;SELECT option_course_id, grade FROM optional_offering_constraints WHERE course_id=%d&quot;, courseId);</b>
+<b class="fc">&nbsp;                    rs2 = conn.createStatement().executeQuery(checkOptionalConstraintsQuery);</b>
+<b class="fc">&nbsp;                    boolean passedThisConstraint = false;</b>
+&nbsp;                    // rs2 contains the optional offerings and grades set by the instructor as constraints
+<b class="fc">&nbsp;                    while(rs2.next())</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        String getOptionalGradesQuery = String.format(&quot;SELECT grade FROM student_%d WHERE course_code=(SELECT course_code FROM course_catalog WHERE course_id=%d)&quot;, studentId, rs2.getInt(&quot;option_course_id&quot;));</b>
+<b class="fc">&nbsp;                        ResultSet rs3 = conn.createStatement().executeQuery(getOptionalGradesQuery);</b>
+<b class="fc">&nbsp;                        if(rs3.next() &amp;&amp; rs3.getString(&quot;grade&quot;).compareTo(rs2.getString(&quot;grade&quot;)) &lt;= 0)</b>
+&nbsp;                        {
+<b class="fc">&nbsp;                            passedThisConstraint = true;</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                    }</b>
+&nbsp;                    // if all optional offerings fail, return ERROR
+<b class="fc">&nbsp;                    if(!passedThisConstraint)</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        System.out.print(&quot;UNSUCCESSFUL ACTION: Constraints not passed!\n&quot;);</b>
+<b class="fc">&nbsp;                        return false;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                System.out.print(&quot;UNSUCCESSFUL ACTION: Constraints not passed!\n&quot;);</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // can only be done &#39;Before Semester&#39;
+&nbsp;    public void dropCourse(String courseCode) throws SQLException
+&nbsp;    {
+<b class="fc">&nbsp;        if(!getRunningPhase(1)) return;</b>
+&nbsp;
+&nbsp;        Statement statement;
+<b class="fc">&nbsp;        ResultSet rs = null;</b>
+&nbsp;
+&nbsp;       // check if the course is in the corresponding student table, if so, drop it and remove the student from the offering
+<b class="fc">&nbsp;       String existsInEnrollmentsQuery = String.format(&quot;SELECT * FROM student_%d WHERE course_code=&#39;%s&#39; and grade is NULL&quot;, studentId, courseCode);</b>
+<b class="fc">&nbsp;       statement = conn.createStatement();</b>
+<b class="fc">&nbsp;       rs = statement.executeQuery(existsInEnrollmentsQuery);</b>
+<b class="fc">&nbsp;       if(rs.next())</b>
+&nbsp;       {
+<b class="fc">&nbsp;           int offeringId = rs.getInt(&quot;offering_id&quot;);</b>
+<b class="fc">&nbsp;           String dropCourseQuery = String.format(&quot;DELETE FROM student_%d WHERE course_code=&#39;%s&#39; and grade IS NULL&quot;, studentId, courseCode);</b>
+<b class="fc">&nbsp;           String removeStudentQuery = String.format(&quot;DELETE FROM offering_%d WHERE student_id=%d&quot;, offeringId, studentId);</b>
+<b class="fc">&nbsp;           statement = conn.createStatement();</b>
+<b class="fc">&nbsp;           statement.executeUpdate(dropCourseQuery);</b>
+<b class="fc">&nbsp;           statement.executeUpdate(removeStudentQuery);</b>
+<b class="fc">&nbsp;           System.out.print(&quot;SUCCESS: Course successfully dropped!\n&quot;);</b>
+<b class="fc">&nbsp;       }</b>
+&nbsp;       else
+&nbsp;       {
+<b class="fc">&nbsp;           System.out.print(&quot;UNSUCCESSFUL ACTION: Enrollment does not exist! Cannot drop course!\n&quot;);</b>
+&nbsp;       }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void viewEnrolledCourseDetails() throws SQLException
+&nbsp;    {
+&nbsp;        Statement statement;
+<b class="fc">&nbsp;        ResultSet rs = null;</b>
+&nbsp;
+<b class="fc">&nbsp;        String viewQuery = String.format(&quot;SELECT * FROM student_%d&quot;, studentId);</b>
+<b class="fc">&nbsp;        statement = conn.createStatement();</b>
+<b class="fc">&nbsp;        rs = statement.executeQuery(viewQuery);</b>
+<b class="fc">&nbsp;        System.out.print(&quot; offering_id | course_code | status | grade\n&quot;);</b>
+<b class="fc">&nbsp;        System.out.print(&quot;-------------+-------------+--------+--------\n&quot;);</b>
+<b class="fc">&nbsp;        while(rs.next())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.print(&quot; &quot;.repeat(&quot;offering_id&quot;.length()) + rs.getInt(&quot;offering_id&quot;) + &quot; | &quot;</b>
+<b class="fc">&nbsp;                    + rs.getString(&quot;course_code&quot;) + &quot; &quot;.repeat(&quot;course_code&quot;.length()-4) + &quot;| &quot;</b>
+<b class="fc">&nbsp;                    + rs.getString(&quot;status&quot;) + &quot; &quot;.repeat(&quot;status&quot;.length()-1) + &quot;| &quot;</b>
+<b class="fc">&nbsp;                    + rs.getString(&quot;grade&quot;) + &quot;\n&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    public float CGPA() throws SQLException
+&nbsp;    {
+&nbsp;        Statement statement, statement1;
+<b class="fc">&nbsp;        ResultSet rs, rs1 = null;</b>
+<b class="fc">&nbsp;        int cgpa = 0;</b>
+<b class="fc">&nbsp;        int totalCredits = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;        String getGradesQuery = String.format(&quot;SELECT course_code, grade FROM student_%d WHERE grade IS NOT NULL&quot;, studentId);</b>
+<b class="fc">&nbsp;        statement = conn.createStatement();</b>
+<b class="fc">&nbsp;        rs = statement.executeQuery(getGradesQuery);</b>
+<b class="fc">&nbsp;        while(rs.next())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            String getCourseCredits = String.format(&quot;SELECT c FROM course_catalog WHERE course_code=&#39;%s&#39;&quot;, rs.getString(&quot;course_code&quot;));</b>
+<b class="fc">&nbsp;            statement1 = conn.createStatement();</b>
+<b class="fc">&nbsp;            rs1 = statement1.executeQuery(getCourseCredits);</b>
+<b class="fc">&nbsp;            int credits = 0;</b>
+<b class="fc">&nbsp;            if(rs1.next())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                credits = rs1.getInt(&quot;c&quot;);</b>
+&nbsp;            };
+<b class="fc">&nbsp;            totalCredits += credits;</b>
+<b class="fc">&nbsp;            String grade = rs.getString(&quot;grade&quot;);</b>
+<b class="fc">&nbsp;            cgpa = switch (grade) {</b>
+<b class="fc">&nbsp;                case &quot;A&quot; -&gt; cgpa + credits * 10;</b>
+<b class="fc">&nbsp;                case &quot;A-&quot; -&gt; cgpa + credits * 9;</b>
+<b class="fc">&nbsp;                case &quot;B&quot; -&gt; cgpa + credits * 8;</b>
+<b class="fc">&nbsp;                case &quot;B-&quot; -&gt; cgpa + credits * 7;</b>
+<b class="fc">&nbsp;                case &quot;C&quot; -&gt; cgpa + credits * 6;</b>
+<b class="fc">&nbsp;                case &quot;C-&quot; -&gt; cgpa + credits * 5;</b>
+<b class="fc">&nbsp;                case &quot;D&quot; -&gt; cgpa + credits * 4;</b>
+<b class="fc">&nbsp;                case &quot;D-&quot; -&gt; cgpa + credits * 3;</b>
+<b class="fc">&nbsp;                case &quot;E&quot; -&gt; cgpa + credits * 2;</b>
+<b class="fc">&nbsp;                case &quot;E-&quot; -&gt; cgpa + credits;</b>
+<b class="fc">&nbsp;                default -&gt; cgpa;</b>
+&nbsp;            };
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        if(totalCredits == 0)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return 0;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return cgpa/totalCredits;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-06 10:05</div>
+</div>
+</body>
+</html>

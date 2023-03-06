@@ -89,12 +89,30 @@ class UITest {
     }
 
     @Test
+    void studentMenuAddCourseWrongInt() throws Exception {
+        String insertCourseOfferingQuery = "INSERT INTO course_catalog(course_code, course_title, l, t, p) VALUES('GE103', 'Engineering Mathematics', 3, 1, 0); INSERT INTO offerings(course_id, faculty_id, year_offered_in, semester_offered_in) VALUES(1, 1, 2023, 1)";
+        statement.executeUpdate(insertCourseOfferingQuery);
+        simulateInput("wrongInput\n1\n2023\n1\nGE103\n0");
+        ui.studentMenu(student);
+    }
+
+    @Test
     void studentMenuDropCourse() throws Exception {
         String insertCourseOfferingQuery = "INSERT INTO course_catalog(course_code, course_title, l, t, p) VALUES('GE103', 'Engineering Mathematics', 3, 1, 0); INSERT INTO offerings(course_id, faculty_id, year_offered_in, semester_offered_in) VALUES(1, 1, 2023, 1)";
         String insertStudentCourseQuery = "INSERT INTO student_1(offering_id, course_code, status) VALUES(1, 'GE103', 'EN'); INSERT INTO offering_1(student_id) VALUES(1)";
         statement.executeUpdate(insertCourseOfferingQuery);
         statement.executeUpdate(insertStudentCourseQuery);
         simulateInput("2\nGE103\n0");
+        ui.studentMenu(student);
+    }
+
+    @Test
+    void studentMenuDropCourseWrongCode() throws Exception {
+        String insertCourseOfferingQuery = "INSERT INTO course_catalog(course_code, course_title, l, t, p) VALUES('GE103', 'Engineering Mathematics', 3, 1, 0); INSERT INTO offerings(course_id, faculty_id, year_offered_in, semester_offered_in) VALUES(1, 1, 2023, 1)";
+        String insertStudentCourseQuery = "INSERT INTO student_1(offering_id, course_code, status) VALUES(1, 'GE103', 'EN'); INSERT INTO offering_1(student_id) VALUES(1)";
+        statement.executeUpdate(insertCourseOfferingQuery);
+        statement.executeUpdate(insertStudentCourseQuery);
+        simulateInput("2\nwrongCourseCode\nGE103\n0");
         ui.studentMenu(student);
     }
 
@@ -157,8 +175,20 @@ class UITest {
     }
 
     @Test
+    void facultyMenuAddConstraintsWrongGrade() throws Exception {
+        simulateInput("5\n2023\n1\nGE103\nGE101\nGE100\nwrongGrade\nA\n\n0");
+        ui.facultyMenu(faculty);
+    }
+
+    @Test
     void facultyMenuCGConstraints() throws Exception {
         simulateInput("6\n2023\n1\nGE103\n8.00\n0");
+        ui.facultyMenu(faculty);
+    }
+
+    @Test
+    void facultyMenuCGConstraintsInvalidFloat() throws Exception {
+        simulateInput("6\n2023\n1\nGE103\ninvalidFloat\n8.00\n0");
         ui.facultyMenu(faculty);
     }
 

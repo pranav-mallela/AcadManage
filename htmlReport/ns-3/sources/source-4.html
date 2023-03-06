@@ -1,0 +1,241 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > User</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.users</a>
+</div>
+
+<h1>Coverage Summary for Class: User (org.users)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">User</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (6/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    74.6%
+  </span>
+  <span class="absValue">
+    (47/63)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.users;
+&nbsp;
+&nbsp;import java.sql.*;
+&nbsp;
+&nbsp;public class User {
+&nbsp;    private String name;
+&nbsp;    private String username;
+&nbsp;    private String phone;
+&nbsp;    private String password;
+&nbsp;    protected Connection conn;
+&nbsp;
+&nbsp;    public User(Connection conn)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.conn = conn;</b>
+&nbsp;    }
+&nbsp;    public int login(String username, String password, String role)
+&nbsp;    {
+&nbsp;        Statement statement;
+<b class="nc">&nbsp;        ResultSet rs = null;</b>
+&nbsp;        try{
+<b class="nc">&nbsp;            String query = switch (role) {</b>
+&nbsp;                case &quot;0&quot; -&gt;
+<b class="nc">&nbsp;                        String.format(&quot;select * from student_credentials where username=&#39;%s&#39; and pass=&#39;%s&#39;&quot;, username, password);</b>
+&nbsp;                case &quot;1&quot; -&gt;
+<b class="nc">&nbsp;                        String.format(&quot;select * from faculty_credentials where username=&#39;%s&#39; and pass=&#39;%s&#39;&quot;, username, password);</b>
+&nbsp;                case &quot;2&quot; -&gt;
+<b class="nc">&nbsp;                        String.format(&quot;select * from acad_credentials where username=&#39;%s&#39; and pass=&#39;%s&#39;&quot;, username, password);</b>
+<b class="nc">&nbsp;                default -&gt; &quot;&quot;;</b>
+&nbsp;            };
+<b class="nc">&nbsp;            statement = conn.createStatement();</b>
+<b class="nc">&nbsp;            rs = statement.executeQuery(query);</b>
+<b class="nc">&nbsp;            if(rs.next())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return rs.getInt(&quot;id&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }catch(SQLException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            System.out.print(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected int checkIfCourseExists(String courseCode, boolean wantToExist) throws SQLException
+&nbsp;    {
+&nbsp;        Statement statement;
+<b class="fc">&nbsp;        ResultSet rs = null;</b>
+<b class="fc">&nbsp;        int courseId=0;</b>
+<b class="fc">&nbsp;        String courseQuery = String.format(&quot;select * from course_catalog where course_code=&#39;%s&#39;;&quot;, courseCode);</b>
+<b class="fc">&nbsp;        statement = conn.createStatement();</b>
+<b class="fc">&nbsp;        rs = statement.executeQuery(courseQuery);</b>
+<b class="fc">&nbsp;        if(rs.next())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            courseId = rs.getInt(&quot;course_id&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if(wantToExist &amp;&amp; courseId == 0)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.printf(&quot;UNSUCCESSFUL ACTION: Course %s does not exist!\n&quot;, courseCode);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(!wantToExist &amp;&amp; courseId != 0)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.printf(&quot;UNSUCCESSFUL ACTION: Course %s already exists!\n&quot;, courseCode);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return courseId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected int checkIfOfferingExists(String courseCode, int courseId, int year, int semester) throws SQLException
+&nbsp;    {
+&nbsp;        Statement statement;
+<b class="fc">&nbsp;        ResultSet rs = null;</b>
+<b class="fc">&nbsp;        int offeringId=0;</b>
+<b class="fc">&nbsp;        String courseQuery = String.format(&quot;select * from offerings where course_id=&#39;%s&#39; and year_offered_in=%d and semester_offered_in=%d;&quot;, courseId, year, semester);</b>
+<b class="fc">&nbsp;        statement = conn.createStatement();</b>
+<b class="fc">&nbsp;        rs = statement.executeQuery(courseQuery);</b>
+<b class="fc">&nbsp;        if(rs.next())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            offeringId = rs.getInt(&quot;offering_id&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return offeringId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected boolean checkIfUpcomingSem(int year, int semester) throws SQLException
+&nbsp;    {
+&nbsp;        Statement statement;
+<b class="fc">&nbsp;        ResultSet rs = null;</b>
+<b class="fc">&nbsp;        int acad_year=0, acad_sem=0;</b>
+<b class="fc">&nbsp;        String semQuery = &quot;select * from upcoming_semester where upcoming=(1::boolean);&quot;;</b>
+<b class="fc">&nbsp;        statement = conn.createStatement();</b>
+<b class="fc">&nbsp;        rs = statement.executeQuery(semQuery);</b>
+<b class="fc">&nbsp;        if(rs.next())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            acad_year = rs.getInt(&quot;academic_year&quot;);</b>
+<b class="fc">&nbsp;            acad_sem = rs.getInt(&quot;semester&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return (acad_year == year &amp;&amp; acad_sem == semester);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected int [] getCourseAndOfferingId(String courseCode, int year, int semester) throws SQLException
+&nbsp;    {
+<b class="fc">&nbsp;        int courseId = checkIfCourseExists(courseCode, true);</b>
+<b class="fc">&nbsp;        int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);</b>
+<b class="fc">&nbsp;        if(courseId != 0 &amp;&amp; offeringId == 0)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.print(&quot;UNSUCCESSFUL ACTION: Offering does not exist!\n&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return new int[] {courseId, offeringId};</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean getRunningPhase(int expectedPhase) throws SQLException
+&nbsp;    {
+&nbsp;        Statement statement;
+<b class="fc">&nbsp;        ResultSet rs = null;</b>
+<b class="fc">&nbsp;        int phase = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;        String getPhaseQuery = &quot;select event_id, event_description from semester_events where is_open=(1::boolean)&quot;;</b>
+<b class="fc">&nbsp;        statement = conn.createStatement();</b>
+<b class="fc">&nbsp;        rs = statement.executeQuery(getPhaseQuery);</b>
+<b class="fc">&nbsp;        if(rs.next())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            phase = rs.getInt(&quot;event_id&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if(phase!=expectedPhase)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.print(&quot;UNSUCCESSFUL ACTION: Cannot perform action in this phase!\n&quot;);</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void resetPass(String email)
+&nbsp;    {
+&nbsp;        //reset password
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    public void editProfile()
+&nbsp;    {
+&nbsp;        // edit profile
+<b class="nc">&nbsp;    }</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-06 10:05</div>
+</div>
+</body>
+</html>
