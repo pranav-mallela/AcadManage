@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="credit limit feature added, overall 85 percent">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/users/StudentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/users/StudentTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="overall 92 percent, credit limit testing done" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,7 +81,7 @@
       <recent name="org.users" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.StudentTest.notPassingCreditLimit">
+  <component name="RunManager" selected="Gradle.Tests in 'AcadManage.test'">
     <configuration name="MainTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -266,7 +263,7 @@
       <workItem from="1678019209132" duration="10742000" />
       <workItem from="1678075641248" duration="6691000" />
       <workItem from="1678094894971" duration="13816000" />
-      <workItem from="1678115124112" duration="1756000" />
+      <workItem from="1678115124112" duration="2485000" />
     </task>
     <task id="LOCAL-00001" summary="student add_course working">
       <created>1676128629567</created>
@@ -597,7 +594,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678112376963</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="overall 92 percent, credit limit testing done">
+      <created>1678117462091</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1678117462091</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -615,7 +619,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="some ui changes, changed l, t, p types" />
     <MESSAGE value="graduation check implemented, checking pending" />
     <MESSAGE value="cg constraints implemented, checking pending" />
     <MESSAGE value="semester events implemented, yet to integrate with user functions" />
@@ -640,7 +643,8 @@
     <MESSAGE value="overall 92 percent, faculty upload grades fixed" />
     <MESSAGE value="student, faculty update profile feature added" />
     <MESSAGE value="credit limit feature added, overall 85 percent" />
-    <option name="LAST_COMMIT_MESSAGE" value="credit limit feature added, overall 85 percent" />
+    <MESSAGE value="overall 92 percent, credit limit testing done" />
+    <option name="LAST_COMMIT_MESSAGE" value="overall 92 percent, credit limit testing done" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -661,7 +665,8 @@
     <SUITE FILE_PATH="coverage/AcadManage$AcadOfficeTest.ic" NAME="AcadOfficeTest Coverage Results" MODIFIED="1678015844117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$UITest.ic" NAME="UITest Coverage Results" MODIFIED="1678098349142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalConstraints.ic" NAME="StudentTest.optionalConstraints Coverage Results" MODIFIED="1677952579145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/AcadManage$Tests_in__AcadManage_test_.ic" NAME="Tests in 'AcadManage.test' Coverage Results" MODIFIED="1678112333956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$StudentTest_notPassingCreditLimit.ic" NAME="StudentTest.notPassingCreditLimit Coverage Results" MODIFIED="1678117349411" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$Tests_in__AcadManage_test_.ic" NAME="Tests in 'AcadManage.test' Coverage Results" MODIFIED="1678117396483" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest_optionalPreReqFail.ic" NAME="StudentTest.optionalPreReqFail Coverage Results" MODIFIED="1677950269280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$FacultyTest_cancelOfferingSuccess.ic" NAME="FacultyTest.cancelOfferingSuccess Coverage Results" MODIFIED="1677996485663" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$AcadOfficeTest_generateSuccessfully.ic" NAME="AcadOfficeTest.generateSuccessfully Coverage Results" MODIFIED="1678007797045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
