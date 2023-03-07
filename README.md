@@ -7,7 +7,7 @@ Build using:  `./gradlew build`
 Run using:  `./gradlew -q --console plain run`
 
 ## Functionality:
-> ### A `Student` can perform the following tasks:
+ ### A `Student` can perform the following tasks:
 1. Add a course
 2. Drop a course
 3. View enrolled course details
@@ -15,7 +15,7 @@ Run using:  `./gradlew -q --console plain run`
 5. Update phone
 6. Update address
 
-> ### A `Faculty` can perform the following tasks:
+ ### A `Faculty` can perform the following tasks:
 1. Float a course
 2. Cancel an offering
 3. Upload grades for an offering
@@ -25,7 +25,7 @@ Run using:  `./gradlew -q --console plain run`
 7. Update phone
 8. Update address
 
-> ### The `Academic Office` can perform the following tasks:
+ ### The `Academic Office` can perform the following tasks:
 1. Add a course to the catalog
 2. Generate a semester transcript for a student
 3. View grades of a student

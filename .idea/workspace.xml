@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="added sql files">
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="removed unnecessary imports and variables">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/users/Faculty.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +85,7 @@
       <recent name="org.users" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JavaScript Debug.index.html">
     <configuration name="AcadManage [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -152,29 +151,6 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="StudentTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;org.users.StudentTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="Tests in 'AcadManage.test'" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -222,13 +198,16 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/AcadManage/htmlReport/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JavaScript Debug.index.html" />
         <item itemvalue="Gradle.AcadManage [dependencies]" />
         <item itemvalue="Gradle.AcadManage [jar]" />
         <item itemvalue="Gradle.UITest" />
         <item itemvalue="Gradle.FacultyTest" />
-        <item itemvalue="Gradle.StudentTest" />
       </list>
     </recent_temporary>
   </component>
@@ -270,14 +249,8 @@
       <workItem from="1678115124112" duration="4492000" />
       <workItem from="1678121447410" duration="6157000" />
       <workItem from="1678166850019" duration="10154000" />
-      <workItem from="1678193017143" duration="5299000" />
-    </task>
-    <task id="LOCAL-00004" summary="faculty upload grades thru CSV working">
-      <created>1676302456706</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1676302456706</updated>
+      <workItem from="1678193017143" duration="7544000" />
+      <workItem from="1678205982143" duration="1471000" />
     </task>
     <task id="LOCAL-00005" summary="acad office generate transcript working">
       <created>1676342455382</created>
@@ -615,7 +588,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678191821856</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="removed unnecessary imports and variables">
+      <created>1678201107178</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1678201107178</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -633,7 +613,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added custom exceptions, yet to use in code" />
     <MESSAGE value="infinite menu improved" />
     <MESSAGE value="student tests begin" />
     <MESSAGE value="integrated semester events" />
@@ -658,7 +637,8 @@
     <MESSAGE value="overall 96 percent" />
     <MESSAGE value="changed build.gradle to run from terminal" />
     <MESSAGE value="added sql files" />
-    <option name="LAST_COMMIT_MESSAGE" value="added sql files" />
+    <MESSAGE value="removed unnecessary imports and variables" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed unnecessary imports and variables" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
