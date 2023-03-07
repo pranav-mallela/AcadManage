@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="overall 96 percent">
+    <list default="true" id="cfe7efa5-be39-47e8-be4a-a4f214debe5a" name="Changes" comment="changed build.gradle to run from terminal">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +85,7 @@
       <recent name="org.users" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.AcadManage [dependencies]">
+  <component name="RunManager" selected="Gradle.Tests in 'AcadManage.test'">
     <configuration name="AcadManage [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -270,14 +268,7 @@
       <workItem from="1678094894971" duration="13816000" />
       <workItem from="1678115124112" duration="4492000" />
       <workItem from="1678121447410" duration="6157000" />
-      <workItem from="1678166850019" duration="6417000" />
-    </task>
-    <task id="LOCAL-00002" summary="student add_course working">
-      <created>1676128653463</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1676128653463</updated>
+      <workItem from="1678166850019" duration="9385000" />
     </task>
     <task id="LOCAL-00003" summary="acad add course to catalog, faculty float course working">
       <created>1676134123684</created>
@@ -615,7 +606,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678119050197</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="changed build.gradle to run from terminal">
+      <created>1678188934301</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1678188934302</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -633,7 +631,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="cg constraints implemented, checking pending" />
     <MESSAGE value="semester events implemented, yet to integrate with user functions" />
     <MESSAGE value="added custom exceptions, yet to use in code" />
     <MESSAGE value="infinite menu improved" />
@@ -658,7 +655,8 @@
     <MESSAGE value="credit limit feature added, overall 85 percent" />
     <MESSAGE value="overall 92 percent, credit limit testing done" />
     <MESSAGE value="overall 96 percent" />
-    <option name="LAST_COMMIT_MESSAGE" value="overall 96 percent" />
+    <MESSAGE value="changed build.gradle to run from terminal" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed build.gradle to run from terminal" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -686,7 +684,7 @@
     <SUITE FILE_PATH="coverage/AcadManage$AcadOfficeTest_generateSuccessfully.ic" NAME="AcadOfficeTest.generateSuccessfully Coverage Results" MODIFIED="1678007797045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$FacultyTest_addConstraintSuccess.ic" NAME="FacultyTest.addConstraintSuccess Coverage Results" MODIFIED="1677994495348" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$AcadOfficeTest_passiveFunctionTesting.ic" NAME="AcadOfficeTest.passiveFunctionTesting Coverage Results" MODIFIED="1678008038863" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/AcadManage$Tests_in__AcadManage_test_.exec" NAME="Tests in 'AcadManage.test' Coverage Results" MODIFIED="1678127851368" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="jacoco" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/AcadManage$Tests_in__AcadManage_test_.exec" NAME="Tests in 'AcadManage.test' Coverage Results" MODIFIED="1678191439560" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="jacoco" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$UserTest.ic" NAME="UserTest Coverage Results" MODIFIED="1678098153320" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$StudentTest.ic" NAME="StudentTest Coverage Results" MODIFIED="1677990064588" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/AcadManage$FacultyTest_optionalConstraint.ic" NAME="FacultyTest.optionalConstraint Coverage Results" MODIFIED="1677995132432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
