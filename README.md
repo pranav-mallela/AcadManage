@@ -2,6 +2,16 @@
 
 ## How to compile and run the application: 
 
+Install PostgreSQL and create a database named `acadmanage` with the following credentials: 
+
+    username: acadadmin
+    password: adminpass
+
+Copy the contents of the following into the `acadmanage` database. The order of execution is important:
+1. `src/main/sql/tables.sql`
+2. `src/main/sql/procedures.sql`
+3. `src/main/sql/insert_data.sql`
+
 Build using:  `./gradlew build` 
 
 Run using:  `./gradlew -q --console plain run`
