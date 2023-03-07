@@ -185,7 +185,7 @@
       <recent name="org.users" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Gradle.Tests in 'AcadManage.test'">
     <configuration name="AcadManage [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -351,6 +351,7 @@
       <workItem from="1678166850019" duration="10154000" />
       <workItem from="1678193017143" duration="7544000" />
       <workItem from="1678205982143" duration="2788000" />
+      <workItem from="1678209387932" duration="1290000" />
     </task>
     <task id="LOCAL-00005" summary="acad office generate transcript working">
       <created>1676342455382</created>
