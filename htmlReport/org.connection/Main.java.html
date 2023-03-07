@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Tests in 'AcadManage.test' Coverage Results</a> &gt; <a href="index.source.html" class="el_package">org.connection</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package org.connection;
+import org.scanners.CustomScanner;
+import org.users.AcadOffice;
+import org.users.Faculty;
+import org.users.Student;
+import org.users.User;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+<span class="nc" id="L12">public class Main {</span>
+    public static void main(String[] args) {
+        try {
+<span class="fc" id="L15">            Connect portal = new Connect(&quot;acadmanage&quot;, &quot;acadadmin&quot;, &quot;adminpass&quot;);</span>
+<span class="fc" id="L16">            Connection conn = portal.connect();</span>
+
+            // get credentials and assign role
+<span class="fc" id="L19">            UI ui = new UI();</span>
+<span class="fc" id="L20">            CustomScanner s = new CustomScanner();</span>
+            while (true) {
+<span class="fc" id="L22">                ArrayList&lt;String&gt; credentials = ui.getCredentials(s);</span>
+<span class="fc" id="L23">                String role = credentials.get(2);</span>
+<span class="fc" id="L24">                User user = new User(conn);</span>
+<span class="fc" id="L25">                int id = user.login(credentials.get(0), credentials.get(1), role);</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">                if (id == -1) {</span>
+<span class="fc" id="L27">                    System.out.print(&quot;UNSUCCESSFUL LOGIN: Invalid credentials!\n&quot;);</span>
+<span class="fc" id="L28">                    System.out.print(&quot;Do you want to continue? (Y/N): &quot;);</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">                    if(s.getString().equals(&quot;N&quot;)) break;</span>
+                    continue;
+                }
+
+                // present menu depending on role
+<span class="pc bpc" id="L34" title="1 of 4 branches missed.">                switch (role) {</span>
+                    case &quot;0&quot; -&gt; {
+<span class="fc" id="L36">                        user = new Student(conn, id);</span>
+<span class="nc" id="L37">                        ui.studentMenu((Student) user);</span>
+<span class="nc" id="L38">                    }</span>
+                    case &quot;1&quot; -&gt; {
+<span class="fc" id="L40">                        user = new Faculty(conn, id);</span>
+<span class="nc" id="L41">                        ui.facultyMenu((Faculty) user);</span>
+<span class="nc" id="L42">                    }</span>
+                    case &quot;2&quot; -&gt; {
+<span class="fc" id="L44">                        user = new AcadOffice(conn);</span>
+<span class="nc" id="L45">                        ui.acadMenu((AcadOffice) user);</span>
+                    }
+                }
+<span class="nc" id="L48">            }</span>
+<span class="fc" id="L49">        } catch (Exception e) {</span>
+<span class="fc" id="L50">            System.out.print(e);</span>
+<span class="fc" id="L51">        }</span>
+<span class="fc" id="L52">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

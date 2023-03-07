@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Tests in 'AcadManage.test' Coverage Results</a> &gt; <a href="index.source.html" class="el_package">org.connection</a> &gt; <span class="el_source">UI.java</span></div><h1>UI.java</h1><pre class="source lang-java linenums">package org.connection;
+
+import org.scanners.CustomScanner;
+import org.users.AcadOffice;
+import org.users.Student;
+import org.users.Faculty;
+
+import java.sql.SQLException;
+import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+<span class="fc" id="L13">public class UI {</span>
+    public ArrayList&lt;String&gt; getCredentials(CustomScanner s)
+    {
+<span class="fc" id="L16">        ArrayList&lt;String&gt; credentials = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L17">        System.out.print(&quot;Welcome to AcadManage! Please login before continuing.\n&quot;);</span>
+<span class="fc" id="L18">        System.out.print(&quot;Press:\n[0] if you are a Student\n[1] if you are a Faculty\n[2] if you are the Academic Office\n&quot;);</span>
+<span class="fc" id="L19">        String role = s.getString();</span>
+<span class="fc" id="L20">        System.out.print(&quot;Username: &quot;);</span>
+<span class="fc" id="L21">        credentials.add(s.getString());</span>
+<span class="fc" id="L22">        System.out.print(&quot;Password: &quot;);</span>
+<span class="fc" id="L23">        credentials.add(s.getString());</span>
+<span class="fc" id="L24">        credentials.add(role);</span>
+<span class="fc" id="L25">        return credentials;</span>
+    }
+
+    public void studentMenu(Student user) throws Exception
+    {
+<span class="fc" id="L30">        CustomScanner s = new CustomScanner();</span>
+<span class="fc" id="L31">        System.out.print(&quot;Welcome student!\n&quot;);</span>
+<span class="fc" id="L32">        int chosenOption = -1;</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        while(chosenOption != 0)</span>
+        {
+<span class="fc" id="L35">            System.out.print(&quot;Press:\n[0] to logout\n[1] to add a course\n[2] to drop a course\n[3] to view enrolled course details\n[4] to view your CGPA\n[5] to update your phone\n[6] to update your address\n&quot;);</span>
+<span class="fc" id="L36">            chosenOption = s.getInt();</span>
+<span class="fc" id="L37">            s.getString();</span>
+<span class="fc bfc" id="L38" title="All 7 branches covered.">            switch (chosenOption) {</span>
+                case 1 -&gt; {
+<span class="fc" id="L40">                    System.out.print(&quot;Year for which you are enrolling: &quot;);</span>
+<span class="fc" id="L41">                    int year = s.getInt();</span>
+<span class="fc" id="L42">                    System.out.print(&quot;Semester for which you are enrolling: &quot;);</span>
+<span class="fc" id="L43">                    int semester = s.getInt();</span>
+<span class="fc" id="L44">                    s.getString();</span>
+<span class="fc" id="L45">                    System.out.print(&quot;Enter the course code: &quot;);</span>
+<span class="fc" id="L46">                    String courseCode = s.getCourse();</span>
+<span class="fc" id="L47">                    user.addCourse(courseCode, year, semester);</span>
+<span class="fc" id="L48">                }</span>
+                case 2 -&gt; {
+<span class="fc" id="L50">                    System.out.print(&quot;Course code of the course to be dropped: &quot;);</span>
+<span class="fc" id="L51">                    String dropCourseCode = s.getCourse();</span>
+<span class="fc" id="L52">                    user.dropCourse(dropCourseCode);</span>
+<span class="fc" id="L53">                }</span>
+<span class="fc" id="L54">                case 3 -&gt; user.viewEnrolledCourseDetails();</span>
+                case 4 -&gt; {
+<span class="fc" id="L56">                    System.out.printf(&quot;Your CGPA so far is = %f%n&quot;, user.CGPA());</span>
+<span class="fc" id="L57">                }</span>
+                case 5 -&gt; {
+<span class="fc" id="L59">                    System.out.print(&quot;Enter your phone number: &quot;);</span>
+<span class="fc" id="L60">                    String newPhone = s.getPhone();</span>
+<span class="fc" id="L61">                    user.updatePhone(user.studentId, 0, newPhone);</span>
+<span class="fc" id="L62">                }</span>
+                case 6 -&gt; {
+<span class="fc" id="L64">                    System.out.print(&quot;Enter your address: &quot;);</span>
+<span class="fc" id="L65">                    String newAddress = s.getString();</span>
+<span class="fc" id="L66">                    user.updateAddress(user.studentId, 0, newAddress);</span>
+<span class="fc" id="L67">                }</span>
+            }
+        }
+
+<span class="fc" id="L71">    }</span>
+
+    public void facultyMenu(Faculty user) throws SQLException
+    {
+<span class="fc" id="L75">        CustomScanner s = new CustomScanner();</span>
+<span class="fc" id="L76">        System.out.println(&quot;Welcome faculty!&quot;);</span>
+<span class="fc" id="L77">        int chosenOption = -1;</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        while(chosenOption != 0)</span>
+        {
+<span class="fc" id="L80">            System.out.print(&quot;Press:\n[0] to logout\n[1] to float a course\n[2] to cancel an offering\n[3] to upload grades for an offering\n[4] to view grades in a particular offering\n[5] to add pre-requisite constraints to an offering\n[6] to add CGPA constraints to an offering\n[7] to update your phone\n[8] to update your address\n&quot;);</span>
+<span class="fc" id="L81">            chosenOption = s.getInt();</span>
+<span class="fc bfc" id="L82" title="All 9 branches covered.">            switch (chosenOption) {</span>
+                case 1 -&gt; {
+<span class="fc" id="L84">                    System.out.print(&quot;Year for which you are offering: &quot;);</span>
+<span class="fc" id="L85">                    int year = s.getInt();</span>
+<span class="fc" id="L86">                    System.out.print(&quot;Semester for which you are offering: &quot;);</span>
+<span class="fc" id="L87">                    int semester = s.getInt();</span>
+<span class="fc" id="L88">                    s.getString();</span>
+<span class="fc" id="L89">                    System.out.print(&quot;Enter the course code: &quot;);</span>
+<span class="fc" id="L90">                    String courseCode = s.getCourse();</span>
+<span class="fc" id="L91">                    user.floatCourse(courseCode, year, semester);</span>
+<span class="fc" id="L92">                }</span>
+                case 2 -&gt; {
+<span class="fc" id="L94">                    System.out.print(&quot;Year for which you wish to cancel offering: &quot;);</span>
+<span class="fc" id="L95">                    int year = s.getInt();</span>
+<span class="fc" id="L96">                    System.out.print(&quot;Semester for which you wish to cancel offering: &quot;);</span>
+<span class="fc" id="L97">                    int semester = s.getInt();</span>
+<span class="fc" id="L98">                    s.getString();</span>
+<span class="fc" id="L99">                    System.out.print(&quot;Enter the course code: &quot;);</span>
+<span class="fc" id="L100">                    String courseCode = s.getCourse();</span>
+<span class="fc" id="L101">                    user.cancelOffering(courseCode, year, semester);</span>
+<span class="fc" id="L102">                }</span>
+                case 3 -&gt; {
+                    // export csv
+<span class="fc" id="L105">                    System.out.print(&quot;Year for which you wish to upload grades: &quot;);</span>
+<span class="fc" id="L106">                    int year = s.getInt();</span>
+<span class="fc" id="L107">                    System.out.print(&quot;Semester for which you wish to upload grades: &quot;);</span>
+<span class="fc" id="L108">                    int semester = s.getInt();</span>
+<span class="fc" id="L109">                    s.getString();</span>
+<span class="fc" id="L110">                    System.out.print(&quot;Enter the course code: &quot;);</span>
+<span class="fc" id="L111">                    String courseCode = s.getCourse();</span>
+<span class="fc" id="L112">                    user.uploadGrades(courseCode, year, semester, s);</span>
+<span class="fc" id="L113">                }</span>
+                case 4 -&gt; {
+                    // ask for year, sem, and course_code
+<span class="fc" id="L116">                    System.out.print(&quot;Year for which you wish to view grades: &quot;);</span>
+<span class="fc" id="L117">                    int year = s.getInt();</span>
+<span class="fc" id="L118">                    System.out.print(&quot;Semester for which you wish to view grades: &quot;);</span>
+<span class="fc" id="L119">                    int semester = s.getInt();</span>
+<span class="fc" id="L120">                    s.getString();</span>
+<span class="fc" id="L121">                    System.out.print(&quot;Enter the course code: &quot;);</span>
+<span class="fc" id="L122">                    String courseCode = s.getCourse();</span>
+<span class="fc" id="L123">                    user.viewGrades(year, semester, courseCode);</span>
+<span class="fc" id="L124">                }</span>
+                case 5 -&gt; {
+<span class="fc" id="L126">                    System.out.print(&quot;Year for which you wish to add constraints: &quot;);</span>
+<span class="fc" id="L127">                    int year = s.getInt();</span>
+<span class="fc" id="L128">                    System.out.print(&quot;Semester for which you wish to add constraints: &quot;);</span>
+<span class="fc" id="L129">                    int semester = s.getInt();</span>
+<span class="fc" id="L130">                    s.getString();</span>
+<span class="fc" id="L131">                    System.out.print(&quot;Enter the course code: &quot;);</span>
+<span class="fc" id="L132">                    String courseCode = s.getCourse();</span>
+<span class="fc" id="L133">                    System.out.print(&quot;Enter the course codes of pre-requisites for this course (space separated): &quot;);</span>
+<span class="fc" id="L134">                    String [] preReqs = s.getString().split(&quot; &quot;);</span>
+<span class="fc" id="L135">                    List&lt;List&lt;List&lt;String&gt;&gt;&gt; optionPreReqs = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">                    if(!preReqs[0].equals(&quot;&quot;))</span>
+                    {
+<span class="fc bfc" id="L138" title="All 2 branches covered.">                        for (String preReq : preReqs) {</span>
+<span class="fc" id="L139">                            System.out.printf(&quot;Enter the courses equivalent to %s that will be also be considered (space separated): &quot;, preReq);</span>
+<span class="fc" id="L140">                            List&lt;List&lt;String&gt;&gt; orPreReqGrades = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L141">                            List&lt;String&gt; orPreReqs = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L142">                            String[] optionalPreReq = s.getString().split(&quot; &quot;);</span>
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">                            if (!optionalPreReq[0].equals(&quot;&quot;)) {</span>
+<span class="fc" id="L144">                                orPreReqs.addAll(Arrays.asList(optionalPreReq));</span>
+                            }
+<span class="fc" id="L146">                            orPreReqs.add(preReq);</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">                            for (String orPreReq : orPreReqs) {</span>
+<span class="fc" id="L148">                                System.out.printf(&quot;Enter the minimum grade required in %s (default is D): &quot;, orPreReq);</span>
+<span class="fc" id="L149">                                String grade = s.getGrade();</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">                                if (grade.equals(&quot;&quot;)) grade = &quot;D&quot;;</span>
+<span class="fc" id="L151">                                orPreReqGrades.add(List.of(new String[]{orPreReq, grade}));</span>
+<span class="fc" id="L152">                            }</span>
+<span class="fc" id="L153">                            optionPreReqs.add(orPreReqGrades);</span>
+                        }
+                    }
+<span class="fc" id="L156">                    user.addConstraintsToOffering(year, semester, courseCode, optionPreReqs);</span>
+<span class="fc" id="L157">                }</span>
+                case 6 -&gt; {
+<span class="fc" id="L159">                    System.out.print(&quot;Year for which you wish to add constraints: &quot;);</span>
+<span class="fc" id="L160">                    int year = s.getInt();</span>
+<span class="fc" id="L161">                    System.out.print(&quot;Semester for which you wish to add constraints: &quot;);</span>
+<span class="fc" id="L162">                    int semester = s.getInt();</span>
+<span class="fc" id="L163">                    s.getString();</span>
+<span class="fc" id="L164">                    System.out.print(&quot;Enter the course code: &quot;);</span>
+<span class="fc" id="L165">                    String courseCode = s.getCourse();</span>
+<span class="fc" id="L166">                    System.out.print(&quot;Enter the minimum CGPA required for this course: &quot;);</span>
+<span class="fc" id="L167">                    float minCGPA = s.getFloat();</span>
+<span class="fc" id="L168">                    user.addCGConstraints(year, semester, courseCode, minCGPA);</span>
+<span class="fc" id="L169">                }</span>
+                case 7 -&gt; {
+<span class="fc" id="L171">                    System.out.print(&quot;Enter your phone number: &quot;);</span>
+<span class="fc" id="L172">                    String newPhone = s.getPhone();</span>
+<span class="fc" id="L173">                    user.updatePhone(user.facultyId, 1, newPhone);</span>
+<span class="fc" id="L174">                }</span>
+                case 8 -&gt; {
+<span class="fc" id="L176">                    System.out.print(&quot;Enter your address: &quot;);</span>
+<span class="fc" id="L177">                    String newAddress = s.getString();</span>
+<span class="fc" id="L178">                    user.updateAddress(user.facultyId, 1, newAddress);</span>
+<span class="fc" id="L179">                }</span>
+            }
+        }
+<span class="fc" id="L182">    }</span>
+
+    public void acadMenu(AcadOffice user) throws Exception
+    {
+<span class="fc" id="L186">        CustomScanner s = new CustomScanner();</span>
+<span class="fc" id="L187">        System.out.print(&quot;Welcome Academic Office!&quot;);</span>
+<span class="fc" id="L188">        int chosenOption = -1;</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">        while(chosenOption != 0)</span>
+        {
+<span class="fc" id="L191">            System.out.print(&quot;Press:\n[0] to logout\n[1] to add a course to the catalog\n[2] to generate a semester transcript of a student\n[3] to view grades of a student\n[4] to view grades of an offering\n[5] to check the graduation status of a student\n[6] to set a semester event\n&quot;);</span>
+<span class="fc" id="L192">            chosenOption = s.getInt();</span>
+<span class="fc bfc" id="L193" title="All 7 branches covered.">            switch (chosenOption) {</span>
+                case 1 -&gt; {
+<span class="fc" id="L195">                    System.out.print(&quot;Lecture hours per week (l): &quot;);</span>
+<span class="fc" id="L196">                    float l = s.getFloat();</span>
+<span class="fc" id="L197">                    System.out.print(&quot;Tutorial hours per week (t): &quot;);</span>
+<span class="fc" id="L198">                    float t = s.getFloat();</span>
+<span class="fc" id="L199">                    System.out.print(&quot;Lab hours per week (p): &quot;);</span>
+<span class="fc" id="L200">                    float p = s.getFloat();</span>
+<span class="fc" id="L201">                    s.getString();</span>
+<span class="fc" id="L202">                    System.out.print(&quot;Enter the course code: &quot;);</span>
+<span class="fc" id="L203">                    String courseCode = s.getCourse();</span>
+<span class="fc" id="L204">                    System.out.print(&quot;Enter the course title: &quot;);</span>
+<span class="fc" id="L205">                    String courseTitle = s.getString();</span>
+<span class="fc" id="L206">                    System.out.print(&quot;Enter the course codes of pre-requisites for this course (space separated): &quot;);</span>
+<span class="fc" id="L207">                    String [] preReqs = s.getString().split(&quot; &quot;);</span>
+<span class="fc" id="L208">                    List&lt;List&lt;String&gt;&gt; optionPreReqs = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L209" title="1 of 2 branches missed.">                    if(!preReqs[0].equals(&quot;&quot;))</span>
+                    {
+<span class="fc bfc" id="L211" title="All 2 branches covered.">                        for(int i=0;i&lt;preReqs.length;i++)</span>
+                        {
+<span class="fc" id="L213">                            System.out.printf(&quot;Enter the courses equivalent to %s that will be also be considered (space separated): &quot;, preReqs[i]);</span>
+<span class="fc" id="L214">                            List&lt;String&gt; orPreReqs = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L215">                            String [] optionalPreReq = s.getString().split(&quot; &quot;);</span>
+<span class="pc bpc" id="L216" title="1 of 2 branches missed.">                            if(!optionalPreReq[0].equals(&quot;&quot;))</span>
+                            {
+<span class="fc bfc" id="L218" title="All 2 branches covered.">                                for(int j=0;j&lt;optionalPreReq.length;j++)</span>
+                                {
+<span class="fc" id="L220">                                    orPreReqs.add(optionalPreReq[i]);</span>
+                                }
+                            }
+<span class="fc" id="L223">                            orPreReqs.add(preReqs[i]);</span>
+<span class="fc" id="L224">                            optionPreReqs.add(orPreReqs);</span>
+                        }
+                    }
+<span class="fc" id="L227">                    user.addCourseToCatalog(courseCode, l, t, p, optionPreReqs, courseTitle);</span>
+<span class="fc" id="L228">                }</span>
+                case 2 -&gt; {
+<span class="fc" id="L230">                    System.out.print(&quot;Enter the student ID of the student for whom you wish to generate a transcript: &quot;);</span>
+<span class="fc" id="L231">                    int studentId = s.getInt();</span>
+<span class="fc" id="L232">                    System.out.print(&quot;Year for which you wish to generate a transcript: &quot;);</span>
+<span class="fc" id="L233">                    int year = s.getInt();</span>
+<span class="fc" id="L234">                    System.out.print(&quot;Semester for which you wish to generate a transcript: &quot;);</span>
+<span class="fc" id="L235">                    int semester = s.getInt();</span>
+<span class="fc" id="L236">                    user.generateTranscript(studentId, year, semester);</span>
+<span class="fc" id="L237">                    System.out.print(&quot;\nCheck the directory C:/Users/Public/Transcripts/Student_&lt;studentID&gt;/transcript_&lt;year&gt;_&lt;semester&gt;.txt for the requested transcript.&quot;);</span>
+<span class="fc" id="L238">                }</span>
+                case 3 -&gt; {
+<span class="fc" id="L240">                    System.out.print(&quot;Enter the student ID to view the corresponding student's grades: &quot;);</span>
+<span class="fc" id="L241">                    int studentId = s.getInt();</span>
+<span class="fc" id="L242">                    user.viewStudentGrades(studentId);</span>
+<span class="fc" id="L243">                }</span>
+
+                case 4 -&gt; {
+<span class="fc" id="L246">                    System.out.print(&quot;Year for which you wish to view grades: &quot;);</span>
+<span class="fc" id="L247">                    int viewYear = s.getInt();</span>
+<span class="fc" id="L248">                    System.out.print(&quot;Semester for which you wish to view grades: &quot;);</span>
+<span class="fc" id="L249">                    int viewSemester = s.getInt();</span>
+<span class="fc" id="L250">                    s.getString();</span>
+<span class="fc" id="L251">                    System.out.print(&quot;Enter the course code: &quot;);</span>
+<span class="fc" id="L252">                    String viewCourseCode = s.getCourse();</span>
+<span class="fc" id="L253">                    user.viewOfferingGrades(viewYear, viewSemester, viewCourseCode);</span>
+<span class="fc" id="L254">                }</span>
+                case 5 -&gt; {
+<span class="fc" id="L256">                    System.out.print(&quot;Enter the student ID to view the corresponding student's graduation status: &quot;);</span>
+<span class="fc" id="L257">                    int studentId = s.getInt();</span>
+<span class="fc" id="L258">                    boolean canGraduate = user.canGraduate(studentId);</span>
+<span class="fc" id="L259">                }</span>
+                case 6 -&gt; {
+<span class="fc" id="L261">                    System.out.print(&quot;Press:\n[1] to set event to 'Before Semester'\n[2] to set event to 'Semester Running'\n[3] to set event to 'After Semester'\n&quot;);</span>
+<span class="fc" id="L262">                    int action = s.getInt();</span>
+<span class="fc" id="L263">                    s.getString();</span>
+<span class="fc" id="L264">                    user.setSemesterEvent(action);</span>
+<span class="fc" id="L265">                }</span>
+            }
+        }
+<span class="fc" id="L268">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

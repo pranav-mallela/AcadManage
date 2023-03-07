@@ -1,9 +1,16 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'org.connection'
 version '1.0-SNAPSHOT'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.connection.Main'
+    }
+}
 
 repositories {
     mavenCentral()
@@ -18,3 +25,9 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+run {
+    standardInput = System.in
+}
+
+mainClassName = 'org.connection.Main'

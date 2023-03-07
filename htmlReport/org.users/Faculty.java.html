@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Faculty.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Tests in 'AcadManage.test' Coverage Results</a> &gt; <a href="index.source.html" class="el_package">org.users</a> &gt; <span class="el_source">Faculty.java</span></div><h1>Faculty.java</h1><pre class="source lang-java linenums">package org.users;
+
+import org.scanners.CustomScanner;
+
+import java.io.File;
+import java.sql.*;
+import java.util.List;
+import java.util.Scanner;
+
+public class Faculty extends User{
+    public final int facultyId;
+    private String dept;
+
+    public Faculty(Connection conn, int facultyId) {
+<span class="fc" id="L15">        super(conn);</span>
+<span class="fc" id="L16">        this.facultyId = facultyId;</span>
+<span class="fc" id="L17">    }</span>
+
+    // can only be done 'Before Semester'
+    public void floatCourse(String courseCode, int year, int semester) throws SQLException
+    {
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if(!getRunningPhase(1)) return;</span>
+
+<span class="fc" id="L24">        int courseId = checkIfCourseExists(courseCode, true);</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if(courseId == 0) return;</span>
+
+<span class="fc" id="L27">        int offeringId = checkIfOfferingExists(courseCode, courseId, year, semester);</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if(offeringId != 0)</span>
+        {
+<span class="fc" id="L30">            System.out.print(&quot;UNSUCCESSFUL ACTION: Offering already exists!\n&quot;);</span>
+<span class="fc" id="L31">            return;</span>
+        }
+
+        Statement statement;
+        ResultSet rs;
+
+        // check if matching with upcoming year and sem and add it to offerings
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if(checkIfUpcomingSem(year, semester))</span>
+        {
+<span class="fc" id="L40">            String offeringQuery = String.format(&quot;INSERT INTO offerings(faculty_id, course_id, year_offered_in, semester_offered_in)&quot; +</span>
+<span class="fc" id="L41">                    &quot;VALUES(%d, %d, %d, %d)&quot;, facultyId, courseId, year, semester);</span>
+<span class="fc" id="L42">            statement = conn.createStatement();</span>
+<span class="fc" id="L43">            statement.executeUpdate(offeringQuery);</span>
+<span class="fc" id="L44">            System.out.print(&quot;SUCCESS: Course successfully floated!\n&quot;);</span>
+<span class="fc" id="L45">        }</span>
+        else
+        {
+<span class="fc" id="L48">            System.out.print(&quot;UNSUCCESSFUL ACTION: Cannot float due to wrong year or semester!\n&quot;);</span>
+        }
+<span class="fc" id="L50">    }</span>
+
+    // can only be done 'Before Semester'
+    public void addConstraintsToOffering(int year, int semester, String courseCode, List&lt;List&lt;List&lt;String&gt;&gt;&gt; orPreReqGrades) throws  SQLException
+    {
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if(!getRunningPhase(1)) return;</span>
+
+<span class="fc" id="L57">        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);</span>
+<span class="fc" id="L58">        int courseId = idArray[0], offeringId = idArray[1];</span>
+<span class="fc bfc" id="L59" title="All 4 branches covered.">        if(courseId == 0 || offeringId == 0) return;</span>
+
+        Statement statement;
+
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        for (List&lt;List&lt;String&gt;&gt; orPreReqGrade : orPreReqGrades) {</span>
+<span class="fc" id="L64">            int mainPreReqId = checkIfCourseExists(orPreReqGrade.get(orPreReqGrade.size() - 1).get(0), true);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            if (mainPreReqId == 0) {</span>
+<span class="fc" id="L66">                String deleteConstraintsQuery = String.format(&quot;DELETE FROM offering_constraints WHERE offering_id=%d&quot;, offeringId);</span>
+<span class="fc" id="L67">                statement = conn.createStatement();</span>
+<span class="fc" id="L68">                statement.executeUpdate(deleteConstraintsQuery);</span>
+<span class="fc" id="L69">                return;</span>
+            }
+<span class="fc" id="L71">            String mainPreReqGrade = orPreReqGrade.get(orPreReqGrade.size() - 1).get(1);</span>
+
+<span class="fc" id="L73">            String addMainConstraintsQuery = String.format(&quot;INSERT INTO offering_constraints VALUES(%d, %d, '%s')&quot;, offeringId, mainPreReqId, mainPreReqGrade);</span>
+<span class="fc" id="L74">            statement = conn.createStatement();</span>
+<span class="fc" id="L75">            statement.executeUpdate(addMainConstraintsQuery);</span>
+
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            for (int j = 0; j &lt; orPreReqGrade.size() - 1; j++) {</span>
+<span class="fc" id="L78">                String preReqCode = orPreReqGrade.get(j).get(0);</span>
+<span class="fc" id="L79">                String preReqGrade = orPreReqGrade.get(j).get(1);</span>
+<span class="fc" id="L80">                int preReqId = checkIfCourseExists(preReqCode, true);</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">                if (preReqId == 0) {</span>
+<span class="fc" id="L82">                    String deleteConstraintsQuery = String.format(&quot;DELETE FROM optional_offering_constraints WHERE offering_id=%d&quot;, offeringId);</span>
+<span class="fc" id="L83">                    statement = conn.createStatement();</span>
+<span class="fc" id="L84">                    statement.executeUpdate(deleteConstraintsQuery);</span>
+<span class="fc" id="L85">                    return;</span>
+                }
+<span class="fc" id="L87">                String addConstraintsQuery = String.format(&quot;INSERT INTO optional_offering_constraints VALUES(%d, %d, %d, '%s')&quot;, offeringId, mainPreReqId, preReqId, preReqGrade);</span>
+<span class="fc" id="L88">                statement = conn.createStatement();</span>
+<span class="fc" id="L89">                statement.executeUpdate(addConstraintsQuery);</span>
+            }
+<span class="fc" id="L91">        }</span>
+<span class="fc" id="L92">        System.out.print(&quot;SUCCESS: Constraints successfully added!\n&quot;);</span>
+<span class="fc" id="L93">    }</span>
+
+    // can only be done 'Before Semester'
+    public void addCGConstraints(int year, int semester, String courseCode, float cg) throws SQLException
+    {
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        if(!getRunningPhase(1)) return;</span>
+
+<span class="fc" id="L100">        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);</span>
+<span class="fc" id="L101">        int courseId = idArray[0], offeringId = idArray[1];</span>
+<span class="fc bfc" id="L102" title="All 4 branches covered.">        if(courseId == 0 || offeringId == 0) return;</span>
+
+        Statement statement;
+
+<span class="fc" id="L106">        String addCGConstraintsQuery = String.format(&quot;INSERT INTO offering_cg_constraints VALUES(%d, %f)&quot;, offeringId, cg);</span>
+<span class="fc" id="L107">        statement = conn.createStatement();</span>
+<span class="fc" id="L108">        statement.executeUpdate(addCGConstraintsQuery);</span>
+<span class="fc" id="L109">        System.out.print(&quot;SUCCESS: CG Constraints successfully added!\n&quot;);</span>
+<span class="fc" id="L110">    }</span>
+
+    // can only be done 'Before Semester'
+    public void cancelOffering(String courseCode, int year, int semester) throws SQLException
+    {
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if(!getRunningPhase(1)) return;</span>
+
+<span class="fc" id="L117">        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);</span>
+<span class="fc" id="L118">        int courseId = idArray[0], offeringId = idArray[1];</span>
+<span class="fc bfc" id="L119" title="All 4 branches covered.">        if(courseId == 0 || offeringId == 0) return;</span>
+
+        Statement statement, statement1;
+        ResultSet rs;
+
+        // only allow if offering is in upcoming semester
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        if(!checkIfUpcomingSem(year, semester))</span>
+        {
+<span class="fc" id="L127">            System.out.print(&quot;UNSUCCESSFUL ACTION: Cannot cancel offering that is not in upcoming semester!\n&quot;);</span>
+<span class="fc" id="L128">            return;</span>
+        }
+
+        // delete offering from student table
+<span class="fc" id="L132">        String enrolledStudentsQuery = String.format(&quot;SELECT * FROM offering_%d&quot;, offeringId);</span>
+<span class="fc" id="L133">        statement = conn.createStatement();</span>
+<span class="fc" id="L134">        rs = statement.executeQuery(enrolledStudentsQuery);</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        while(rs.next())</span>
+        {
+<span class="fc" id="L137">            String cancelStatusQuery = String.format(&quot;DELETE FROM student_%d WHERE offering_id=%d&quot;,</span>
+<span class="fc" id="L138">                    rs.getInt(&quot;student_id&quot;), offeringId);</span>
+<span class="fc" id="L139">            statement1 = conn.createStatement();</span>
+<span class="fc" id="L140">            statement1.executeUpdate(cancelStatusQuery);</span>
+<span class="fc" id="L141">        }</span>
+
+        // delete offering
+<span class="fc" id="L144">        String cancelOfferingQuery  = String.format(&quot;DELETE FROM offerings WHERE course_id=%d and faculty_id=%d and year_offered_in=%d and semester_offered_in=%d&quot;, courseId, facultyId, year, semester);</span>
+<span class="fc" id="L145">        statement = conn.createStatement();</span>
+<span class="fc" id="L146">        statement.executeUpdate(cancelOfferingQuery);</span>
+<span class="fc" id="L147">        System.out.print(&quot;SUCCESS: Offering cancelled successfully!\n&quot;);</span>
+<span class="fc" id="L148">    }</span>
+
+    // can only be done 'After Semester'
+    public void uploadGrades(String courseCode, int year, int semester, CustomScanner s) throws SQLException
+    {
+<span class="fc bfc" id="L153" title="All 2 branches covered.">        if(!getRunningPhase(3)) return;</span>
+
+<span class="fc" id="L155">        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);</span>
+<span class="fc" id="L156">        int courseId = idArray[0], offeringId = idArray[1];</span>
+<span class="fc bfc" id="L157" title="All 4 branches covered.">        if(courseId == 0 || offeringId == 0) return;</span>
+
+        Statement statement,statement1, statement2;
+<span class="fc" id="L160">        ResultSet rs = null, rs1 = null;</span>
+
+        try{
+            // export students table to faculty computer
+<span class="fc" id="L164">            String dir = String.format(&quot;C:/Users/Public/Grades_%d&quot;, courseId);</span>
+<span class="fc" id="L165">            new File(dir).mkdirs();</span>
+<span class="fc" id="L166">            String exportCSVQuery = String.format(&quot;COPY offering_%d TO '%s/offering_%d.csv' CSV HEADER&quot;, offeringId, dir, offeringId);</span>
+<span class="fc" id="L167">            statement = conn.createStatement();</span>
+<span class="fc" id="L168">            statement.executeUpdate(exportCSVQuery);</span>
+<span class="fc" id="L169">            System.out.print(&quot;\nCheck the directory C:/Users/Public/Grades_&lt;courseID&gt;/offering_&lt;offeringID&gt;.csv for the csv file containing enrolled students' information.\n&quot;);</span>
+
+            // import csv from path given by faculty
+<span class="fc" id="L172">            System.out.println(&quot;Press enter once all the grades have been updated and the file has been saved: &quot;);</span>
+<span class="fc" id="L173">            s.getString();</span>
+<span class="fc" id="L174">            String createTempTableQuery = String.format(&quot;CREATE TABLE offering_tmp_%d(student_id INT,grade VARCHAR(10),PRIMARY KEY(student_id))&quot;, offeringId);</span>
+<span class="fc" id="L175">            statement.executeUpdate(createTempTableQuery);</span>
+<span class="fc" id="L176">            String importCSVQuery = String.format(&quot;COPY offering_tmp_%d FROM '%s/offering_%d.csv' DELIMITER ',' CSV HEADER&quot;, offeringId, dir, offeringId);</span>
+<span class="fc" id="L177">            statement.executeUpdate(importCSVQuery);</span>
+
+            // ERROR checking
+            // if all students are in the csv file
+<span class="fc" id="L181">            String checkStudents = String.format(&quot;(SELECT student_id FROM offering_%d EXCEPT SELECT student_id FROM offering_tmp_%d)&quot; +</span>
+                    &quot;UNION&quot; +
+<span class="fc" id="L183">                    &quot;(SELECT student_id FROM offering_tmp_%d EXCEPT SELECT student_id FROM offering_%d)&quot;, offeringId, offeringId, offeringId, offeringId);</span>
+<span class="fc" id="L184">            rs = statement.executeQuery(checkStudents);</span>
+<span class="pc bpc" id="L185" title="1 of 2 branches missed.">            if(rs.next())</span>
+            {
+<span class="nc" id="L187">                System.out.print(&quot;UNSUCCESSFUL ACTION: Student mismatch!\n&quot;);</span>
+<span class="nc" id="L188">                String deleteTempTableQuery = String.format(&quot;DROP TABLE offering_tmp_%d&quot;, offeringId);</span>
+<span class="nc" id="L189">                statement.executeUpdate(deleteTempTableQuery);</span>
+<span class="nc" id="L190">                return;</span>
+            }
+
+            //check if all students have been given valid grades (null grade is allowed)
+<span class="fc" id="L194">            String checkGrades = String.format(&quot;SELECT grade FROM offering_tmp_%d WHERE grade IS NOT NULL AND (grade &lt;&gt; 'A' and grade &lt;&gt; 'A-' and grade &lt;&gt; 'B' and grade &lt;&gt; 'B-' and grade &lt;&gt; 'C' and grade &lt;&gt; 'C-' and grade &lt;&gt; 'D' and grade &lt;&gt; 'D-'&quot; +</span>
+<span class="fc" id="L195">                    &quot;and grade &lt;&gt; 'E' and grade &lt;&gt; 'E-' and grade &lt;&gt; 'F')&quot;, offeringId);</span>
+<span class="fc" id="L196">            rs = statement.executeQuery(checkGrades);</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">            if(rs.next())</span>
+            {
+<span class="nc" id="L199">                System.out.print(&quot;UNSUCCESSFUL ACTION: Grades can only be of a specific format!\n&quot;);</span>
+<span class="nc" id="L200">                String deleteTempTableQuery = String.format(&quot;DROP TABLE offering_tmp_%d&quot;, offeringId);</span>
+<span class="nc" id="L201">                statement.executeUpdate(deleteTempTableQuery);</span>
+<span class="nc" id="L202">                return;</span>
+            }
+
+            //update student grades in the offering table
+<span class="fc" id="L206">            String getEnrolledStudents = String.format(&quot;SELECT * FROM offering_%d&quot;, offeringId);</span>
+<span class="fc" id="L207">            rs = statement.executeQuery(getEnrolledStudents);</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">            while(rs.next())</span>
+            {
+<span class="fc" id="L210">                statement1 = conn.createStatement();</span>
+<span class="fc" id="L211">                String getGradeFromTempQuery = String.format(&quot;SELECT * FROM offering_tmp_%d WHERE student_id='%d'&quot;, offeringId, rs.getInt(&quot;student_id&quot;));</span>
+<span class="fc" id="L212">                rs1 = statement1.executeQuery(getGradeFromTempQuery);</span>
+<span class="pc bpc" id="L213" title="1 of 2 branches missed.">                if(rs1.next())</span>
+                {
+<span class="fc" id="L215">                    String grade = rs1.getString(&quot;grade&quot;);</span>
+<span class="pc bpc" id="L216" title="1 of 2 branches missed.">                    if(grade == null)</span>
+<span class="fc" id="L217">                        grade = &quot;&quot;;</span>
+<span class="fc" id="L218">                    String updateOfferingTableQuery = String.format(&quot;UPDATE offering_%d SET grade='%s' WHERE student_id=%d&quot;, offeringId, grade, rs.getInt(&quot;student_id&quot;));</span>
+<span class="fc" id="L219">                    statement2 = conn.createStatement();</span>
+<span class="fc" id="L220">                    statement2.executeUpdate(updateOfferingTableQuery);</span>
+<span class="fc" id="L221">                }</span>
+                else
+                {
+<span class="nc" id="L224">                    System.out.print(&quot;UNSUCCESSFUL ACTION: Invalid student ID!\n&quot;);</span>
+<span class="nc" id="L225">                    return;</span>
+                }
+<span class="fc" id="L227">            }</span>
+
+            //update student grades in the students' table
+<span class="fc" id="L230">            rs = statement.executeQuery(getEnrolledStudents);</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">            while(rs.next())</span>
+            {
+<span class="fc" id="L233">                statement1 = conn.createStatement();</span>
+<span class="fc" id="L234">                String getGradeFromTempQuery = String.format(&quot;SELECT * FROM offering_tmp_%d WHERE student_id='%d'&quot;, offeringId, rs.getInt(&quot;student_id&quot;));</span>
+<span class="fc" id="L235">                rs1 = statement1.executeQuery(getGradeFromTempQuery);</span>
+<span class="pc bpc" id="L236" title="1 of 2 branches missed.">                if(rs1.next())</span>
+                {
+<span class="fc" id="L238">                    String grade = rs1.getString(&quot;grade&quot;);</span>
+<span class="pc bpc" id="L239" title="1 of 2 branches missed.">                    if(grade == null)</span>
+<span class="fc" id="L240">                        grade = &quot;&quot;;</span>
+<span class="fc" id="L241">                    String updateStudentTableQuery = String.format(&quot;UPDATE student_%d SET grade='%s' WHERE offering_id=%d&quot;, rs.getInt(&quot;student_id&quot;), grade, offeringId);</span>
+<span class="fc" id="L242">                    statement2 = conn.createStatement();</span>
+<span class="fc" id="L243">                    statement2.executeUpdate(updateStudentTableQuery);</span>
+<span class="fc" id="L244">                }</span>
+                else
+                {
+<span class="nc" id="L247">                    System.out.print(&quot;UNSUCCESSFUL ACTION: Invalid student ID!\n&quot;);</span>
+<span class="nc" id="L248">                    return;</span>
+                }
+<span class="fc" id="L250">            }</span>
+
+            // delete temp offering table
+<span class="fc" id="L253">            String deleteTempTableQuery = String.format(&quot;DROP TABLE offering_tmp_%d&quot;, offeringId);</span>
+<span class="fc" id="L254">            statement.executeUpdate(deleteTempTableQuery);</span>
+
+<span class="fc" id="L256">            System.out.print(&quot;SUCCESS: Grades have been successfully updated!\n&quot;);</span>
+
+<span class="nc" id="L258">        } catch (SQLException e)</span>
+        {
+<span class="nc" id="L260">            System.out.print(e);</span>
+<span class="fc" id="L261">        }</span>
+<span class="fc" id="L262">    }</span>
+
+    public void viewGrades(int year, int semester, String courseCode) throws SQLException
+    {
+        Statement statement;
+<span class="fc" id="L267">        ResultSet rs = null;</span>
+
+        // get courseId and offeringId
+<span class="fc" id="L270">        int [] idArray = getCourseAndOfferingId(courseCode, year, semester);</span>
+<span class="fc" id="L271">        int courseId = idArray[0], offeringId = idArray[1];</span>
+<span class="pc bpc" id="L272" title="1 of 4 branches missed.">        if(courseId == 0 || offeringId == 0) return;</span>
+
+<span class="fc" id="L274">        String viewGradesQuery = String.format(&quot;SELECT * FROM offering_%d&quot;, offeringId);</span>
+<span class="fc" id="L275">        statement = conn.createStatement();</span>
+<span class="fc" id="L276">        rs = statement.executeQuery(viewGradesQuery);</span>
+<span class="fc" id="L277">        System.out.print(&quot; student_id | grade\n&quot;);</span>
+<span class="fc" id="L278">        System.out.print(&quot;------------+--------\n&quot;);</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">        while(rs.next())</span>
+        {
+<span class="fc" id="L281">            System.out.print(&quot; &quot;.repeat(&quot;student_id&quot;.length()) + rs.getInt(&quot;student_id&quot;) + &quot; | &quot;</span>
+<span class="fc" id="L282">                    + rs.getString(&quot;grade&quot;) + &quot;\n&quot;);</span>
+        }
+<span class="fc" id="L284">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

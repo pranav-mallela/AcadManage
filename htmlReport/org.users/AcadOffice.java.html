@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AcadOffice.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Tests in 'AcadManage.test' Coverage Results</a> &gt; <a href="index.source.html" class="el_package">org.users</a> &gt; <span class="el_source">AcadOffice.java</span></div><h1>AcadOffice.java</h1><pre class="source lang-java linenums">package org.users;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.sql.*;
+import java.util.List;
+
+public class AcadOffice extends User{
+    public AcadOffice(Connection conn) {
+<span class="fc" id="L10">        super(conn);</span>
+<span class="fc" id="L11">    }</span>
+
+    public void addCourseToCatalog(String courseCode, float l, float t, float p, List&lt;List&lt;String&gt;&gt; optionPreReqs, String courseTitle) throws SQLException
+    {
+        Statement statement;
+
+        // check if course already exists
+<span class="fc" id="L18">        int courseId = checkIfCourseExists(courseCode, false);</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if(courseId != 0) return;</span>
+
+        //add prerequisites to pre_req table before adding to catalog
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if(optionPreReqs.size() != 0)</span>
+        {
+<span class="fc bfc" id="L24" title="All 2 branches covered.">            for (List&lt;String&gt; optionPreReq : optionPreReqs) {</span>
+<span class="fc" id="L25">                String preReqCode = optionPreReq.get(optionPreReq.size() - 1); // code of the compulsory prerequisite</span>
+<span class="fc" id="L26">                int preReqId = checkIfCourseExists(preReqCode, true);</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">                if (preReqId == 0) {</span>
+<span class="fc" id="L28">                    String deletePreReqQuery = String.format(&quot;DELETE FROM pre_req where course_code='%s'&quot;, courseCode);</span>
+<span class="fc" id="L29">                    statement = conn.createStatement();</span>
+<span class="fc" id="L30">                    statement.executeUpdate(deletePreReqQuery);</span>
+<span class="fc" id="L31">                    return;</span>
+                }
+                // add it to the main prerequisite table
+<span class="fc" id="L34">                String addPreReqQuery = String.format(&quot;INSERT INTO pre_req(course_code, pre_req_course_id, pre_req_code) VALUES('%s', %d, '%s')&quot;, courseCode, preReqId, preReqCode);</span>
+<span class="fc" id="L35">                statement = conn.createStatement();</span>
+<span class="fc" id="L36">                statement.executeUpdate(addPreReqQuery);</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">                if (!optionPreReq.get(0).equals(&quot;&quot;)) {</span>
+                    //add all of its equivalents as well, to the optional prerequisite table
+<span class="fc bfc" id="L39" title="All 2 branches covered.">                    for (int j = 0; j &lt; optionPreReq.size() - 1; j++) {</span>
+                        // check if equivalent exists in catalog
+<span class="fc" id="L41">                        int optionCourseId = checkIfCourseExists(optionPreReq.get(j), true);</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">                        if (optionCourseId == 0) {</span>
+<span class="fc" id="L43">                            String deleteOptionalPreReqQuery = String.format(&quot;DELETE FROM optional_pre_req WHERE pre_req_code='%s'&quot;, preReqCode);</span>
+<span class="fc" id="L44">                            statement = conn.createStatement();</span>
+<span class="fc" id="L45">                            statement.executeUpdate(deleteOptionalPreReqQuery);</span>
+<span class="fc" id="L46">                            return;</span>
+                        }
+
+                        // add it to the optional prerequisite table
+<span class="fc" id="L50">                        String addOptionalPreReqQuery = String.format(&quot;INSERT INTO optional_pre_req(pre_req_code, option_course_id, option_code) VALUES('%s', %d, '%s')&quot;, preReqCode, optionCourseId, optionPreReq.get(j));</span>
+<span class="fc" id="L51">                        statement = conn.createStatement();</span>
+<span class="fc" id="L52">                        statement.executeUpdate(addOptionalPreReqQuery);</span>
+                    }
+                }
+<span class="fc" id="L55">            }</span>
+        }
+
+        //add course
+<span class="fc" id="L59">        String addCourseQuery = String.format(&quot;INSERT INTO course_catalog(course_code, l, t, p, course_title) VALUES('%s', %f, %f, %f, '%s');&quot;, courseCode, l, t, p, courseTitle);</span>
+<span class="fc" id="L60">        statement = conn.createStatement();</span>
+<span class="fc" id="L61">        statement.executeUpdate(addCourseQuery);</span>
+<span class="fc" id="L62">        System.out.print(&quot;SUCCESS: Course successfully added to catalog!\n&quot;);</span>
+<span class="fc" id="L63">    }</span>
+
+    public void generateTranscript(int studentId, int year, int semester) throws Exception
+    {
+        Statement statement;
+<span class="fc" id="L68">        ResultSet rs = null;</span>
+
+        // query to get the transcript of a student
+<span class="fc" id="L71">        String getCourseIdQuery = String.format(&quot;SELECT course_id FROM course_catalog WHERE course_code=s.course_code&quot;);</span>
+<span class="fc" id="L72">        String getOfferingIdQuery = String.format(&quot;SELECT offering_id FROM offerings WHERE year_offered_in=%d and semester_offered_in=%d and course_id=(%s)&quot;, year, semester, getCourseIdQuery);</span>
+<span class="fc" id="L73">        String getStudentTranscriptQuery = String.format(&quot;SELECT course_code, grade FROM student_%d s WHERE offering_id=(%s)&quot;, studentId, getOfferingIdQuery);</span>
+
+        // export txt file to user's computer
+<span class="fc" id="L76">        statement = conn.createStatement();</span>
+<span class="fc" id="L77">        String pathToTranscript = String.format(&quot;C:/Users/Public/Transcripts/Student_%d&quot;, studentId);</span>
+<span class="fc" id="L78">        new File(pathToTranscript).mkdirs();</span>
+<span class="fc" id="L79">        FileWriter fw = new FileWriter(String.format(&quot;%s/transcript_%d_%d.txt&quot;, pathToTranscript, year, semester));</span>
+<span class="fc" id="L80">        fw.write(String.format(&quot;Transcript of Student %d for Academic Year %d and Semester %d\n\n&quot;, studentId, year, semester));</span>
+<span class="fc" id="L81">        fw.write(&quot;course_code | grade\n&quot;);</span>
+<span class="fc" id="L82">        fw.write(&quot;------------+-------\n&quot;);</span>
+<span class="fc" id="L83">        rs = statement.executeQuery(getStudentTranscriptQuery);</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        while(rs.next())</span>
+        {
+<span class="fc" id="L86">            fw.write(&quot; &quot; + rs.getString(&quot;course_code&quot;) + &quot; &quot;.repeat(&quot;course_code&quot;.length()-5) + &quot;| &quot; + rs.getString(&quot;grade&quot;)  + &quot;\n&quot;);</span>
+        }
+<span class="fc" id="L88">        fw.close();</span>
+<span class="fc" id="L89">    }</span>
+
+    public void viewStudentGrades(int studentId) throws SQLException
+    {
+<span class="fc" id="L93">        Student student = new Student(conn, studentId);</span>
+<span class="fc" id="L94">        student.viewEnrolledCourseDetails();</span>
+<span class="fc" id="L95">    }</span>
+
+    public void viewOfferingGrades(int year, int semester, String courseCode) throws SQLException
+    {
+        Statement statement;
+<span class="fc" id="L100">        ResultSet rs = null;</span>
+<span class="fc" id="L101">        int facultyId = 0;</span>
+
+<span class="fc" id="L103">        int courseId = checkIfCourseExists(courseCode, true);</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if(courseId == 0) return;</span>
+
+<span class="fc" id="L106">        String getFacultyIdQuery = String.format(&quot;SELECT faculty_id FROM offerings WHERE year_offered_in=%d and semester_offered_in=%d and course_id=%d&quot;, year, semester, courseId);</span>
+<span class="fc" id="L107">        statement = conn.createStatement();</span>
+<span class="fc" id="L108">        rs = statement.executeQuery(getFacultyIdQuery);</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">        if(rs.next())</span>
+        {
+<span class="fc" id="L111">            facultyId = rs.getInt(&quot;faculty_id&quot;);</span>
+        }
+<span class="fc" id="L113">        Faculty faculty = new Faculty(conn, facultyId);</span>
+<span class="fc" id="L114">        faculty.viewGrades(year, semester, courseCode);</span>
+<span class="fc" id="L115">    }</span>
+
+    public boolean canGraduate(int studentId)
+    {
+        Statement statement;
+<span class="fc" id="L120">        ResultSet rs = null;</span>
+
+        try{
+            // get the entry year and dept of the student
+<span class="fc" id="L124">            String getBatchIdQuery = String.format(&quot;SELECT entry_year, dept FROM students WHERE student_id=%d&quot;, studentId);</span>
+<span class="fc" id="L125">            statement = conn.createStatement();</span>
+<span class="fc" id="L126">            rs = statement.executeQuery(getBatchIdQuery);</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">            if(!rs.next())</span>
+            {
+<span class="fc" id="L129">                System.out.print(&quot;UNSUCCESSFUL ACTION: Student does not exist!\n&quot;);</span>
+<span class="fc" id="L130">                return false;</span>
+            }
+<span class="fc" id="L132">            int entryYear = rs.getInt(&quot;entry_year&quot;);</span>
+<span class="fc" id="L133">            String dept = rs.getString(&quot;dept&quot;);</span>
+
+            // check if student has completed all the core courses
+<span class="fc" id="L136">            String checkCoreCompletion = String.format(&quot;&quot; +</span>
+                    &quot;SELECT * &quot; +
+                    &quot;FROM pc_2020_cse &quot; +
+                    &quot;WHERE course_code NOT IN ( &quot; +
+                    &quot;  SELECT course_code &quot; +
+                    &quot;  FROM student_1 &quot; +
+                    &quot;  WHERE grade &lt;&gt; 'E' AND grade &lt;&gt; 'E-' AND grade &lt;&gt; 'F' &quot; +
+                    &quot;)&quot;);
+<span class="fc" id="L144">            rs = statement.executeQuery(checkCoreCompletion);</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">            if(rs.next())</span>
+            {
+<span class="fc" id="L147">                System.out.print(&quot;UNSUCCESSFUL ACTION: Student has not completed all the core courses!\n&quot;);</span>
+<span class="fc" id="L148">                return false;</span>
+            }
+
+            // check if the student has completed all the elective courses
+<span class="fc" id="L152">            String checkElectiveCompletion = String.format(&quot;&quot;&quot;</span>
+                    SELECT el_%d_%s.course_category as course_category, SUM(course_catalog.c) as sum
+                    FROM
+                      student_%d
+                      JOIN el_%d_%s ON student_%d.course_code = el_%d_%s.course_code
+                      JOIN course_catalog ON student_%d.course_code = course_catalog.course_code
+                    WHERE
+                      student_%d.course_code IN (SELECT course_code FROM el_%d_%s)
+                      AND student_%d.grade &lt;&gt; 'E' AND student_%d.grade &lt;&gt; 'E-' AND student_%d.grade &lt;&gt; 'F'
+                    GROUP BY el_%d_%s.course_category;
+<span class="fc" id="L162">                    &quot;&quot;&quot;, entryYear, dept, studentId, entryYear, dept, studentId, entryYear, dept, studentId, studentId, entryYear, dept, studentId, studentId, studentId, entryYear, dept);</span>
+<span class="fc" id="L163">            rs = statement.executeQuery(checkElectiveCompletion);</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">            if(!rs.next())</span>
+            {
+<span class="fc" id="L166">                System.out.print(&quot;UNSUCCESSFUL ACTION: Student has not completed all the elective courses!\n&quot;);</span>
+<span class="fc" id="L167">                return false;</span>
+            }
+            else{
+<span class="fc" id="L170">                int totalElectiveCredits = 0;</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">                for(int i=0;i&lt;3;i++)</span>
+                {
+<span class="fc" id="L173">                    int creditsEarned = rs.getInt(&quot;sum&quot;);</span>
+<span class="pc bpc" id="L174" title="1 of 2 branches missed.">                    if(creditsEarned &lt; 6)</span>
+                    {
+<span class="nc" id="L176">                        System.out.print(&quot;UNSUCCESSFUL ACTION: Student has not completed all the elective courses!\n&quot;);</span>
+<span class="nc" id="L177">                        return false;</span>
+                    }
+<span class="fc" id="L179">                    totalElectiveCredits += creditsEarned;</span>
+<span class="fc" id="L180">                    rs.next();</span>
+                }
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">                if(totalElectiveCredits &lt; 24)</span>
+                {
+<span class="nc" id="L184">                    System.out.print(&quot;UNSUCCESSFUL ACTION: Student has not completed all the elective courses!\n&quot;);</span>
+<span class="nc" id="L185">                    return false;</span>
+                }
+            }
+
+            // check if the student completed all the extracurricular and capstone courses
+<span class="fc" id="L190">            String checkExtracurricularCompletion = String.format(&quot;&quot;&quot;</span>
+                   SELECT extra_cap_%d.course_category as course_category, SUM(course_catalog.c) as sum
+                   FROM
+                     student_%d
+                     JOIN extra_cap_%d ON student_%d.course_code = extra_cap_%d.course_code
+                     JOIN course_catalog ON student_%d.course_code = course_catalog.course_code
+                   WHERE
+                     student_%d.course_code IN (SELECT course_code FROM extra_cap_%d)
+                     AND student_%d.grade &lt;&gt; 'E' AND student_%d.grade &lt;&gt; 'E-' AND student_%d.grade &lt;&gt; 'F'
+                   GROUP BY extra_cap_%d.course_category;
+<span class="fc" id="L200">                    &quot;&quot;&quot;, entryYear, studentId, entryYear, studentId, entryYear, studentId, studentId, entryYear, studentId, studentId, studentId, entryYear);</span>
+<span class="fc" id="L201">            rs = statement.executeQuery(checkExtracurricularCompletion);</span>
+<span class="fc bfc" id="L202" title="All 2 branches covered.">            if(!rs.next())</span>
+            {
+<span class="fc" id="L204">                System.out.print(&quot;UNSUCCESSFUL ACTION: Student has not completed all the extracurricular and capstone courses!\n&quot;);</span>
+<span class="fc" id="L205">                return false;</span>
+            }
+            else{
+<span class="fc bfc" id="L208" title="All 2 branches covered.">                for(int i=0;i&lt;3;i++)</span>
+                {
+<span class="fc" id="L210">                    float creditsEarned = rs.getFloat(&quot;sum&quot;);</span>
+<span class="pc bpc" id="L211" title="3 of 12 branches missed.">                    if((i == 0 &amp;&amp; creditsEarned &lt; 9) || (i == 1 &amp;&amp; creditsEarned &lt; 3.5) || (i == 2 &amp;&amp; creditsEarned &lt; 4))</span>
+                    {
+<span class="nc" id="L213">                        System.out.print(&quot;UNSUCCESSFUL ACTION: Student has not completed all the extracurricular and capstone courses!\n&quot;);</span>
+<span class="nc" id="L214">                        return false;</span>
+                    }
+<span class="fc" id="L216">                    rs.next();</span>
+                }
+            }
+<span class="nc" id="L219">        } catch (SQLException e)</span>
+        {
+<span class="nc" id="L221">            System.out.print(e);</span>
+<span class="fc" id="L222">        }</span>
+<span class="fc" id="L223">        System.out.print(&quot;SUCCESS: Student eligible for graduation!\n&quot;);</span>
+<span class="fc" id="L224">        return true;</span>
+    }
+
+    public void setSemesterEvent(int action) throws SQLException
+    {
+        Statement statement, statement1;
+<span class="fc" id="L230">        ResultSet rs = null, rs1 = null;</span>
+<span class="fc" id="L231">        statement = conn.createStatement();</span>
+
+<span class="fc" id="L233">        String setSemesterEventQuery = &quot;UPDATE semester_events SET is_open=0::BOOLEAN&quot;;</span>
+<span class="fc" id="L234">        statement.executeUpdate(setSemesterEventQuery);</span>
+<span class="fc" id="L235">        String setSemesterEventQuery2 = String.format(&quot;UPDATE semester_events SET is_open=1::BOOLEAN WHERE event_id=%d&quot;, action);</span>
+<span class="fc" id="L236">        statement.executeUpdate(setSemesterEventQuery2);</span>
+
+        // if action == 2, then add credit limits of all students
+<span class="fc bfc" id="L239" title="All 2 branches covered.">        if(action == 2)</span>
+        {
+<span class="fc" id="L241">            int year=2020, semester=1;</span>
+<span class="fc" id="L242">            String getUpcomingSemesterQuery = &quot;SELECT academic_year, semester FROM upcoming_semester WHERE upcoming=1::BOOLEAN&quot;;</span>
+<span class="fc" id="L243">            rs = statement.executeQuery(getUpcomingSemesterQuery);</span>
+<span class="pc bpc" id="L244" title="1 of 2 branches missed.">            if(rs.next())</span>
+            {
+<span class="fc" id="L246">                year = rs.getInt(&quot;academic_year&quot;);</span>
+<span class="fc" id="L247">                semester = rs.getInt(&quot;semester&quot;);</span>
+            }
+
+<span class="fc" id="L250">            String getAllStudentsQuery = &quot;SELECT student_id FROM students&quot;;</span>
+<span class="fc" id="L251">            rs = statement.executeQuery(getAllStudentsQuery);</span>
+<span class="fc bfc" id="L252" title="All 2 branches covered.">            while(rs.next())</span>
+            {
+<span class="fc" id="L254">                statement1 = conn.createStatement();</span>
+<span class="fc" id="L255">                int studentId = rs.getInt(&quot;student_id&quot;);</span>
+<span class="fc" id="L256">                String getSumOfCreditsQuery = String.format(&quot;&quot;&quot;</span>
+                        select SUM(cat.c)
+                        from course_catalog cat, student_%d s, offerings o
+                        where o.year_offered_in=%d and o.semester_offered_in=%d and cat.course_code=s.course_code
+<span class="fc" id="L260">                        group by o.year_offered_in, o.semester_offered_in;&quot;&quot;&quot;, studentId, year, semester);</span>
+<span class="fc" id="L261">                rs1 = statement1.executeQuery(getSumOfCreditsQuery);</span>
+<span class="pc bpc" id="L262" title="1 of 2 branches missed.">                if(rs1.next())</span>
+                {
+<span class="nc" id="L264">                    float sumOfCredits = rs1.getFloat(&quot;sum&quot;);</span>
+<span class="nc" id="L265">                    String setCreditLimitQuery = String.format(&quot;INSERT INTO credit_limits VALUES(%d, %d, %d, %f)&quot;, studentId, year, semester, sumOfCredits);</span>
+<span class="nc" id="L266">                    statement.executeUpdate(setCreditLimitQuery);</span>
+                }
+<span class="fc" id="L268">            }</span>
+<span class="fc" id="L269">        }</span>
+
+        // if action == 3, then change upcoming semester
+<span class="fc bfc" id="L272" title="All 2 branches covered.">        else if(action == 3)</span>
+        {
+<span class="fc" id="L274">            int year = 2020, semester = 1;</span>
+<span class="fc" id="L275">            String getUpcomingSemesterQuery = &quot;SELECT academic_year, semester FROM upcoming_semester WHERE upcoming=1::BOOLEAN&quot;;</span>
+<span class="fc" id="L276">            rs = statement.executeQuery(getUpcomingSemesterQuery);</span>
+<span class="pc bpc" id="L277" title="1 of 2 branches missed.">            if(rs.next())</span>
+            {
+<span class="fc" id="L279">                year = rs.getInt(&quot;academic_year&quot;);</span>
+<span class="fc" id="L280">                semester = rs.getInt(&quot;semester&quot;);</span>
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">                if(semester == 1) semester = 2;</span>
+                else
+                {
+<span class="nc" id="L284">                    semester = 1;</span>
+<span class="nc" id="L285">                    year++;</span>
+                }
+            }
+
+<span class="fc" id="L289">            String updateUpcomingSemesterQuery = &quot;UPDATE upcoming_semester SET upcoming=0::BOOLEAN&quot;;</span>
+<span class="fc" id="L290">            String insertUpcomingSemesterQuery = String.format(&quot;INSERT INTO upcoming_semester VALUES(%d, %d, 1::BOOLEAN)&quot;, year, semester);</span>
+<span class="fc" id="L291">            statement.executeUpdate(updateUpcomingSemesterQuery);</span>
+<span class="fc" id="L292">            statement.executeUpdate(insertUpcomingSemesterQuery);</span>
+        }
+<span class="fc" id="L294">        System.out.print(&quot;SUCCESS: Semester event set\n&quot;);</span>
+<span class="fc" id="L295">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
