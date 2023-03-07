@@ -8,7 +8,6 @@ import org.users.Faculty;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class UI {
     public ArrayList<String> getCredentials(CustomScanner s)

@@ -5,7 +5,6 @@ import org.scanners.CustomScanner;
 import java.io.File;
 import java.sql.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class Faculty extends User{
     public final int facultyId;
@@ -31,7 +30,6 @@ public class Faculty extends User{
         }
 
         Statement statement;
-        ResultSet rs;
 
         // check if matching with upcoming year and sem and add it to offerings
         if(checkIfUpcomingSem(year, semester))
