@@ -7,7 +7,6 @@ import org.users.User;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {

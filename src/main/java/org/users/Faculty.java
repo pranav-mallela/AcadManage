@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 public class Faculty extends User{
     public final int facultyId;
-    private String dept;
 
     public Faculty(Connection conn, int facultyId) {
         super(conn);
